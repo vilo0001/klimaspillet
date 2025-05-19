@@ -36,7 +36,7 @@ import androidx.navigation.NavController
 import com.example.klimaspillet.R
 
 
-
+// MAGNUS GIEMSA
 @Composable
 fun ConnectClassScreen(navController: NavController) {
     Box(
@@ -51,7 +51,13 @@ fun ConnectClassScreen(navController: NavController) {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            Title()
+            Text(
+                text = "Tilslut klasse",
+                fontFamily = FontFamily(Font(R.font.bagel_fat_one)),
+                fontSize = 48.sp,
+                color = Color.White,
+                modifier = Modifier.shadow(40.dp, RoundedCornerShape(40.dp))
+            )
 
             Spacer(modifier = Modifier.height(32.dp))
 
@@ -73,7 +79,7 @@ fun ConnectClassScreen(navController: NavController) {
         }
     }
 }
-
+// Magnus Giemsa
 @Composable
 fun Background () {
     Image(
@@ -85,18 +91,10 @@ fun Background () {
 }
 
 
-@Composable
-fun Title() {
-    Text(
-        text = "Tilslut klasse",
-        fontFamily = FontFamily(Font(R.font.bagel_fat_one)),
-        fontSize = 48.sp,
-        color = Color.White,
-        modifier = Modifier.shadow(40.dp, RoundedCornerShape(40.dp))
-    )
-}
+
 
 // Tekst knapper (Navn og klassekode)
+//Magnus Giemsa
 @Composable
 fun ClassInputFields() {
     val name = remember { mutableStateOf("") }
@@ -139,7 +137,7 @@ fun ClassInputFields() {
     }
 }
 
-
+// Magnus Giemsa
 @Composable
 fun EmojiButton() {
     Box(
@@ -159,6 +157,7 @@ fun EmojiButton() {
     }
 }
 
+// Magnus Giemsa
 @Composable
 fun OkButton() {
     Button(
