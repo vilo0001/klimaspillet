@@ -8,11 +8,14 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.absoluteOffset
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -27,6 +30,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -44,7 +48,7 @@ fun GameScreen (navController: NavController) {
     ) {
         // Baggrund
         Image(
-            painter = painterResource(id = R.drawable.background), // Replace with your image resource
+            painter = painterResource(id = R.drawable.background),
             contentDescription = null,
             contentScale = ContentScale.Crop,
             modifier = Modifier.matchParentSize()
@@ -72,6 +76,32 @@ fun GameScreen (navController: NavController) {
             Title()
             CO2Choices()
             RedAndYellowButtons()
+        }
+    }
+}
+
+@Preview
+@Composable
+fun Preview() {
+    Box(modifier = Modifier
+        .background(color = Color(0xFFFFCA58))
+    ) {
+        Text("Hello :D")
+        Box(
+            modifier = Modifier
+                .offset(x = -65.dp)
+        ) {
+            Image(
+                painter = painterResource(id = R.drawable.hakket_oksekoed),
+                contentDescription = null,
+                modifier = Modifier
+                    .size(130.dp)
+                    .clip(CircleShape)
+                    .border(
+                        BorderStroke(5.dp, Color(0xFFFFCA58)),
+                        CircleShape
+                    )
+            )
         }
     }
 }
@@ -109,7 +139,7 @@ fun CO2Choices() {
         Column {
             Row {
                 Image(
-                    painter = painterResource(id = R.drawable.hakket_oksekoed), // Replace with your image resource
+                    painter = painterResource(id = R.drawable.hakket_oksekoed),
                     contentDescription = null,
                     modifier = Modifier
                         .size(130.dp)
@@ -136,7 +166,7 @@ fun CO2Choices() {
                     color = Color.White,
                     fontFamily = FontFamily(Font(R.font.bagel_fat_one)))
                 Image(
-                    painter = painterResource(id = R.drawable.kyllingekoed), // Replace with your image resource
+                    painter = painterResource(id = R.drawable.kyllingekoed),
                     contentDescription = null,
                     modifier = Modifier
                         .size(130.dp)
