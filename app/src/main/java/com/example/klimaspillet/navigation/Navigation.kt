@@ -4,19 +4,19 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.klimaspillet.ui.screens.ConnectClassScreen
 import com.example.klimaspillet.ui.screens.HomeScreen
-import com.example.klimaspillet.ui.screens.GameScreen
 
 
 @Composable
 fun Navigation(){
     val navController = rememberNavController()
-    NavHost(navController = navController, startDestination = Routes.routeGameScreen, builder = {
-        composable(Routes.routeGameScreen){
-            GameScreen(navController)
-        }
+    NavHost(navController = navController, startDestination = Routes.routeHomeScreen, builder = {
         composable(Routes.routeHomeScreen){
             HomeScreen(navController)
+        }
+        composable(Routes.routeConnectClassScreen){
+            ConnectClassScreen(navController)
         }
     })
 }
