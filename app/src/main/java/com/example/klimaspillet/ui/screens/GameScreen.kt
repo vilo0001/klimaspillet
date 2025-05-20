@@ -38,6 +38,9 @@ import com.example.klimaspillet.R
 import androidx.compose.material3.IconButton
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.blur
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Shadow
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.zIndex
 
 //   ------------------------------------
@@ -45,7 +48,9 @@ import androidx.compose.ui.zIndex
 //   ------------------------------------
 
 @Composable
-fun GameScreen (navController: NavController) {
+fun GameScreen (
+    navController: NavController
+) {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -69,7 +74,7 @@ fun GameScreen (navController: NavController) {
                 .fillMaxSize()
                 .padding(bottom = 70.dp)
         ) {
-            BackButtonAndTitle()
+            BackButtonAndTitle(navController)
             CO2Choices()
             RedAndYellowButtons()
         }
@@ -84,7 +89,7 @@ fun Preview() {
 
 
 @Composable
-fun BackButtonAndTitle() {
+fun BackButtonAndTitle(navController: NavController) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -100,7 +105,9 @@ fun BackButtonAndTitle() {
                 modifier = Modifier
                     .size(50.dp)
                     .align (Alignment.CenterStart),
-                onClick = { }
+                onClick = {
+
+                }
             ) {
                 // For at opnå en drop-shadow effekt af et ikon, indsætter jeg det samme ikon to gange, men gør den første mere blurry.
                 Box {
@@ -126,10 +133,16 @@ fun BackButtonAndTitle() {
             modifier = Modifier
                 .fillMaxWidth(0.8f)
                 .align(Alignment.Center),
-            fontSize = 40.sp,
-            color = Color.White,
-            fontFamily = FontFamily(Font(R.font.bagel_fat_one)),
-            textAlign = TextAlign.Center)
+            style = TextStyle(
+                fontSize = 40.sp,
+                color = Color.White,
+                fontFamily = FontFamily(Font(R.font.bagel_fat_one)),
+                textAlign = TextAlign.Center,
+                shadow = Shadow(
+                    color = Color.Black.copy(alpha = 0.25f), offset = Offset(4f, 4f), blurRadius = 0f
+                )
+            )
+        )
     }
 }
 
