@@ -34,6 +34,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.klimaspillet.R
+import com.example.klimaspillet.navigation.Routes
 
 
 // MAGNUS GIEMSA
@@ -75,7 +76,7 @@ fun ConnectClassScreen(navController: NavController) {
                 .padding(bottom = 40.dp),
             contentAlignment = Alignment.BottomCenter
         ) {
-            OkButton()
+            OkButton(navController)
         }
     }
 }
@@ -159,9 +160,12 @@ fun EmojiButton() {
 
 // Magnus Giemsa
 @Composable
-fun OkButton() {
+fun OkButton(navController: NavController) {
     Button(
-        onClick = {  },
+        onClick = {
+            // Victor Lotz
+            navController.navigate(Routes.routeHomeScreen)
+        },
         modifier = Modifier
             .size(100.dp)
             .shadow(8.dp, shape = RoundedCornerShape(24.dp)),

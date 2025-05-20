@@ -42,6 +42,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.zIndex
+import com.example.klimaspillet.navigation.Routes
 
 //   ------------------------------------
 //   Hovedsageligt ansvarlig: Victor Lotz
@@ -106,7 +107,8 @@ fun BackButtonAndTitle(navController: NavController) {
                     .size(50.dp)
                     .align (Alignment.CenterStart),
                 onClick = {
-
+                    // Bør Navigation tage sig at navigate()?
+                    navController.navigate(Routes.routeHomeScreen)
                 }
             ) {
                 // For at opnå en drop-shadow effekt af et ikon, indsætter jeg det samme ikon to gange, men gør den første mere blurry.

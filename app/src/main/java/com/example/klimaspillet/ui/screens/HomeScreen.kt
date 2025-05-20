@@ -31,6 +31,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.klimaspillet.R
+import com.example.klimaspillet.navigation.Routes
 
 //Andreas B
 @Composable
@@ -38,8 +39,8 @@ fun HomeScreen (navController: NavController) {
     Background()
     Column {
         KlimaSpillet()
-        NoClassLeaderboard()
-        PlayButton()
+        NoClassLeaderboard(navController)
+        PlayButton(navController)
     }
 }
 
@@ -65,10 +66,9 @@ fun KlimaSpillet () {
     }
 }
 
-@Preview
 //Andreas B
 @Composable
-fun NoClassLeaderboard() {
+fun NoClassLeaderboard(navController: NavController) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
@@ -107,7 +107,10 @@ fun NoClassLeaderboard() {
                     modifier = Modifier
                         .shadow(16.dp, shape = RoundedCornerShape(16.dp))
                         .height(50.dp),
-                    onClick = {},
+                    onClick = {
+                        // Victor Lotz
+                        navController.navigate(Routes.routeConnectClassScreen)
+                    },
                 ) {
                     Text(
                         text = "Tilslut klasse",
@@ -122,7 +125,7 @@ fun NoClassLeaderboard() {
 
 //Andreas B
 @Composable
-fun PlayButton () {
+fun PlayButton (navController: NavController) {
     Column (
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
@@ -138,7 +141,10 @@ fun PlayButton () {
             colors = ButtonDefaults.buttonColors(
                 containerColor = Color(0xFF64B9FF)
             ),
-            onClick = {}) {
+            onClick = {
+                // Victor Lotz
+                navController.navigate(Routes.routeGameScreen)
+            }) {
             Icon(
                 painter = painterResource(id = R.drawable.playbutton),
                 contentDescription = "Playbutton",
