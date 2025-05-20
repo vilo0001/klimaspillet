@@ -65,7 +65,7 @@ fun ResultsScreen (navController: NavController) {
 
 //AndreasRG:
 @Composable
-fun Background() {
+private fun Background() {
     Image( painter = painterResource(id = R.drawable.background),
         modifier = Modifier
             .fillMaxSize(),
