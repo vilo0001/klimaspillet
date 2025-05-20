@@ -65,7 +65,7 @@ class MainActivity : ComponentActivity() {
                             .height(2400.dp)
                     )
                 }
-                Navigation()
+                Navigation(viewModel())
             }
         }
     }
