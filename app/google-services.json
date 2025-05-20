@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "67468874312",
+    "project_id": "mit-klimaspil",
+    "storage_bucket": "mit-klimaspil.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:67468874312:android:3fba7d7cab0224648ffe7d",
+        "android_client_info": {
+          "package_name": "com.example.klimaspillet"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAL9tkCE43LXU1pRmQvtZIw7RLdqa0RWD0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
