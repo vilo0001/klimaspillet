@@ -12,7 +12,7 @@ import com.example.klimaspillet.ui.screens.ConnectClassScreen
 @Composable
 fun Navigation(){
     val navController = rememberNavController()
-    NavHost(navController = navController, startDestination = Routes.routeConnectClassScreen, builder = {
+    NavHost(navController = navController, startDestination = Routes.routeGameScreen, builder = {
         composable(Routes.routeGameScreen){
             GameScreen(navController)
         }

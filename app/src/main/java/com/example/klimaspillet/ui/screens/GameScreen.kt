@@ -58,7 +58,7 @@ fun GameScreen (navController: NavController) {
             modifier = Modifier.matchParentSize()
         )
 
-        // Middleground I guess ??? :D   Det er scoren bag content og back button.
+        // Middleground I guess ??? :D   Det er scoren bag content.
         Score()
 
         // Content
