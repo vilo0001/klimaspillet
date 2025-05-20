@@ -1,3 +1,5 @@
+@file:Suppress("SpellCheckingInspection")
+
 package com.example.klimaspillet.navigation
 
 import androidx.compose.runtime.Composable

@@ -1,3 +1,5 @@
+@file:Suppress("SpellCheckingInspection")
+
 package com.example.klimaspillet
 
 import android.os.Bundle
