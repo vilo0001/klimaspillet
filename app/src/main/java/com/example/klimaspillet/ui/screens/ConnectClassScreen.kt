@@ -1,9 +1,5 @@
 package com.example.klimaspillet.ui.screens
 
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -45,8 +41,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.navigation.NavController
-import com.example.klimaspillet.navigation.Routes
 import com.example.klimaspillet.R
+import com.example.klimaspillet.navigation.Routes
 
 
 // MAGNUS GIEMSA
@@ -58,6 +54,7 @@ fun ConnectClassScreen(navController: NavController) {
     Box(
         modifier = Modifier.fillMaxSize()
     ) {
+        // Baggrund
         Background()
 
         Column(
@@ -67,6 +64,7 @@ fun ConnectClassScreen(navController: NavController) {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
+            // Title
             Text(
                 text = "Tilslut klasse",
                 fontFamily = FontFamily(Font(R.font.bagel_fat_one)),
@@ -77,11 +75,12 @@ fun ConnectClassScreen(navController: NavController) {
 
             Spacer(modifier = Modifier.height(32.dp))
 
+            // To tekst fields med Navn og Klassekode.
             ClassInputFields()
 
             Spacer(modifier = Modifier.height(32.dp))
 
-
+            // Emoji knap, hvor man kan vælge sin emoji.
             EmojiButton(
                 emojiId = selectedEmoji,
                 onClick = { showEmojiPicker = true }
@@ -95,10 +94,11 @@ fun ConnectClassScreen(navController: NavController) {
                 .padding(bottom = 40.dp),
             contentAlignment = Alignment.BottomCenter
         ) {
+            // Ok knap i bunden
             OkButton(navController = navController)
         }
 
-        // Dialog for Emoji Picker
+        // Dialog for emoji picker
         if (showEmojiPicker) {
             Dialog(onDismissRequest = {showEmojiPicker = false}) {
                 Column(
@@ -108,6 +108,7 @@ fun ConnectClassScreen(navController: NavController) {
                         .padding(16.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
+                    // De emojies som skal være i dialogen.
                     val emojiOptions = listOf(
                         R.drawable.emoji1, R.drawable.emoji2,
                         R.drawable.emoji3, R.drawable.emoji4,
@@ -115,6 +116,10 @@ fun ConnectClassScreen(navController: NavController) {
                         R.drawable.emoji7, R.drawable.emoji8
                     )
 
+                    // Ikke brugt forloop, da det er for svært. Har fundet frem til noget der hedder chunked.
+                    // Som gør at det nemt at dele to rows op i to. Så chunked(4) betyder:
+                    // x x x x
+                    // y y y y
                     emojiOptions.chunked(4).forEach { row ->
                         Row {
                             row.forEach { emojiId ->
@@ -139,6 +144,7 @@ fun ConnectClassScreen(navController: NavController) {
 }
 
 // Magnus Giemsa
+// Emoji knap, med emojiId som er den emoji man har valgt.
 @Composable
 fun EmojiButton(emojiId: Int, onClick: () -> Unit) {
     Box(
