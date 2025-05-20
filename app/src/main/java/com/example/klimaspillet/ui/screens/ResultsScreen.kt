@@ -49,7 +49,7 @@ import kotlin.Function as Function
 //AndreasRG:
 @Composable
 fun ResultsScreen (navController: NavController) {
-    Background()
+    PrivateBackground()
     //HighscoreTopRight()
     Column(modifier = Modifier) {
         ScoreResult()
@@ -65,7 +65,7 @@ fun ResultsScreen (navController: NavController) {
 
 //AndreasRG:
 @Composable
-private fun Background() {
+fun PrivateBackground() {
     Image( painter = painterResource(id = R.drawable.background),
         modifier = Modifier
             .fillMaxSize(),
