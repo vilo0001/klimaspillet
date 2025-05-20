@@ -77,7 +77,7 @@ fun GameScreen (
         ) {
             BackButtonAndTitle(navController)
             CO2Choices()
-            RedAndYellowButtons()
+            RedAndYellowButtons(navController)
         }
     }
 }
@@ -258,7 +258,7 @@ fun RedOption(modifier: Modifier, CO2e: Float) {
 }
 
 @Composable
-fun RedAndYellowButtons() {
+fun RedAndYellowButtons(navController: NavController) {
     Box(
         modifier = Modifier
             .padding(10.dp)
@@ -275,7 +275,7 @@ fun RedAndYellowButtons() {
                     .fillMaxSize().weight(1f)
                     .padding(end = 10.dp),
                 onClick = {
-
+                    navController.navigate(Routes.routeResultsScreen)
                 }
             ) {
                 Row() {
@@ -295,7 +295,7 @@ fun RedAndYellowButtons() {
                     .fillMaxSize().weight(1f)
                     .padding(start = 10.dp),
                 onClick = {
-
+                    navController.navigate(Routes.routeResultsScreen)
                 }
             ) {
                 Row() {
