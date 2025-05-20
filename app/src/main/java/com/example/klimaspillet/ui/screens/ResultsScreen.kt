@@ -37,11 +37,15 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shadow
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.sp
+import com.example.klimaspillet.navigation.Navigation
+import com.example.klimaspillet.navigation.Routes
 import java.time.format.TextStyle
 import kotlin.Function as Function
+
 
 
 
@@ -54,7 +58,7 @@ fun ResultsScreen (navController: NavController) {
     Column(modifier = Modifier) {
         ScoreResult()
         GifResult()
-        HomeRestartButtons()
+        HomeRestartButtons(navController)
     }
 }
 
@@ -69,46 +73,49 @@ fun PrivateBackground() {
     Image( painter = painterResource(id = R.drawable.background),
         modifier = Modifier
             .fillMaxSize(),
+        contentScale = ContentScale.Crop,
         contentDescription = null,
     )
 }
 
-//Hvis vi tilføjer highscore i øverste højre hjørne
 // AndreasRG:
-/*@Composable
+@Composable
 fun
 HighscoreTopRight() {
-    Row(modifier = Modifier
-        .fillMaxWidth(),
-        horizontalArrangement = Arrangement.End) {
-        Column(
+    if (!newHighScore) {
+        Row(
             modifier = Modifier
-                .padding(end = 10.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
+                .fillMaxWidth(),
+            horizontalArrangement = Arrangement.End
         ) {
-            Image(
-                painter = painterResource(id = R.drawable.highscorecrown),
+            Column(
                 modifier = Modifier
-                    .height(33.dp)
-                    .width(25.dp)
-                    .offset(y = 17.dp),
-                contentDescription = null,
-            )
-            Text(
-                "$currentHighscore", fontFamily = FontFamily(Font(R.font.bagel_fat_one)),
-                fontSize = 32.sp,
-                color = Color(0xFFFFCC6D),
-                style = androidx.compose.ui.text.TextStyle(
-                    shadow = Shadow(
-                        color = Color.Black.copy(alpha = 0.25f),
-                        offset = Offset(4f, 4f)
+                    .padding(end = 10.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.highscorecrown),
+                    modifier = Modifier
+                        .height(33.dp)
+                        .width(25.dp)
+                        .offset(y = 17.dp),
+                    contentDescription = null,
+                )
+                Text(
+                    "$currentHighscore", fontFamily = FontFamily(Font(R.font.bagel_fat_one)),
+                    fontSize = 32.sp,
+                    color = Color(0xFFFFCC6D),
+                    style = androidx.compose.ui.text.TextStyle(
+                        shadow = Shadow(
+                            color = Color.Black.copy(alpha = 0.25f),
+                            offset = Offset(4f, 4f)
+                        )
                     )
                 )
-            )
+            }
         }
     }
 }
-*/
 
 //AndreasRG:
 @Composable
@@ -202,16 +209,27 @@ fun GifResult() {
 
 //AndreasRG:
 @Composable
-fun HomeRestartButtons() {
-    Row(modifier = Modifier
-        .fillMaxWidth()
-        .padding(0.dp, 110.dp, 0.dp, 0.dp),
+fun HomeRestartButtons(navController: NavController) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(0.dp, 110.dp, 0.dp, 0.dp),
         horizontalArrangement = Arrangement.SpaceEvenly
     ) {
-        ResultsScreenButton { HomeIcon() }
-        ResultsScreenButton { RestartIcon() }
+        ResultsScreenButton(
+            addImage = { HomeIcon() },
+            navController = navController,
+            navigateAction = { navController.navigate(Routes.routeHomeScreen) }
+        )
+
+        ResultsScreenButton(
+            addImage = { RestartIcon() },
+            navController = navController,
+            navigateAction = { navController.navigate(Routes.routeGameScreen) }
+        )
     }
 }
+
 
 
 
@@ -233,9 +251,13 @@ fun GifImage() {
 
 //AndreasRG:
 @Composable
-fun ResultsScreenButton(addImage: @Composable () -> Unit) {
+fun ResultsScreenButton(
+    addImage: @Composable () -> Unit,
+    navController: NavController,
+    navigateAction: () -> Unit
+) {
     Button(
-        onClick = { },
+        onClick = { navigateAction() },
         modifier = Modifier
             .padding(0.dp)
             .width(120.dp)
@@ -245,9 +267,11 @@ fun ResultsScreenButton(addImage: @Composable () -> Unit) {
             containerColor = Color(0xFF64B9FF)
         )
     ) {
-        addImage() // Correct placement of the content block
+        addImage()
     }
 }
+
+
 //AndreasRG:
 @Composable
 fun HomeIcon() {
