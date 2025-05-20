@@ -68,13 +68,15 @@ fun GameScreen (
         modifier = Modifier
             .fillMaxSize()
     ) {
-        // Baggrund
+        /* Baggrund
         Image(
             painter = painterResource(id = R.drawable.background),
             contentDescription = null,
             contentScale = ContentScale.Crop,
             modifier = Modifier.matchParentSize()
         )
+        */
+
 
         // Middleground I guess ??? :D   Det er scoren bag content.
         Score(currentScore = gameUIState.score)

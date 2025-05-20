@@ -56,8 +56,9 @@ fun ConnectClassScreen(navController: NavController) {
     Box(
         modifier = Modifier.fillMaxSize()
     ) {
-        // Baggrund
-        Background()
+
+        //Baggrund
+        //Background()
 
         Column(
             modifier = Modifier

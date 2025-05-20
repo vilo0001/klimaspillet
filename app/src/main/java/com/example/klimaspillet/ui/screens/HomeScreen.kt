@@ -32,13 +32,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.klimaspillet.MainActivity
 import com.example.klimaspillet.R
 import com.example.klimaspillet.navigation.Routes
 
 //Andreas B
 @Composable
 fun HomeScreen (navController: NavController) {
-    Background()
+    //Background()
     Column {
         KlimaSpillet()
         NoClassLeaderboard(navController)

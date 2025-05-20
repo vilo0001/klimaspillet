@@ -2,6 +2,7 @@
 
 package com.example.klimaspillet.ui.screens
 
+import android.annotation.SuppressLint
 import android.graphics.Insets.add
 import android.os.Build.VERSION.SDK_INT
 import androidx.compose.foundation.layout.Column
@@ -17,6 +18,7 @@ import coil.decode.ImageDecoderDecoder
 import com.example.klimaspillet.R
 import android.os.Build.VERSION.SDK_INT
 import android.content.Context
+import android.media.MediaPlayer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.ui.res.painterResource
@@ -43,6 +45,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.sp
+import com.example.klimaspillet.MainActivity
 import com.example.klimaspillet.navigation.Navigation
 import com.example.klimaspillet.navigation.Routes
 import java.time.format.TextStyle
@@ -55,7 +58,7 @@ import kotlin.Function as Function
 //AndreasRG:
 @Composable
 fun ResultsScreen (navController: NavController) {
-    PrivateBackground()
+    //PrivateBackground()
     //HighscoreTopRight()
     Column(modifier = Modifier) {
         ScoreResult()
@@ -72,12 +75,7 @@ fun ResultsScreen (navController: NavController) {
 //AndreasRG:
 @Composable
 fun PrivateBackground() {
-    Image( painter = painterResource(id = R.drawable.background),
-        modifier = Modifier
-            .fillMaxSize(),
-        contentScale = ContentScale.Crop,
-        contentDescription = null,
-    )
+
 }
 
 // AndreasRG:
@@ -309,4 +307,12 @@ fun RestartIcon() {
 var currentScore:Int = 0;
 var newHighScore:Boolean = true;
 var currentHighscore:Int = 0;
+
+/*
+fun playVideo(context: Context) {
+    val mediaPlayer = MediaPlayer.create(context, R.raw.baggrundanimation)
+    mediaPlayer.start()
+}
+ */
+
 //Der skal oprettes en random gif generator efter score }
