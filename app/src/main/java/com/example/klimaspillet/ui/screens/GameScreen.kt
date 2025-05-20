@@ -1,3 +1,5 @@
+@file:Suppress("SpellCheckingInspection")
+
 package com.example.klimaspillet.ui.screens
 
 import androidx.compose.foundation.BorderStroke
@@ -36,13 +38,20 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.klimaspillet.R
 import androidx.compose.material3.IconButton
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.blur
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.zIndex
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.klimaspillet.navigation.Routes
+import com.example.klimaspillet.ui.ViewModel
 
 //   ------------------------------------
 //   Hovedsageligt ansvarlig: Victor Lotz
@@ -50,8 +59,11 @@ import com.example.klimaspillet.navigation.Routes
 
 @Composable
 fun GameScreen (
+    viewModel: ViewModel = viewModel(),
     navController: NavController
 ) {
+    val gameUIState by viewModel.uiState.collectAsState()
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -65,7 +77,7 @@ fun GameScreen (
         )
 
         // Middleground I guess ??? :D   Det er scoren bag content.
-        Score()
+        Score(currentScore = gameUIState.score)
 
         // Content
         Column(
@@ -77,7 +89,7 @@ fun GameScreen (
         ) {
             BackButtonAndTitle(navController)
             CO2Choices()
-            RedAndYellowButtons()
+            RedAndYellowButtons(navController)
         }
     }
 }
@@ -149,12 +161,12 @@ fun BackButtonAndTitle(navController: NavController) {
 }
 
 @Composable
-fun Score() {
+fun Score(currentScore: Int) {
     Box(
         modifier = Modifier
             .fillMaxSize()
     ) {
-        Text("0",
+        Text(currentScore.toString(),
             fontSize = 256.sp,
             color = Color.Black.copy(alpha = 0.25f),
             fontFamily = FontFamily(Font(R.font.bagel_fat_one)),
@@ -258,7 +270,7 @@ fun RedOption(modifier: Modifier, CO2e: Float) {
 }
 
 @Composable
-fun RedAndYellowButtons() {
+fun RedAndYellowButtons(navController: NavController) {
     Box(
         modifier = Modifier
             .padding(10.dp)
@@ -275,7 +287,7 @@ fun RedAndYellowButtons() {
                     .fillMaxSize().weight(1f)
                     .padding(end = 10.dp),
                 onClick = {
-
+                    navController.navigate(Routes.routeResultsScreen)
                 }
             ) {
                 Row() {
@@ -295,7 +307,7 @@ fun RedAndYellowButtons() {
                     .fillMaxSize().weight(1f)
                     .padding(start = 10.dp),
                 onClick = {
-
+                    navController.navigate(Routes.routeResultsScreen)
                 }
             ) {
                 Row() {

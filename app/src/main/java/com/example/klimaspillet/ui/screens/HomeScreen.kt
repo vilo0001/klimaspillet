@@ -1,3 +1,5 @@
+@file:Suppress("SpellCheckingInspection")
+
 package com.example.klimaspillet.ui.screens
 
 import androidx.compose.foundation.background

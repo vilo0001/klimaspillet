@@ -61,6 +61,7 @@ dependencies {
         val nav_version = "2.9.0"
 
         implementation("androidx.navigation:navigation-compose:$nav_version")
+        implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.1")
         implementation ("io.coil-kt:coil-compose:2.6.0")
         implementation ("io.coil-kt:coil-gif:2.6.0")
         implementation(platform("com.google.firebase:firebase-bom:33.13.0"))
