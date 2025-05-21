@@ -46,6 +46,7 @@ import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.zIndex
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.klimaspillet.data.models.CO2Ting
 import com.example.klimaspillet.navigation.Routes
 import com.example.klimaspillet.ui.ViewModel
 
@@ -64,16 +65,6 @@ fun GameScreen (
         modifier = Modifier
             .fillMaxSize()
     ) {
-        /* Baggrund
-        Image(
-            painter = painterResource(id = R.drawable.background),
-            contentDescription = null,
-            contentScale = ContentScale.Crop,
-            modifier = Modifier.matchParentSize()
-        )
-        */
-
-
         // Middleground I guess ??? :D   Det er scoren bag content.
         Score(currentScore = gameUIState.score)
 
@@ -86,8 +77,8 @@ fun GameScreen (
                 .padding(bottom = 70.dp)
         ) {
             BackButtonAndTitle(navController)
-            CO2Choices()
-            RedAndYellowButtons(navController)
+            CO2Choices(yellowOption = gameUIState.currentYellowOption, redOption = gameUIState.currentRedOption)
+            RedAndYellowButtons(navController, viewModel)
         }
     }
 }
@@ -95,7 +86,7 @@ fun GameScreen (
 @Preview
 @Composable
 fun Preview() {
-    CO2Choices()
+    //CO2Choices()
 }
 
 
@@ -175,7 +166,7 @@ fun Score(currentScore: Int) {
 }
 
 @Composable
-fun CO2Choices() {
+fun CO2Choices(yellowOption: CO2Ting, redOption: CO2Ting) {
     val placement = 480.dp;
     Box(
         modifier = Modifier
@@ -199,14 +190,14 @@ fun CO2Choices() {
             )
         }
         YellowOption(modifier = Modifier
-            .align(Alignment.TopEnd), 7.48f)
+            .align(Alignment.TopEnd), yellowOption)
         RedOption(modifier = Modifier
-            .align(Alignment.BottomStart), 1.2f)
+            .align(Alignment.BottomStart), redOption)
     }
 }
 
 @Composable
-fun YellowOption(modifier: Modifier, CO2e: Float) {
+fun YellowOption(modifier: Modifier, yellowOption: CO2Ting) {
     Box(
         modifier
             .clip(shape = RoundedCornerShape(100.dp, 0.dp, 0.dp, 100.dp))
@@ -224,7 +215,7 @@ fun YellowOption(modifier: Modifier, CO2e: Float) {
                     CircleShape
                 )
         )
-        Text("udleder ${CO2e}kg CO2e",
+        Text("udleder ${yellowOption.CO2e}kg CO2e",
             fontSize = 12.sp,
             color = Color.White,
             fontFamily = FontFamily(Font(R.font.bagel_fat_one)),
@@ -236,15 +227,14 @@ fun YellowOption(modifier: Modifier, CO2e: Float) {
 }
 
 @Composable
-fun RedOption(modifier: Modifier, CO2e: Float) {
-    val CO2e = CO2e
+fun RedOption(modifier: Modifier, redOption: CO2Ting) {
     Box(
         modifier
             .clip(shape = RoundedCornerShape(0.dp, 100.dp, 100.dp, 0.dp))
             .fillMaxWidth(0.8f)
             .background(Color(0xFFFF5858))
     ) {
-        Text("udleder ???kg CO2e",
+        Text("udleder ${redOption.CO2e}kg CO2e",
             fontSize = 12.sp,
             color = Color.White,
             fontFamily = FontFamily(Font(R.font.bagel_fat_one)),
@@ -268,7 +258,7 @@ fun RedOption(modifier: Modifier, CO2e: Float) {
 }
 
 @Composable
-fun RedAndYellowButtons(navController: NavController) {
+fun RedAndYellowButtons(navController: NavController, viewModel: ViewModel) {
     Box(
         modifier = Modifier
             .padding(10.dp)
@@ -279,13 +269,14 @@ fun RedAndYellowButtons(navController: NavController) {
                 .fillMaxWidth()
                 .height(60.dp)
         ) {
+            // Gul knap
             Button(
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFFCA58)),
                 modifier = Modifier
                     .fillMaxSize().weight(1f)
                     .padding(end = 10.dp),
                 onClick = {
-                    navController.navigate(Routes.routeResultsScreen)
+                    viewModel.chooseYellowOption()
                 }
             ) {
                 Row() {
@@ -298,14 +289,14 @@ fun RedAndYellowButtons(navController: NavController) {
                     )
                 }
             }
-
+            // Rød knap
             Button(
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFF5858)),
                 modifier = Modifier
                     .fillMaxSize().weight(1f)
                     .padding(start = 10.dp),
                 onClick = {
-                    navController.navigate(Routes.routeResultsScreen)
+                    viewModel.chooseRedOption()
                 }
             ) {
                 Row() {

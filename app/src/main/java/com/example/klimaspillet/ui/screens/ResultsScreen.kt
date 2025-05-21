@@ -57,7 +57,7 @@ import kotlin.Function as Function
 
 //AndreasRG:
 @Composable
-fun ResultsScreen (navController: NavController) {
+fun ResultsScreen (navController: NavController, score: Int = 0) {
     //PrivateBackground()
     //HighscoreTopRight()
     Column(modifier = Modifier) {

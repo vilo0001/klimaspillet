@@ -232,6 +232,7 @@ fun ClassInputFields() {
 // Magnus Giemsa
 @Composable
 fun OkButton(navController: NavController) {
+    val classCode = 24
     Button(
         onClick = {
             // Victor Lotz
