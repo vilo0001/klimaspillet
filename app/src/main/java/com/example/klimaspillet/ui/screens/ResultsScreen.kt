@@ -59,7 +59,7 @@ import kotlin.Function as Function
 @Composable
 fun ResultsScreen (navController: NavController) {
     //PrivateBackground()
-    HighscoreTopRight()
+    if (!newHighScore) {HighscoreTopRight()}
     Column(modifier = Modifier) {
         ScoreResult()
         GifResult()
@@ -78,7 +78,6 @@ fun ResultsScreen (navController: NavController) {
 @Composable
 fun
 HighscoreTopRight() {
-    if (!newHighScore) {
         Row(
             modifier = Modifier
                 .fillMaxWidth(),
@@ -111,7 +110,6 @@ HighscoreTopRight() {
             }
         }
     }
-}
 
 //AndreasRG:
 @Composable
@@ -303,7 +301,7 @@ fun RestartIcon() {
 //Temporary testing values, skal forbindes med Game logik
 var currentScore:Int = 0;
 var newHighScore:Boolean = false;
-var currentHighscore:Int = 10;
+var currentHighscore:Int = 10
 
 /*
 fun playVideo(context: Context) {

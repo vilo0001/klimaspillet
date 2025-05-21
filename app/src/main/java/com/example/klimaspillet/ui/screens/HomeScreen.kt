@@ -41,7 +41,7 @@ import androidx.compose.ui.graphics.Shadow
 @Composable
 fun HomeScreen (navController: NavController) {
     //Background()
-    HighscoreTopRight()
+    if(currentHighscore > 0 || hasClass && currentHighscore > 0) {HighscoreTopRight()}
     Column {
         KlimaSpillet()
         NoClassLeaderboard(navController)
@@ -91,7 +91,7 @@ fun KlimaSpillet () {
 //Andreas B
 @Composable
 fun NoClassLeaderboard(navController: NavController) {
-    if(hasClass) {
+    if(!hasClass) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
