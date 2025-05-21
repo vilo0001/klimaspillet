@@ -16,7 +16,6 @@ import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.klimaspillet.data.models.CO2TingListe
 import com.example.klimaspillet.navigation.Navigation
 
 
@@ -27,7 +26,11 @@ class MainActivity : ComponentActivity() {
         setContent {
             setContent {
                 //AndreasRG:
-                Box(modifier = Modifier.fillMaxSize().clipToBounds().height(2400.dp)) { // Clips overflowing parts
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .height(2400.dp),
+                ) {
                     AndroidView(
                         factory = { context ->
                             VideoView(context).apply {
