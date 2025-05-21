@@ -59,7 +59,7 @@ import kotlin.Function as Function
 @Composable
 fun ResultsScreen (navController: NavController) {
     //PrivateBackground()
-    //HighscoreTopRight()
+    HighscoreTopRight()
     Column(modifier = Modifier) {
         ScoreResult()
         GifResult()
@@ -72,11 +72,7 @@ fun ResultsScreen (navController: NavController) {
 
 
 
-//AndreasRG:
-@Composable
-fun PrivateBackground() {
 
-}
 
 // AndreasRG:
 @Composable
@@ -233,6 +229,7 @@ fun HomeRestartButtons(navController: NavController) {
 
 
 
+
 //Functions udenfor indsatte Composables med logik
 // AndreasRG:
 @Composable
@@ -305,8 +302,8 @@ fun RestartIcon() {
 */
 //Temporary testing values, skal forbindes med Game logik
 var currentScore:Int = 0;
-var newHighScore:Boolean = true;
-var currentHighscore:Int = 0;
+var newHighScore:Boolean = false;
+var currentHighscore:Int = 10;
 
 /*
 fun playVideo(context: Context) {
