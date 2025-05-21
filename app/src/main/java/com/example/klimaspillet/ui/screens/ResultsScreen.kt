@@ -35,6 +35,8 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
@@ -45,9 +47,11 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.klimaspillet.MainActivity
 import com.example.klimaspillet.navigation.Navigation
 import com.example.klimaspillet.navigation.Routes
+import com.example.klimaspillet.ui.ViewModel
 import java.time.format.TextStyle
 import kotlin.Function as Function
 
@@ -57,13 +61,17 @@ import kotlin.Function as Function
 
 //AndreasRG:
 @Composable
-fun ResultsScreen (navController: NavController, score: Int = 0) {
+fun ResultsScreen (
+    viewModel: ViewModel = viewModel(),
+    navController: NavController
+) {
+    val gameUIState by viewModel.uiState.collectAsState()
     //PrivateBackground()
     //HighscoreTopRight()
     Column(modifier = Modifier) {
-        ScoreResult()
+        ScoreResult(gameUIState.score, gameUIState.score)
         GifResult()
-        HomeRestartButtons(navController)
+        HomeRestartButtons(navController, viewModel)
     }
 }
 
@@ -119,8 +127,8 @@ HighscoreTopRight() {
 
 //AndreasRG:
 @Composable
-fun ScoreResult() {
-    if(newHighScore) {
+fun ScoreResult(score: Int, highscore: Int) {
+    if(true) {
         Column(horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
                 .fillMaxWidth()
@@ -134,7 +142,7 @@ fun ScoreResult() {
                     offset = Offset(8f, 8f)))
             )
             Box() {
-                if (currentScore < 10) {
+                if (score < 10) {
                     Image(
                         painter = painterResource(id = R.drawable.highscorecrown),
                         modifier = Modifier.fillMaxWidth()
@@ -157,7 +165,7 @@ fun ScoreResult() {
                 }
             }
             Text(
-                "$currentScore", fontFamily = FontFamily(Font(R.font.bagel_fat_one)),
+                "$score", fontFamily = FontFamily(Font(R.font.bagel_fat_one)),
                 fontSize = 120.sp,
                 color = Color(0xFFFFCC6D),
                 style = androidx.compose.ui.text.TextStyle(shadow = Shadow(
@@ -182,7 +190,7 @@ fun ScoreResult() {
             Spacer(modifier = Modifier
                 .height(31.dp))
             Text(
-                "$currentScore",
+                "$score",
                 fontFamily = FontFamily(Font(R.font.bagel_fat_one)),
                 fontSize = 120.sp,
                 color = Color(0xFFFFFFFF),
@@ -209,7 +217,7 @@ fun GifResult() {
 
 //AndreasRG:
 @Composable
-fun HomeRestartButtons(navController: NavController) {
+fun HomeRestartButtons(navController: NavController, viewModel: ViewModel) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
