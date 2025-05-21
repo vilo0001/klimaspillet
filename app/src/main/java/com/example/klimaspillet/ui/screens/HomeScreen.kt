@@ -56,6 +56,7 @@ fun HomeScreen (
 ) {
     val gameUIState by viewModel.uiState.collectAsState()
     //Background()
+    if(currentHighscore > 0 || hasClass && currentHighscore > 0) {HighscoreTopRight()}
     InfoIconWithDialog()
     HighscoreTopRight()
     Column {
@@ -107,7 +108,7 @@ fun KlimaSpillet () {
 //Andreas B
 @Composable
 fun NoClassLeaderboard(navController: NavController) {
-    if(hasClass) {
+    if(!hasClass) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
