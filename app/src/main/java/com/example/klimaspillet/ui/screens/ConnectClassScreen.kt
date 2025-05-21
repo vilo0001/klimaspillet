@@ -14,14 +14,12 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.Text
@@ -34,7 +32,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
@@ -172,7 +169,16 @@ fun EmojiButton(emojiId: Int, onClick: () -> Unit) {
 
 
 
-
+// Magnus Giemsa
+@Composable
+fun Background () {
+    Image(
+        painter = painterResource(id = R.drawable.background),
+        contentDescription = "background",
+        contentScale = ContentScale.Crop,
+        modifier = Modifier.fillMaxSize()
+    )
+}
 
 // Tekst knapper (Navn og klassekode)
 //Magnus Giemsa
@@ -219,43 +225,8 @@ fun ClassInputFields() {
 }
 
 
-@Composable
-fun BackButton(navController: NavController) {
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(top = 24.dp)
-            .padding(10.dp)
-    ) {
-        // Back button
-        Box(
-            modifier = Modifier
-                .matchParentSize()
-        ) {
-            IconButton(
-                modifier = Modifier
-                    .size(50.dp)
-                    .align(Alignment.CenterStart),
-                onClick = {
-                    // Bør Navigation tage sig at navigate()?
-                    navController.navigate(Routes.routeHomeScreen)
-                }
-            ) {
-                // For at opnå en drop-shadow effekt af et ikon, indsætter jeg det samme ikon to gange, men gør den første mere blurry.
-                Box {
-                    Icon(
-                        painter = painterResource(id = R.drawable.round_arrow_back_ios_24),
-                        contentDescription = null,
-                        Modifier
-                            .offset(x = (2).dp, y = (1).dp)
-                            .blur(3.dp),
-                        tint = Color.Gray
-                    )
-                }
-            }
-        }
-    }
-}
+
+
 
 
 // Magnus Giemsa

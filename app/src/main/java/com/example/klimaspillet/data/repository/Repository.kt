@@ -2,10 +2,8 @@ package com.example.klimaspillet.data.repository
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.klimaspillet.data.models.Class
 import com.example.klimaspillet.data.models.Student
-import com.example.klimaspillet.viewmodels.Viewmodel
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.firestore
 import kotlinx.coroutines.launch
@@ -22,6 +20,7 @@ class StudentRepository {
             .add(student)
             .await()
     }
+    
     //Andreas B
     suspend fun getClassByClassCode(classCode: String):List<Class> {
         val getCode = db.collection("Classes")
