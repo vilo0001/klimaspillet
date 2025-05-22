@@ -3,39 +3,40 @@
 package com.example.klimaspillet.ui.screens
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.AbsoluteRoundedCornerShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import com.example.klimaspillet.MainActivity
 import com.example.klimaspillet.R
 import com.example.klimaspillet.navigation.Routes
 import com.example.klimaspillet.ui.ViewModel
@@ -48,6 +49,7 @@ fun HomeScreen (
 ) {
     val gameUIState by viewModel.uiState.collectAsState()
     //Background()
+    InfoIconWithDialog()
     Column {
         KlimaSpillet()
         NoClassLeaderboard(navController)
@@ -113,7 +115,8 @@ fun NoClassLeaderboard(navController: NavController) {
             {
                 Button(
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = Color.Red
+                        // Magnus: forslag til rettelse, det her er den præcis røde fra figma | containerColor = Color(255, 100, 100, 255) |
+                        containerColor = Color(255, 100, 100, 255)
                     ),
                     modifier = Modifier
                         .shadow(16.dp, shape = RoundedCornerShape(16.dp))
@@ -162,5 +165,50 @@ fun PlayButton (navController: NavController) {
                 modifier = Modifier.size(48.dp)
             )
         }
+    }
+}
+
+
+@Composable
+fun InfoIconWithDialog() {
+    var showDialog by remember { mutableStateOf(false) }
+
+
+    Icon(
+        painter = painterResource(id = R.drawable.info),
+        contentDescription = "InfoIcon",
+        modifier = Modifier
+            .padding(16.dp)
+            .size(48.dp)
+            .clickable { showDialog = true },
+        tint = Color.White
+    )
+
+    // Dialog
+    if (showDialog) {
+        AlertDialog(
+            onDismissRequest = { showDialog = false },
+            title = {
+                Text(
+                    text = "Klimaspillet instruktion:",
+                    style = TextStyle(
+                        fontSize = 24.sp,
+                        fontFamily =  FontFamily(Font(R.font.bagel_fat_one)),
+                        fontWeight = FontWeight.Bold
+                    )
+                    )
+
+            },
+            text = {
+                Text("Du får hvert runde stillet et spørgsmål hvor 2 Co2 udledene aktiviteter bliver vist. Dit formål er at gætte hvilken af de to der udleder MEST Co2. \n\n Gætter du rigtigt fortsætter du videre ind i spillet. Gætter du forkert ryger du ud.\n\n Formålet er at få så høj en highscore som muligt, samt at få den højeste score i klassen.",
+                    style = TextStyle(
+                        fontSize = 22.sp,
+                        fontFamily = FontFamily(Font(R.font.bagel_fat_one)),
+                        color = Color(0, 0, 0, 255)
+                    ))
+            },
+            confirmButton = {
+            }
+        )
     }
 }
