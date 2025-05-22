@@ -2,7 +2,6 @@
 
 package com.example.klimaspillet.ui.screens
 
-import android.R.style
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -12,7 +11,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -29,11 +27,9 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -61,7 +57,6 @@ import com.example.klimaspillet.data.repository.TestViewmodel
 import com.example.klimaspillet.navigation.Routes
 import com.example.klimaspillet.ui.ViewModel
 
-
 // MAGNUS GIEMSA
 @Composable
 fun ConnectClassScreen(
@@ -69,16 +64,12 @@ fun ConnectClassScreen(
     navController: NavController
 ) {
     val gameUIState by viewModel.uiState.collectAsState()
-
     var showEmojiPicker by remember { mutableStateOf(false) }
     var selectedEmoji by remember { mutableIntStateOf(R.drawable.emoji1) }
     BackButton(navController)
-
     Box(
         modifier = Modifier.fillMaxSize()
     ) {
-        // Baggrund
-
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -87,47 +78,32 @@ fun ConnectClassScreen(
             verticalArrangement = Arrangement.Center
         ) {
             // Title
-            Text(
-                text = "Tilslut klasse",
-                fontFamily = FontFamily(Font(R.font.bagel_fat_one)),
-                fontSize = 48.sp,
-                color = Color.White,
-                modifier = Modifier.shadow(40.dp, RoundedCornerShape(40.dp))
-            )
-
+            Title()
             Spacer(modifier = Modifier.height(32.dp))
-
             // To tekst fields med Navn og Klassekode.
             ClassInputFields()
-
             Spacer(modifier = Modifier.height(32.dp))
-
             // Emoji knap, hvor man kan vælge sin emoji.
-            Box(
-                modifier = Modifier.fillMaxWidth(),
-                contentAlignment = Alignment.Center
-            ) {
-                Row(
+            Row(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     EmojiButton(
                         emojiId = selectedEmoji,
                         onClick = { showEmojiPicker = true }
                     )
-
                     Spacer(modifier = Modifier.width(16.dp))
-
                     EmojiInfo()
-                }
             }
-
-
         }
-
-
-
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(bottom = 40.dp),
+            contentAlignment = Alignment.BottomCenter
+        ) {
             // Ok knap i bunden
             OkButton(navController = navController)
+        }
 
         // Dialog for emoji picker
         if (showEmojiPicker) {
@@ -173,6 +149,18 @@ fun ConnectClassScreen(
         }
     }
 }
+
+@Composable
+fun Title () {
+    Text(
+        text = "Tilslut klasse",
+        fontFamily = FontFamily(Font(R.font.bagel_fat_one)),
+        fontSize = 48.sp,
+        color = Color.White,
+        modifier = Modifier.shadow(40.dp, RoundedCornerShape(40.dp))
+    )
+}
+
 
 // Magnus Giemsa
 // Emoji knap, med emojiId som er den emoji man har valgt.
