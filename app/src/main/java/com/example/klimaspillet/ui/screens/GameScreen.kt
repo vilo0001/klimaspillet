@@ -16,38 +16,72 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.Font
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.example.klimaspillet.R
 import androidx.compose.material3.IconButton
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.blur
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Shadow
-import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.zIndex
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.klimaspillet.data.models.CO2Ting
+import org.intellij.lang.annotations.JdkConstants.HorizontalAlignment
+import java.time.temporal.TemporalQueries.offset
+import android.os.Build.VERSION.SDK_INT
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.material3.Text
+import androidx.compose.ui.platform.LocalContext
+import coil.compose.AsyncImage
+import coil.decode.GifDecoder
+import coil.decode.ImageDecoderDecoder
+import com.example.klimaspillet.R
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Button
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
+import coil.ImageLoader
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shadow
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.unit.sp
 import com.example.klimaspillet.navigation.Routes
 import com.example.klimaspillet.ui.ViewModel
+import java.time.format.TextStyle
+import kotlin.Function as Function
 
 //   ------------------------------------
 //   Hovedsageligt ansvarlig: Victor Lotz
@@ -55,7 +89,7 @@ import com.example.klimaspillet.ui.ViewModel
 
 @Composable
 fun GameScreen (
-    viewModel: ViewModel = viewModel(),
+    viewModel: ViewModel,
     navController: NavController
 ) {
     val gameUIState by viewModel.uiState.collectAsState()
@@ -65,7 +99,11 @@ fun GameScreen (
             .fillMaxSize()
     ) {
         // Middleground I guess ??? :D   Det er scoren bag content.
-        Score(currentScore = gameUIState.score)
+        LaunchedEffect(gameUIState.score) {
+            viewModel.crownMoverFunction(gameUIState.score)
+        }
+        Score(currentScore = gameUIState.score, viewModel.newHighscoreBoolean, viewModel.numberCrownMover)
+
 
         // Content
         Column(
@@ -135,13 +173,15 @@ fun BackButtonAndTitle(navController: NavController) {
             modifier = Modifier
                 .fillMaxWidth(0.8f)
                 .align(Alignment.Center),
-            style = TextStyle(
+            style = androidx.compose.ui.text.TextStyle(
                 fontSize = 40.sp,
                 color = Color.White,
                 fontFamily = FontFamily(Font(R.font.bagel_fat_one)),
                 textAlign = TextAlign.Center,
                 shadow = Shadow(
-                    color = Color.Black.copy(alpha = 0.25f), offset = Offset(4f, 4f), blurRadius = 0f
+                    color = Color.Black.copy(alpha = 0.25f),
+                    offset = Offset(4f, 4f),
+                    blurRadius = 0f
                 )
             )
         )
@@ -149,20 +189,73 @@ fun BackButtonAndTitle(navController: NavController) {
 }
 
 @Composable
-fun Score(currentScore: Int) {
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-    ) {
-        Text(currentScore.toString(),
-            fontSize = 256.sp,
-            color = Color.Black.copy(alpha = 0.25f),
-            fontFamily = FontFamily(Font(R.font.bagel_fat_one)),
+fun Score(currentScore: Int, newHighscore: Boolean, crownMover: Int) {
+    val crownMoverState = remember { mutableStateOf(crownMover) }
+
+    if (newHighscore) {
+        Box(
             modifier = Modifier
-                .align(Alignment.Center)
-                .padding(bottom = 350.dp))
+                .fillMaxSize(),
+        ) {
+            Text(
+                currentScore.toString(),
+                fontSize = 256.sp,
+                color = Color(0xFFFF9000).copy(alpha = 0.50f),
+                fontFamily = FontFamily(Font(R.font.bagel_fat_one)),
+                modifier = Modifier
+                    .align(Alignment.Center)
+                    .padding(bottom = 350.dp)
+            )
+        }
+        Box {
+            when (crownMoverState.value) {
+                0 -> Image(
+                    painter = painterResource(id = R.drawable.highscorecrown2),
+                    modifier = Modifier.fillMaxWidth()
+                        .height(31.dp)
+                        .width(25.dp)
+                        .rotate(34F)
+                        .offset(x = 145.dp, y = 125.dp),
+                    contentDescription = null,
+                )
+                1 -> Image(
+                    painter = painterResource(id = R.drawable.highscorecrown2),
+                    modifier = Modifier.fillMaxWidth()
+                        .height(31.dp)
+                        .width(25.dp)
+                        .rotate(34F)
+                        .offset(x = 180.dp, y = 125.dp),
+                    contentDescription = null,
+                )
+                2 -> Image(
+                    painter = painterResource(id = R.drawable.highscorecrown2),
+                    modifier = Modifier.fillMaxWidth()
+                        .height(31.dp)
+                        .width(25.dp)
+                        .rotate(34F)
+                        .offset(x = 80.dp, y = 15.dp),
+                    contentDescription = null,
+                )
+            }
+        }
+    } else {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+        ) {
+            Text(
+                currentScore.toString(),
+                fontSize = 256.sp,
+                color = Color.Black.copy(alpha = 0.25f),
+                fontFamily = FontFamily(Font(R.font.bagel_fat_one)),
+                modifier = Modifier
+                    .align(Alignment.Center)
+                    .padding(bottom = 350.dp)
+            )
+        }
     }
 }
+
 
 @Composable
 fun CO2Choices(yellowOption: CO2Ting, redOption: CO2Ting) {

@@ -27,6 +27,7 @@ data class GameUiState(
     val score: Int = 0,
     val currentYellowOption: CO2Ting = CO2TingListe[0],
     val currentRedOption: CO2Ting = CO2TingListe[1],
+    var crownMoverValue:Int = 0
 )
 
 class ViewModel : ViewModel() {
@@ -42,6 +43,18 @@ class ViewModel : ViewModel() {
     // Altid ny highscore, hvis highscore er 0 (eller er ny bruger og derfor har 0).
     // Ellers newHighscore default false.
     var newHighscoreBoolean = uiState.value.highscore != 0
+
+
+    fun crownMoverFunction(currentScore: Int) {
+            uiState.value.crownMoverValue = when {
+                currentScore in 0..4 -> 0
+                currentScore in 5..9 -> 1
+                currentScore in 10..100 -> 2
+                else -> uiState.value.crownMoverValue // Fallback to existing value
+            }
+    }
+
+    var numberCrownMover =  uiState.value.crownMoverValue;
 
     private fun pickRandomThingAndShuffle(): CO2Ting {
         // Vælg en ny tilfældig CO2 ting indtil der findes én som ikke er brugt tidligere.

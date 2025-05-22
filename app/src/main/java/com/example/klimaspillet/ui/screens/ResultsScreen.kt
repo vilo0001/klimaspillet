@@ -306,7 +306,7 @@ fun RestartIcon() {
 */
 //Temporary testing values, skal forbindes med Game logik
 var currentScore:Int = 0;
-var newHighScore:Boolean = false;
+var newHighScore:Boolean = true;
 var currentHighscore:Int = 10
 
 /*
