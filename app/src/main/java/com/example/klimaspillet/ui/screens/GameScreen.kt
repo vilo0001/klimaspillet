@@ -276,7 +276,7 @@ fun RedAndYellowButtons(navController: NavController, viewModel: ViewModel) {
                     .fillMaxSize().weight(1f)
                     .padding(end = 10.dp),
                 onClick = {
-                    viewModel.chooseYellowOption()
+                    viewModel.chooseYellowOption(navController)
                 }
             ) {
                 Row() {
@@ -296,7 +296,7 @@ fun RedAndYellowButtons(navController: NavController, viewModel: ViewModel) {
                     .fillMaxSize().weight(1f)
                     .padding(start = 10.dp),
                 onClick = {
-                    viewModel.chooseRedOption()
+                    viewModel.chooseRedOption(navController)
                 }
             ) {
                 Row() {

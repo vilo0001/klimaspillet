@@ -30,6 +30,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -48,14 +49,21 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.klimaspillet.R
 import com.example.klimaspillet.navigation.Routes
+import com.example.klimaspillet.ui.ViewModel
 
 
 // MAGNUS GIEMSA
 @Composable
-fun ConnectClassScreen(navController: NavController) {
+fun ConnectClassScreen(
+    viewModel: ViewModel = viewModel(),
+    navController: NavController
+) {
+    val gameUIState by viewModel.uiState.collectAsState()
+
     var showEmojiPicker by remember { mutableStateOf(false) }
     var selectedEmoji by remember { mutableIntStateOf(R.drawable.emoji1) }
     BackButton(navController)

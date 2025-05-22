@@ -46,19 +46,19 @@ class ViewModel : ViewModel() {
     }
 
     // Man kunne også lave "chooseOption(color: String)", men det ved jeg ikke om bliver forvirrende?
-    fun chooseRedOption() {
+    fun chooseRedOption(navController: NavController) {
         if(uiState.value.currentRedOption.CO2e > uiState.value.currentYellowOption.CO2e) {
             nextQuestion()
         } else {
-            endGame()
+            endGame(navController)
         }
     }
 
-    fun chooseYellowOption() {
+    fun chooseYellowOption(navController: NavController) {
         if(uiState.value.currentRedOption.CO2e < uiState.value.currentYellowOption.CO2e) {
             nextQuestion()
         } else {
-            endGame()
+            endGame(navController)
         }
     }
 
@@ -70,8 +70,8 @@ class ViewModel : ViewModel() {
         )
     }
 
-    fun endGame() {
-        // Navigate til resultsScreen
+    fun endGame(navController: NavController) {
+        navController.navigate(Routes.routeResultsScreen)
         println("End game")
     }
 

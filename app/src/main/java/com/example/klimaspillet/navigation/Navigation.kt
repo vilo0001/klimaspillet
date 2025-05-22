@@ -18,16 +18,16 @@ fun Navigation(viewModel: ViewModel){
     val navController = rememberNavController()
     NavHost(navController = navController, startDestination = Routes.routeConnectClassScreen, builder = {
         composable(Routes.routeHomeScreen){
-            HomeScreen(navController)
+            HomeScreen(viewModel, navController)
         }
         composable(Routes.routeGameScreen){
             GameScreen(viewModel, navController)
         }
         composable(Routes.routeConnectClassScreen){
-            ConnectClassScreen(navController)
+            ConnectClassScreen(viewModel, navController)
         }
         composable(Routes.routeResultsScreen){
-            ResultsScreen(navController)
+            ResultsScreen(viewModel, navController)
         }
     })
 }

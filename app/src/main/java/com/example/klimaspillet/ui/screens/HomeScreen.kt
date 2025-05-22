@@ -35,13 +35,19 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.klimaspillet.R
 import com.example.klimaspillet.navigation.Routes
+import com.example.klimaspillet.ui.ViewModel
 
 //Andreas B
 @Composable
-fun HomeScreen (navController: NavController) {
+fun HomeScreen (
+    viewModel: ViewModel = viewModel(),
+    navController: NavController
+) {
+    val gameUIState by viewModel.uiState.collectAsState()
     //Background()
     InfoIconWithDialog()
     Column {
