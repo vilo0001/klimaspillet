@@ -16,11 +16,9 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.AbsoluteRoundedCornerShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -39,7 +37,6 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -47,8 +44,6 @@ import androidx.navigation.NavController
 import com.example.klimaspillet.R
 import com.example.klimaspillet.navigation.Routes
 import com.example.klimaspillet.ui.ViewModel
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.offset
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.draw.clip
@@ -62,11 +57,12 @@ fun HomeScreen (
 ) {
     val gameUIState by viewModel.uiState.collectAsState()
 
+    //If statement: AndreasRG:
     if(currentHighscore > 0 || hasClass && currentHighscore > 0) { HighscoreTopRight(gameUIState.highscore) }
     InfoIconWithDialog()
     Column {
         KlimaSpillet()
-        NoClassLeaderboard(navController)
+        ClassLeaderboard(navController)
         PlayButton(viewModel, navController)
     }
 }
@@ -113,7 +109,7 @@ fun KlimaSpillet () {
 
 //Andreas B
 @Composable
-fun NoClassLeaderboard(navController: NavController) {
+fun ClassLeaderboard(navController: NavController) {
     if(!hasClass) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -372,7 +368,7 @@ fun InfoIconWithDialog() {
         painter = painterResource(id = R.drawable.info),
         contentDescription = "InfoIcon",
         modifier = Modifier
-            .padding(16.dp)
+            .padding(start = 10.dp, top = 25.dp)
             .size(48.dp)
             .clickable { showDialog = true },
         tint = Color.White

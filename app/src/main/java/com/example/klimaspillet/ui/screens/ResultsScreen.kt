@@ -24,6 +24,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.width
@@ -61,7 +62,13 @@ fun ResultsScreen (
     Column(modifier = Modifier) {
         ScoreResult(gameUIState.score, viewModel.newHighscoreBoolean)
         GifResult()
-        HomeRestartButtons(viewModel, navController)
+        Column(horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Bottom,
+            modifier = Modifier
+                .fillMaxSize()
+            .padding(bottom = 45.dp)) {
+            HomeRestartButtons(viewModel, navController)
+        }
     }
 }
 

@@ -33,55 +33,22 @@ import androidx.navigation.NavController
 import androidx.compose.material3.IconButton
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.zIndex
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.klimaspillet.data.models.CO2Ting
-import org.intellij.lang.annotations.JdkConstants.HorizontalAlignment
-import java.time.temporal.TemporalQueries.offset
-import android.os.Build.VERSION.SDK_INT
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material3.Text
-import androidx.compose.ui.platform.LocalContext
-import coil.compose.AsyncImage
-import coil.decode.GifDecoder
-import coil.decode.ImageDecoderDecoder
 import com.example.klimaspillet.R
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.unit.dp
-import coil.ImageLoader
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.unit.sp
 import com.example.klimaspillet.navigation.Routes
 import com.example.klimaspillet.ui.ViewModel
-import java.time.format.TextStyle
-import kotlin.Function as Function
 
 //   ------------------------------------
 //   Hovedsageligt ansvarlig: Victor Lotz
@@ -93,12 +60,12 @@ fun GameScreen (
     navController: NavController
 ) {
     val gameUIState by viewModel.uiState.collectAsState()
-
+    BackButton(navController)
     Box(
         modifier = Modifier
             .fillMaxSize()
     ) {
-        // Middleground I guess ??? :D   Det er scoren bag content.
+        //LaunchedEffect: AndreasRG:
         LaunchedEffect(gameUIState.score) {
             viewModel.crownMoverFunction(gameUIState.score)
         }
@@ -113,7 +80,7 @@ fun GameScreen (
                 .fillMaxSize()
                 .padding(bottom = 70.dp)
         ) {
-            BackButtonAndTitle(navController)
+            TitleGameScreen(navController)
             CO2Choices(yellowOption = gameUIState.currentYellowOption, redOption = gameUIState.currentRedOption)
             RedAndYellowButtons(navController, viewModel)
         }
@@ -128,13 +95,15 @@ fun Preview() {
 
 
 @Composable
-fun BackButtonAndTitle(navController: NavController) {
+fun TitleGameScreen(navController: NavController) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
             .padding(top = 24.dp)
             .padding(10.dp)
     ) {
+
+        /*
         // Back button
         Box(
             modifier = Modifier
@@ -167,6 +136,7 @@ fun BackButtonAndTitle(navController: NavController) {
                 }
             }
         }
+        */
 
         // Title
         Text("Hvad udleder mest CO2?",
@@ -190,8 +160,7 @@ fun BackButtonAndTitle(navController: NavController) {
 
 @Composable
 fun Score(currentScore: Int, newHighscore: Boolean, crownMover: Int) {
-    val crownMoverState = remember { mutableStateOf(crownMover) }
-
+    //If statement her: AndreasRG:
     if (newHighscore) {
         Box(
             modifier = Modifier
@@ -208,7 +177,7 @@ fun Score(currentScore: Int, newHighscore: Boolean, crownMover: Int) {
             )
         }
         Box {
-            when (crownMoverState.value) {
+            when (crownMover) {
                 0 -> Image(
                     painter = painterResource(id = R.drawable.highscorecrown2),
                     modifier = Modifier.fillMaxWidth()
@@ -224,7 +193,7 @@ fun Score(currentScore: Int, newHighscore: Boolean, crownMover: Int) {
                         .height(31.dp)
                         .width(25.dp)
                         .rotate(34F)
-                        .offset(x = 180.dp, y = 125.dp),
+                        .offset(x = 160.dp, y = 110.dp),
                     contentDescription = null,
                 )
                 2 -> Image(
@@ -233,7 +202,7 @@ fun Score(currentScore: Int, newHighscore: Boolean, crownMover: Int) {
                         .height(31.dp)
                         .width(25.dp)
                         .rotate(34F)
-                        .offset(x = 80.dp, y = 15.dp),
+                        .offset(x = 80.dp, y = 15.dp), //SKAL ÆNDRES NÅR DET ER MULIGT IGEN
                     contentDescription = null,
                 )
             }

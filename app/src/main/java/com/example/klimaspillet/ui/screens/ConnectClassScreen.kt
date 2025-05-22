@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -104,15 +105,9 @@ fun ConnectClassScreen(
         }
 
 
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(bottom = 40.dp),
-            contentAlignment = Alignment.BottomCenter
-        ) {
+
             // Ok knap i bunden
             OkButton(navController = navController)
-        }
 
         // Dialog for emoji picker
         if (showEmojiPicker) {
@@ -293,34 +288,44 @@ fun ClassInputFields() {
 // Magnus Giemsa
 @Composable
 fun OkButton(navController: NavController) {
-    Button(
-        onClick = {
-            // Victor Lotz
-            navController.navigate(Routes.routeHomeScreen)
-        },
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Bottom,
         modifier = Modifier
-            .size(120.dp)
-            .shadow(8.dp, shape = RoundedCornerShape(24.dp)),
-        shape = RoundedCornerShape(24.dp),
-        colors = ButtonDefaults.buttonColors(
-            containerColor = Color(0xFF6EFF64)
-        ),
-        contentPadding = PaddingValues(0.dp)
+            .fillMaxSize()
+            .padding(bottom = 45.dp)
     ) {
-        Text(
-            text = "OK",
-            fontSize = 56.sp,
-            fontFamily = FontFamily(Font(R.font.bagel_fat_one)),
-            color = Color.White,
-            modifier = Modifier.shadow(20.dp, RoundedCornerShape(40.dp))
-        )
+        Button(
+            onClick = {
+                // Victor Lotz
+                navController.navigate(Routes.routeHomeScreen)
+            },
+            modifier = Modifier
+                .size(120.dp)
+                .shadow(8.dp, shape = RoundedCornerShape(24.dp)),
+            shape = RoundedCornerShape(24.dp),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = Color(0xFF6EFF64)
+            ),
+            contentPadding = PaddingValues(0.dp)
+        ) {
+            Text(
+                text = "OK",
+                fontSize = 56.sp,
+                fontFamily = FontFamily(Font(R.font.bagel_fat_one)),
+                color = Color.White,
+                modifier = Modifier.shadow(20.dp, RoundedCornerShape(40.dp))
+            )
+        }
     }
 }
+
+
 @Composable
 fun BackButton(navController: NavController) {
     Box(
         modifier = Modifier
-            .padding(16.dp)
+            .padding(start = 10.dp, top = 25.dp)
             .clickable {
                 navController.navigate(Routes.routeHomeScreen)
             }

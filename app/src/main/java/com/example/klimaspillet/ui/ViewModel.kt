@@ -46,15 +46,19 @@ class ViewModel : ViewModel() {
 
 
     fun crownMoverFunction(currentScore: Int) {
-            uiState.value.crownMoverValue = when {
+        _uiState.value = _uiState.value.copy(
+            crownMoverValue = when {
                 currentScore in 0..4 -> 0
                 currentScore in 5..9 -> 1
                 currentScore in 10..100 -> 2
-                else -> uiState.value.crownMoverValue // Fallback to existing value
+                else -> _uiState.value.crownMoverValue // Fallback
             }
+        )
     }
 
-    var numberCrownMover =  uiState.value.crownMoverValue;
+
+    val numberCrownMover: Int
+        get() = uiState.value.crownMoverValue
 
     private fun pickRandomThingAndShuffle(): CO2Ting {
         // Vælg en ny tilfældig CO2 ting indtil der findes én som ikke er brugt tidligere.
