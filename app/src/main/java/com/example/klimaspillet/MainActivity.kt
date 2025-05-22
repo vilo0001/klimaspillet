@@ -13,6 +13,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import com.example.klimaspillet.navigation.Navigation
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.height
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
@@ -46,6 +48,7 @@ class MainActivity : ComponentActivity() {
                             .height(2400.dp)
                     )
                 }
+
                 Navigation(viewModel())
             }
         }

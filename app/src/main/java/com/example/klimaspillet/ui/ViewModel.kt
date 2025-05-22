@@ -2,22 +2,29 @@
 
 package com.example.klimaspillet.ui
 
+import androidx.compose.runtime.remember
+import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import com.example.klimaspillet.data.models.CO2TingListe
 import com.example.klimaspillet.data.models.CO2Ting
+import com.example.klimaspillet.data.repository.UserInfo
 import com.example.klimaspillet.navigation.Routes
+import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
 
 //   ------------------------------------
 //   Hovedsageligt ansvarlig: Victor Lotz
 //   ------------------------------------
 
 data class GameUiState(
-    val score: Int = 0,
+    val playerID: String = "",
     val highscore: Int = 0,
+    val score: Int = 0,
     val currentYellowOption: CO2Ting = CO2TingListe[0],
     val currentRedOption: CO2Ting = CO2TingListe[1],
 )
@@ -81,8 +88,9 @@ class ViewModel : ViewModel() {
         }
 
         _uiState.value = GameUiState(
-            score = newScore,
+            playerID = uiState.value.playerID,
             highscore = newHighscore,
+            score = newScore,
             currentYellowOption = uiState.value.currentRedOption,
             currentRedOption = pickRandomThingAndShuffle()
         )
@@ -97,8 +105,9 @@ class ViewModel : ViewModel() {
         val randomRedOption = pickRandomThingAndShuffle()
 
         _uiState.value = GameUiState(
-            score = 0,
+            playerID = uiState.value.playerID,
             highscore = _uiState.value.highscore,
+            score = 0,
             currentYellowOption = randomYellowOption,
             currentRedOption = randomRedOption)
     }
