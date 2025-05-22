@@ -70,7 +70,7 @@ fun HomeScreen (
 //Nye værdier der skal bruges
 val classCode:String = "HA1000";
 var className:String = "7.A";
-var hasClass:Boolean = true;
+var hasClass:Boolean = false;
 var thirdPlaceName:String = "Andreas B";
 var secondPlaceName:String = "Magnus G";
 var firstPlaceName:String = "Victor L";
@@ -93,17 +93,18 @@ fun KlimaSpillet () {
     ) {
         Box {
             Text(
-                text ="Klimaspillet",
+                "Klimaspillet",
                 fontFamily = FontFamily(Font(R.font.bagel_fat_one)),
                 fontSize = 65.sp,
-                textAlign = TextAlign.Center,
                 color = Color.White,
                 style = androidx.compose.ui.text.TextStyle(shadow = Shadow(//AndreasRG
-                    color = Color.Black.copy(alpha = 0.25f)))
+                    color = Color.Black.copy(alpha = 0.25f))),
+                textAlign = TextAlign.Center,
             )
         }
     }
 }
+
 
 //Andreas B
 @Composable
@@ -298,8 +299,8 @@ fun PlayButton (navController: NavController) {
     ) {
         Button(
             modifier = Modifier
-                .width(125.dp)
-                .height(125.dp)
+                .width(120.dp)
+                .height(120.dp)
                 .shadow(16.dp, shape = RoundedCornerShape(16.dp)),
             shape = RoundedCornerShape(16.dp),
             colors = ButtonDefaults.buttonColors(
