@@ -126,7 +126,7 @@ fun ScoreResult(score: Int, newHighscore: Boolean) {
         Column(horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(0.dp, 100.dp, 0.dp, 50.dp)) {
+                .padding(top = 100.dp)) {
             Text(
                 "Ny highscore", fontFamily = FontFamily(Font(R.font.bagel_fat_one)),
                 fontSize = 48.sp,
@@ -171,7 +171,7 @@ fun ScoreResult(score: Int, newHighscore: Boolean) {
         Column(horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(0.dp, 100.dp, 0.dp, 50.dp)) {
+                .padding(top = 100.dp)) {
             Text(
                 "Din score", fontFamily = FontFamily(Font(R.font.bagel_fat_one)),
                 fontSize = 48.sp,
@@ -199,7 +199,7 @@ fun ScoreResult(score: Int, newHighscore: Boolean) {
 @Composable
 fun GifResult() {
     Box(modifier = Modifier
-        .padding(20.dp, 0.dp, 15.dp, 0.dp)
+        .padding(start = 20.dp, end = 15.dp)
         .height(223.dp)
         .width(370.dp)
         .clip(RoundedCornerShape(25.dp))
