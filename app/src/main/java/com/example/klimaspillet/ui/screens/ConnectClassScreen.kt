@@ -29,7 +29,9 @@ import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -52,6 +54,7 @@ import androidx.compose.ui.window.Dialog
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.klimaspillet.R
+import com.example.klimaspillet.data.repository.TestViewmodel
 import com.example.klimaspillet.navigation.Routes
 import com.example.klimaspillet.ui.ViewModel
 
@@ -186,7 +189,7 @@ fun EmojiButton(emojiId: Int, onClick: () -> Unit) {
 // Tekst knapper (Navn og klassekode)
 //Magnus Giemsa
 @Composable
-fun ClassInputFields() {
+fun ClassInputFields(viewModel: TestViewmodel = viewModel()) {
     val name = remember { mutableStateOf("") }
     val classCode = remember { mutableStateOf("") }
 
@@ -245,19 +248,35 @@ fun ClassInputFields() {
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
         ) {
+            val isValidCode = classCode.value == "1234"
+
             TextField(
                 value = classCode.value,
                 onValueChange = { classCode.value = it },
-                label = { Text("Klassekode", fontFamily = FontFamily(Font(R.font.bagel_fat_one))) },
+                label = {
+                    Text(
+                        "Klassekode",
+                        fontFamily = FontFamily(Font(R.font.bagel_fat_one))
+                    )
+                },
                 textStyle = LocalTextStyle.current.copy(
                     fontFamily = FontFamily(Font(R.font.bagel_fat_one))
                 ),
                 singleLine = true,
                 shape = RoundedCornerShape(40.dp),
+                colors = TextFieldDefaults.colors(
+                    focusedContainerColor = if (isValidCode) Color(0xFFB9F6CA) else Color(
+                        253,
+                        113,
+                        113,
+                        255
+                    )
+                ),
                 modifier = Modifier
                     .width(250.dp)
-                    .shadow(30.dp, RoundedCornerShape(40.dp)),
+                    .shadow(30.dp, RoundedCornerShape(40.dp))
             )
+
 
             Spacer(modifier = Modifier.width(8.dp))
 
@@ -275,9 +294,7 @@ fun ClassInputFields() {
             if (showDialogClass) {
                 AlertDialog(
                     onDismissRequest = { showDialogClass = false },
-                    text = {
-                        Text("Indtast din klassekode")
-                    },
+                    text = { Text("Indtast din klassekode") },
                     confirmButton = {}
                 )
             }

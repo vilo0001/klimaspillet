@@ -20,7 +20,7 @@ class StudentRepository {
             .add(student)
             .await()
     }
-    
+
     //Andreas B
     suspend fun getClassByClassCode(classCode: String):List<Class> {
         val getCode = db.collection("Classes")
