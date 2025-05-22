@@ -62,16 +62,16 @@ import kotlin.Function as Function
 //AndreasRG:
 @Composable
 fun ResultsScreen (
-    viewModel: ViewModel = viewModel(),
+    viewModel: ViewModel,
     navController: NavController
 ) {
     val gameUIState by viewModel.uiState.collectAsState()
     //PrivateBackground()
     if (!newHighScore) {HighscoreTopRight()}
     Column(modifier = Modifier) {
-        ScoreResult(gameUIState.score, gameUIState.score)
+        ScoreResult(gameUIState.score, viewModel.newHighscoreBoolean)
         GifResult()
-        HomeRestartButtons(navController, viewModel)
+        HomeRestartButtons(viewModel, navController)
     }
 }
 
@@ -120,9 +120,12 @@ HighscoreTopRight() {
     }
 
 //AndreasRG:
+// Victor Lotz, score fra viewmodel
 @Composable
-fun ScoreResult(score: Int, highscore: Int) {
-    if(true) {
+fun ScoreResult(score: Int, newHighscore: Boolean) {
+    println("Score: $score, new highscore?: $newHighscore")
+    // Det er vel fint nok, at denne simple logik ikke er i viewmodel?
+    if(newHighscore) {
         Column(horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
                 .fillMaxWidth()
@@ -167,7 +170,6 @@ fun ScoreResult(score: Int, highscore: Int) {
                     offset = Offset(8f, 8f)))
             )
         }
-        currentHighscore = currentScore
     } else {
         Column(horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
@@ -211,7 +213,7 @@ fun GifResult() {
 
 //AndreasRG:
 @Composable
-fun HomeRestartButtons(navController: NavController, viewModel: ViewModel) {
+fun HomeRestartButtons(viewModel: ViewModel, navController: NavController) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -221,13 +223,19 @@ fun HomeRestartButtons(navController: NavController, viewModel: ViewModel) {
         ResultsScreenButton(
             addImage = { HomeIcon() },
             navController = navController,
-            navigateAction = { navController.navigate(Routes.routeHomeScreen) }
+            navigateAction = {
+                viewModel.resetGame()
+                navController.navigate(Routes.routeHomeScreen)
+            }
         )
 
         ResultsScreenButton(
             addImage = { RestartIcon() },
             navController = navController,
-            navigateAction = { navController.navigate(Routes.routeGameScreen) }
+            navigateAction = {
+                viewModel.resetGame()
+                navController.navigate(Routes.routeGameScreen)
+            }
         )
     }
 }
