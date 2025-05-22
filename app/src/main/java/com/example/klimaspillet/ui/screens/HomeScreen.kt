@@ -61,11 +61,9 @@ fun HomeScreen (
     navController: NavController
 ) {
     val gameUIState by viewModel.uiState.collectAsState()
-    //Background()
-    HighscoreTopRight(gameUIState.highscore)
-    if(currentHighscore > 0 || hasClass && currentHighscore > 0) {HighscoreTopRight()}
+
+    if(currentHighscore > 0 || hasClass && currentHighscore > 0) { HighscoreTopRight(gameUIState.highscore) }
     InfoIconWithDialog()
-    HighscoreTopRight(gameUIState.highscore)
     Column {
         KlimaSpillet()
         NoClassLeaderboard(navController)

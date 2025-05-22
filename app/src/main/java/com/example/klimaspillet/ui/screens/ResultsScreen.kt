@@ -57,7 +57,7 @@ fun ResultsScreen (
 ) {
     val gameUIState by viewModel.uiState.collectAsState()
     //PrivateBackground()
-    if (!newHighScore) {HighscoreTopRight()}
+    if (!viewModel.newHighscoreBoolean) { HighscoreTopRight(gameUIState.highscore) }
     Column(modifier = Modifier) {
         ScoreResult(gameUIState.score, viewModel.newHighscoreBoolean)
         GifResult()
