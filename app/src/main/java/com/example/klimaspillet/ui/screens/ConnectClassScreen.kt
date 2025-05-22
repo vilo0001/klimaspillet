@@ -260,7 +260,7 @@ fun ClassInputFields(viewModel: TestViewmodel = viewModel()) {
                 singleLine = true,
                 shape = RoundedCornerShape(40.dp),
                 colors = TextFieldDefaults.colors(
-                    focusedContainerColor = if (isValidCode) Color(0xFFB9F6CA) else Color(
+                    focusedContainerColor = if (isValidCode) Color(0xFF62F88C) else Color(
                         253,
                         113,
                         113,
