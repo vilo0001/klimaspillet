@@ -67,7 +67,7 @@ fun ResultsScreen (
 ) {
     val gameUIState by viewModel.uiState.collectAsState()
     //PrivateBackground()
-    //HighscoreTopRight()
+    if (!newHighScore) {HighscoreTopRight()}
     Column(modifier = Modifier) {
         ScoreResult(gameUIState.score, gameUIState.score)
         GifResult()
@@ -80,17 +80,12 @@ fun ResultsScreen (
 
 
 
-//AndreasRG:
-@Composable
-fun PrivateBackground() {
 
-}
 
 // AndreasRG:
 @Composable
 fun
 HighscoreTopRight() {
-    if (!newHighScore) {
         Row(
             modifier = Modifier
                 .fillMaxWidth(),
@@ -123,7 +118,6 @@ HighscoreTopRight() {
             }
         }
     }
-}
 
 //AndreasRG:
 @Composable
@@ -241,6 +235,7 @@ fun HomeRestartButtons(navController: NavController, viewModel: ViewModel) {
 
 
 
+
 //Functions udenfor indsatte Composables med logik
 // AndreasRG:
 @Composable
@@ -313,8 +308,8 @@ fun RestartIcon() {
 */
 //Temporary testing values, skal forbindes med Game logik
 var currentScore:Int = 0;
-var newHighScore:Boolean = true;
-var currentHighscore:Int = 0;
+var newHighScore:Boolean = false;
+var currentHighscore:Int = 10
 
 /*
 fun playVideo(context: Context) {
