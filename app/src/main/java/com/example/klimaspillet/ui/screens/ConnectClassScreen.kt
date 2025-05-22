@@ -238,7 +238,7 @@ fun OkButton(navController: NavController) {
             navController.navigate(Routes.routeHomeScreen)
         },
         modifier = Modifier
-            .size(100.dp)
+            .size(120.dp)
             .shadow(8.dp, shape = RoundedCornerShape(24.dp)),
         shape = RoundedCornerShape(24.dp),
         colors = ButtonDefaults.buttonColors(
