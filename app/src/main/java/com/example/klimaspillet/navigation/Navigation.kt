@@ -16,7 +16,7 @@ import com.example.klimaspillet.ui.screens.ResultsScreen
 @Composable
 fun Navigation(viewModel: ViewModel){
     val navController = rememberNavController()
-    NavHost(navController = navController, startDestination = Routes.routeConnectClassScreen, builder = {
+    NavHost(navController = navController, startDestination = Routes.routeHomeScreen, builder = {
         composable(Routes.routeHomeScreen){
             HomeScreen(viewModel, navController)
         }
