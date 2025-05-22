@@ -8,27 +8,30 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.AbsoluteRoundedCornerShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
@@ -36,6 +39,7 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -45,6 +49,8 @@ import com.example.klimaspillet.navigation.Routes
 import com.example.klimaspillet.ui.ViewModel
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.offset
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Shadow
 
@@ -55,14 +61,13 @@ fun HomeScreen (
     navController: NavController
 ) {
     val gameUIState by viewModel.uiState.collectAsState()
-    //Background()
-    if(currentHighscore > 0 || hasClass && currentHighscore > 0) {HighscoreTopRight()}
+
+    if(currentHighscore > 0 || hasClass && currentHighscore > 0) { HighscoreTopRight(gameUIState.highscore) }
     InfoIconWithDialog()
-    HighscoreTopRight()
     Column {
         KlimaSpillet()
         NoClassLeaderboard(navController)
-        PlayButton(navController)
+        PlayButton(viewModel, navController)
     }
 }
 
@@ -99,7 +104,7 @@ fun KlimaSpillet () {
                 color = Color.White,
                 style = androidx.compose.ui.text.TextStyle(shadow = Shadow(//AndreasRG
                     color = Color.Black.copy(alpha = 0.25f))),
-                textAlign = TextAlign.Center,
+                textAlign = TextAlign.Center
             )
         }
     }
@@ -289,7 +294,7 @@ fun NoClassLeaderboard(navController: NavController) {
 
 //Andreas B
 @Composable
-fun PlayButton (navController: NavController) {
+fun PlayButton (viewModel: ViewModel, navController: NavController) {
     Column (
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Bottom,
@@ -308,7 +313,7 @@ fun PlayButton (navController: NavController) {
             ),
             onClick = {
                 // Victor Lotz
-                navController.navigate(Routes.routeGameScreen)
+                viewModel.startGame(navController)
             }) {
             Icon(
                 painter = painterResource(id = R.drawable.playbutton),
@@ -317,6 +322,44 @@ fun PlayButton (navController: NavController) {
             )
         }
     }
+}
+
+// AndreasRG:
+// Victor, logik
+@Composable
+fun HighscoreTopRight(highscore: Int) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth(),
+        horizontalArrangement = Arrangement.End
+    ) {
+        Column(
+            modifier = Modifier
+                .padding(end = 10.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Image(
+                painter = painterResource(id = R.drawable.highscorecrown),
+                modifier = Modifier
+                    .height(33.dp)
+                    .width(25.dp)
+                    .offset(y = 17.dp),
+                contentDescription = null,
+            )
+            Text(
+                "$highscore", fontFamily = FontFamily(Font(R.font.bagel_fat_one)),
+                fontSize = 32.sp,
+                color = Color(0xFFFFCC6D),
+                style = androidx.compose.ui.text.TextStyle(
+                    shadow = Shadow(
+                        color = Color.Black.copy(alpha = 0.25f),
+                        offset = Offset(4f, 4f)
+                    )
+                )
+            )
+        }
+    }
+
 }
 
 
