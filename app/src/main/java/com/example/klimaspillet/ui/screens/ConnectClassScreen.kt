@@ -2,6 +2,7 @@
 
 package com.example.klimaspillet.ui.screens
 
+import android.R.style
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -47,6 +48,7 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
@@ -101,10 +103,25 @@ fun ConnectClassScreen(
             Spacer(modifier = Modifier.height(32.dp))
 
             // Emoji knap, hvor man kan vælge sin emoji.
-            EmojiButton(
-                emojiId = selectedEmoji,
-                onClick = { showEmojiPicker = true }
-            )
+            Box(
+                modifier = Modifier.fillMaxWidth(),
+                contentAlignment = Alignment.Center
+            ) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    EmojiButton(
+                        emojiId = selectedEmoji,
+                        onClick = { showEmojiPicker = true }
+                    )
+
+                    Spacer(modifier = Modifier.width(16.dp))
+
+                    EmojiInfo()
+                }
+            }
+
+
         }
 
 
@@ -179,6 +196,33 @@ fun EmojiButton(emojiId: Int, onClick: () -> Unit) {
     }
 }
 
+@Composable
+fun EmojiInfo() {
+    var showDialogEmoji by remember { mutableStateOf(false) }
+    Icon(
+        painter = painterResource(id = R.drawable.textinfo),
+        contentDescription = "InfoEmoji",
+        modifier = Modifier
+            .size(24.dp)
+            .clickable { showDialogEmoji = true },
+        tint = Color.Black
+    )
+
+    if (showDialogEmoji) {
+        AlertDialog(
+            onDismissRequest = { showDialogEmoji = false },
+            text = {
+                Text("Vælg din avatar",
+                style = TextStyle(
+                    fontSize = 28.sp,
+                    fontFamily = FontFamily(Font(R.font.bagel_fat_one)),
+                    color = Color(0, 0, 0, 255)
+                ))
+            },
+            confirmButton = {}
+        )
+    }
+}
 
 
 // Tekst knapper (Navn og klassekode)
@@ -230,7 +274,12 @@ fun ClassInputFields(viewModel: TestViewmodel = viewModel()) {
                 AlertDialog(
                     onDismissRequest = { showDialogName = false },
                     text = {
-                        Text("Indtast dit navn (3-15 karakterer)")
+                        Text("Indtast dit navn (3-15 karakterer)",
+                            style = TextStyle(
+                                fontSize = 24.sp,
+                                fontFamily = FontFamily(Font(R.font.bagel_fat_one)),
+                                color = Color(0, 0, 0, 255)
+                            ))
                     },
                     confirmButton = {}
                 )
@@ -289,7 +338,12 @@ fun ClassInputFields(viewModel: TestViewmodel = viewModel()) {
             if (showDialogClass) {
                 AlertDialog(
                     onDismissRequest = { showDialogClass = false },
-                    text = { Text("Indtast din klassekode") },
+                    text = { Text("Indtast din klassekode",
+                        style = TextStyle(
+                            fontSize = 24.sp,
+                            fontFamily = FontFamily(Font(R.font.bagel_fat_one)),
+                            color = Color(0, 0, 0, 255)
+                        )) },
                     confirmButton = {}
                 )
             }
