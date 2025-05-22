@@ -285,14 +285,13 @@ fun ClassInputFields() {
 // Magnus Giemsa
 @Composable
 fun OkButton(navController: NavController) {
-    val classCode = 24
     Button(
         onClick = {
             // Victor Lotz
             navController.navigate(Routes.routeHomeScreen)
         },
         modifier = Modifier
-            .size(100.dp)
+            .size(120.dp)
             .shadow(8.dp, shape = RoundedCornerShape(24.dp)),
         shape = RoundedCornerShape(24.dp),
         colors = ButtonDefaults.buttonColors(

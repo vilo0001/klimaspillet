@@ -87,3 +87,8 @@ class ViewModel : ViewModel() {
         resetGame()
     }
 }
+
+
+
+
+
