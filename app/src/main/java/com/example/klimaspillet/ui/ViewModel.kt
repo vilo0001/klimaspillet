@@ -10,7 +10,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import com.example.klimaspillet.data.models.CO2TingListe
 import com.example.klimaspillet.data.models.CO2Ting
 import com.example.klimaspillet.navigation.Routes
-import kotlin.random.Random
 
 //   ------------------------------------
 //   Hovedsageligt ansvarlig: Victor Lotz
@@ -18,6 +17,7 @@ import kotlin.random.Random
 
 data class GameUiState(
     val score: Int = 0,
+    val highscore: Int = 0,
     val currentYellowOption: CO2Ting = CO2TingListe[0],
     val currentRedOption: CO2Ting = CO2TingListe[1],
 )
@@ -30,17 +30,19 @@ class ViewModel : ViewModel() {
     // Liste af allerede brugte CO2-ting i spillet.
     private var usedCO2Things: MutableSet<CO2Ting> = mutableSetOf()
 
-    private var currentScore = uiState.value.score;
+    // gameEnded boolean så man kan fortsætte fra spil (f.eks. efter at havde gået tilbage til home screen)
+    private var gameEnded = false;
+    // Altid ny highscore, hvis highscore er 0 (eller er ny bruger og derfor har 0).
+    // Ellers newHighscore default false.
+    var newHighscoreBoolean = uiState.value.highscore != 0
 
     private fun pickRandomThingAndShuffle(): CO2Ting {
         // Vælg en ny tilfældig CO2 ting indtil der findes én som ikke er brugt tidligere.
         val randomCO2Ting = CO2TingListe.random()
-        println("pickRandomThingAndShuffle() called.")
         if (usedCO2Things.contains(randomCO2Ting)) {
             return pickRandomThingAndShuffle()
         } else {
             usedCO2Things.add(randomCO2Ting)
-            println("Random: $randomCO2Ting")
             return randomCO2Ting
         }
     }
@@ -62,25 +64,52 @@ class ViewModel : ViewModel() {
         }
     }
 
+    fun endGame(navController: NavController) {
+        gameEnded = true;
+        navController.navigate(Routes.routeResultsScreen)
+    }
+
     fun nextQuestion() {
+        var newScore = uiState.value.score+1
+        var newHighscore: Int
+
+        if(newScore > uiState.value.highscore) {
+            newHighscore = newScore
+             newHighscoreBoolean = true
+        } else {
+            newHighscore = uiState.value.highscore
+        }
+
         _uiState.value = GameUiState(
-            score = uiState.value.score+1,
+            score = newScore,
+            highscore = newHighscore,
             currentYellowOption = uiState.value.currentRedOption,
             currentRedOption = pickRandomThingAndShuffle()
         )
     }
 
-    fun endGame(navController: NavController) {
-        navController.navigate(Routes.routeResultsScreen)
-        println("End game")
-    }
-
     fun resetGame() {
+        gameEnded = false
+        newHighscoreBoolean = false
+        usedCO2Things.clear()
+
         val randomYellowOption = pickRandomThingAndShuffle()
         val randomRedOption = pickRandomThingAndShuffle()
 
-        usedCO2Things.clear()
-        _uiState.value = GameUiState(score = 0, currentYellowOption = randomYellowOption, currentRedOption = randomRedOption)
+        _uiState.value = GameUiState(
+            score = 0,
+            highscore = _uiState.value.highscore,
+            currentYellowOption = randomYellowOption,
+            currentRedOption = randomRedOption)
+    }
+
+    // Hvis spillet er sluttet tidligere; reset. Ellers fortsæt.
+    fun startGame(navController: NavController) {
+        if(gameEnded) {
+            resetGame()
+            gameEnded = !gameEnded
+        }
+        navController.navigate(Routes.routeGameScreen)
     }
 
     init {

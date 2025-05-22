@@ -2,13 +2,16 @@
 
 package com.example.klimaspillet.ui.screens
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -25,7 +28,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -48,10 +53,11 @@ fun HomeScreen (
 ) {
     val gameUIState by viewModel.uiState.collectAsState()
     //Background()
+    HighscoreTopRight(gameUIState.highscore)
     Column {
         KlimaSpillet()
         NoClassLeaderboard(navController)
-        PlayButton(navController)
+        PlayButton(viewModel, navController)
     }
 }
 
@@ -136,7 +142,7 @@ fun NoClassLeaderboard(navController: NavController) {
 
 //Andreas B
 @Composable
-fun PlayButton (navController: NavController) {
+fun PlayButton (viewModel: ViewModel, navController: NavController) {
     Column (
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
@@ -154,7 +160,7 @@ fun PlayButton (navController: NavController) {
             ),
             onClick = {
                 // Victor Lotz
-                navController.navigate(Routes.routeGameScreen)
+                viewModel.startGame(navController)
             }) {
             Icon(
                 painter = painterResource(id = R.drawable.playbutton),
@@ -163,4 +169,42 @@ fun PlayButton (navController: NavController) {
             )
         }
     }
+}
+
+// AndreasRG:
+// Victor, logik
+@Composable
+fun HighscoreTopRight(highscore: Int) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth(),
+        horizontalArrangement = Arrangement.End
+    ) {
+        Column(
+            modifier = Modifier
+                .padding(end = 10.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Image(
+                painter = painterResource(id = R.drawable.highscorecrown),
+                modifier = Modifier
+                    .height(33.dp)
+                    .width(25.dp)
+                    .offset(y = 17.dp),
+                contentDescription = null,
+            )
+            Text(
+                "$highscore", fontFamily = FontFamily(Font(R.font.bagel_fat_one)),
+                fontSize = 32.sp,
+                color = Color(0xFFFFCC6D),
+                style = androidx.compose.ui.text.TextStyle(
+                    shadow = Shadow(
+                        color = Color.Black.copy(alpha = 0.25f),
+                        offset = Offset(4f, 4f)
+                    )
+                )
+            )
+        }
+    }
+
 }

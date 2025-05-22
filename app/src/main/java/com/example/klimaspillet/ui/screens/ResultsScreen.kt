@@ -2,8 +2,6 @@
 
 package com.example.klimaspillet.ui.screens
 
-import android.annotation.SuppressLint
-import android.graphics.Insets.add
 import android.os.Build.VERSION.SDK_INT
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -16,9 +14,6 @@ import coil.compose.AsyncImage
 import coil.decode.GifDecoder
 import coil.decode.ImageDecoderDecoder
 import com.example.klimaspillet.R
-import android.os.Build.VERSION.SDK_INT
-import android.content.Context
-import android.media.MediaPlayer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.ui.res.painterResource
@@ -29,7 +24,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.width
@@ -43,35 +37,26 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shadow
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.klimaspillet.MainActivity
-import com.example.klimaspillet.navigation.Navigation
 import com.example.klimaspillet.navigation.Routes
 import com.example.klimaspillet.ui.ViewModel
-import java.time.format.TextStyle
-import kotlin.Function as Function
-
-
-
+import kotlin.math.log
 
 
 //AndreasRG:
 @Composable
 fun ResultsScreen (
-    viewModel: ViewModel = viewModel(),
+    viewModel: ViewModel,
     navController: NavController
 ) {
     val gameUIState by viewModel.uiState.collectAsState()
     //PrivateBackground()
-    //HighscoreTopRight()
     Column(modifier = Modifier) {
-        ScoreResult(gameUIState.score, gameUIState.score)
+        ScoreResult(gameUIState.score, viewModel.newHighscoreBoolean)
         GifResult()
-        HomeRestartButtons(navController, viewModel)
+        HomeRestartButtons(viewModel, navController)
     }
 }
 
@@ -86,49 +71,13 @@ fun PrivateBackground() {
 
 }
 
-// AndreasRG:
-@Composable
-fun
-HighscoreTopRight() {
-    if (!newHighScore) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth(),
-            horizontalArrangement = Arrangement.End
-        ) {
-            Column(
-                modifier = Modifier
-                    .padding(end = 10.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.highscorecrown),
-                    modifier = Modifier
-                        .height(33.dp)
-                        .width(25.dp)
-                        .offset(y = 17.dp),
-                    contentDescription = null,
-                )
-                Text(
-                    "$currentHighscore", fontFamily = FontFamily(Font(R.font.bagel_fat_one)),
-                    fontSize = 32.sp,
-                    color = Color(0xFFFFCC6D),
-                    style = androidx.compose.ui.text.TextStyle(
-                        shadow = Shadow(
-                            color = Color.Black.copy(alpha = 0.25f),
-                            offset = Offset(4f, 4f)
-                        )
-                    )
-                )
-            }
-        }
-    }
-}
-
 //AndreasRG:
+// Victor Lotz, score fra viewmodel
 @Composable
-fun ScoreResult(score: Int, highscore: Int) {
-    if(true) {
+fun ScoreResult(score: Int, newHighscore: Boolean) {
+    println("Score: $score, new highscore?: $newHighscore")
+    // Det er vel fint nok, at denne simple logik ikke er i viewmodel?
+    if(newHighscore) {
         Column(horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
                 .fillMaxWidth()
@@ -173,7 +122,6 @@ fun ScoreResult(score: Int, highscore: Int) {
                     offset = Offset(8f, 8f)))
             )
         }
-        currentHighscore = currentScore
     } else {
         Column(horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
@@ -217,7 +165,7 @@ fun GifResult() {
 
 //AndreasRG:
 @Composable
-fun HomeRestartButtons(navController: NavController, viewModel: ViewModel) {
+fun HomeRestartButtons(viewModel: ViewModel, navController: NavController) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -227,13 +175,19 @@ fun HomeRestartButtons(navController: NavController, viewModel: ViewModel) {
         ResultsScreenButton(
             addImage = { HomeIcon() },
             navController = navController,
-            navigateAction = { navController.navigate(Routes.routeHomeScreen) }
+            navigateAction = {
+                viewModel.resetGame()
+                navController.navigate(Routes.routeHomeScreen)
+            }
         )
 
         ResultsScreenButton(
             addImage = { RestartIcon() },
             navController = navController,
-            navigateAction = { navController.navigate(Routes.routeGameScreen) }
+            navigateAction = {
+                viewModel.resetGame()
+                navController.navigate(Routes.routeGameScreen)
+            }
         )
     }
 }
