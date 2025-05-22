@@ -238,8 +238,8 @@ fun ClassInputFields() {
             verticalAlignment = Alignment.CenterVertically
         ) {
             TextField(
-                value = name.value,
-                onValueChange = { name.value = it },
+                value = classCode.value,
+                onValueChange = { classCode.value = it },
                 label = { Text("Klassekode", fontFamily = FontFamily(Font(R.font.bagel_fat_one))) },
                 textStyle = LocalTextStyle.current.copy(
                     fontFamily = FontFamily(Font(R.font.bagel_fat_one))
@@ -268,7 +268,7 @@ fun ClassInputFields() {
                 AlertDialog(
                     onDismissRequest = { showDialogClass = false },
                     text = {
-                        Text("Indtast dit navn (3-15 karakterer)")
+                        Text("Indtast din klassekode")
                     },
                     confirmButton = {}
                 )
