@@ -20,12 +20,15 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import coil.ImageLoader
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -38,6 +41,7 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shadow
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.sp
@@ -80,6 +84,7 @@ fun ResultsScreen (
 
 
 // AndreasRG:
+/* VERSION 1 AF HighscoreTopRight
 @Composable
 fun
 HighscoreTopRight() {
@@ -115,6 +120,7 @@ HighscoreTopRight() {
             }
         }
     }
+ */
 
 //AndreasRG:
 // Victor Lotz, score fra viewmodel
@@ -198,23 +204,27 @@ fun ScoreResult(score: Int, newHighscore: Boolean) {
 //AndreasRG:
 @Composable
 fun GifResult() {
+    Row(horizontalArrangement = Arrangement.Center,
+        modifier = Modifier
+            .fillMaxWidth()) {
     Box(modifier = Modifier
-        .padding(start = 20.dp, end = 15.dp)
-        .height(223.dp)
-        .width(370.dp)
-        .clip(RoundedCornerShape(25.dp))
-        ) {
+            .padding(top = 80.dp)
+            .width(345.dp)
+            .height(196.dp)
+            .clip(RoundedCornerShape(25.dp)),
+    ) {
         GifImage()
     }
 }
+}
+
 
 //AndreasRG:
 @Composable
 fun HomeRestartButtons(viewModel: ViewModel, navController: NavController) {
     Row(
         modifier = Modifier
-            .fillMaxWidth()
-            .padding(0.dp, 110.dp, 0.dp, 0.dp),
+            .fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceEvenly
     ) {
         ResultsScreenButton(
@@ -254,7 +264,8 @@ fun GifImage() {
     } .build()
     AsyncImage( model = R.drawable.angrybrodestroypc, // Tilføj random gif efter score her
     imageLoader = imageLoader, modifier = Modifier.fillMaxWidth(),
-        contentDescription = null,)
+        contentDescription = null,
+        contentScale = ContentScale.Crop)
 }
 
 //AndreasRG:
