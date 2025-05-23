@@ -393,7 +393,7 @@ fun RedAndYellowButtons(navController: NavController, viewModel: ViewModel) {
                         Box(modifier = Modifier
                             .padding(start = 20.dp)) {
                             Text(
-                                "Rød",
+                                "Gul",
                                 fontSize = 24.sp,
                                 color = Color.White,
                                 fontFamily = FontFamily(Font(R.font.bagel_fat_one))
