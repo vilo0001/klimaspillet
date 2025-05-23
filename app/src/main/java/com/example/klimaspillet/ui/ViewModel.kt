@@ -2,6 +2,9 @@
 
 package com.example.klimaspillet.ui
 
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.drawable.BitmapDrawable
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
@@ -28,6 +31,9 @@ import com.example.klimaspillet.navigation.Routes
 import kotlinx.coroutines.launch
 import com.example.klimaspillet.data.models.GameUiState
 import com.example.klimaspillet.data.repository.StudentRepository
+import kotlinx.coroutines.Dispatchers
+import java.net.HttpURLConnection
+import java.net.URL
 
 //   ------------------------------------
 //   Hovedsageligt ansvarlig: Victor Lotz
@@ -50,6 +56,10 @@ class ViewModel : ViewModel() {
     // Game UI state
     private val _uiState = MutableStateFlow(GameUiState())
     val uiState: StateFlow<GameUiState> = _uiState.asStateFlow()
+
+    // Image state
+    private val _imageMap = MutableStateFlow<Map<String, Bitmap>>(emptyMap())
+    val imageMap: StateFlow<Map<String, Bitmap>> = _imageMap
 
     // Liste af allerede brugte CO2-ting i spillet.
     private var usedCO2Things: MutableSet<CO2Ting> = mutableSetOf()
@@ -78,16 +88,18 @@ class ViewModel : ViewModel() {
     val numberCrownMover: Int
         get() = uiState.value.crownMoverValue
 
-    var index = -1
     private fun pickRandomThingAndShuffle(): CO2Ting {
         // Vælg en ny tilfældig CO2 ting indtil der findes én som ikke er brugt tidligere.
         val randomCO2Ting = CO2TingListe.random()
+        // Hvis man ender med at bruge alle CO2 ting, bliver usedCO2Things cleared, så man kan spille videre.
+        if(usedCO2Things.size == CO2TingListe.size) {
+            usedCO2Things.clear()
+        }
         if (usedCO2Things.contains(randomCO2Ting)) {
             return pickRandomThingAndShuffle()
         } else {
             usedCO2Things.add(randomCO2Ting)
-            index++
-            return CO2TingListe[index]
+            return randomCO2Ting
         }
     }
 
@@ -132,6 +144,7 @@ class ViewModel : ViewModel() {
             currentRedOption = uiState.value.nextRedOption,
             nextRedOption = pickRandomThingAndShuffle()
         )
+        preloadImage(uiState.value.nextRedOption.image)
     }
 
     fun resetGame() {
@@ -151,6 +164,32 @@ class ViewModel : ViewModel() {
             currentRedOption = randomRedOption,
             nextRedOption = nextRedOption
         )
+
+        preloadImage(uiState.value.currentYellowOption.image)
+        preloadImage(uiState.value.currentRedOption.image)
+        preloadImage(uiState.value.nextRedOption.image)
+    }
+
+    fun preloadImage(url: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val bitmap = downloadBitmap(url)
+            if (bitmap != null) {
+                _imageMap.value = _imageMap.value + (url to bitmap)
+            }
+        }
+    }
+
+    private fun downloadBitmap(imageUrl: String): Bitmap? {
+        return try {
+            val connection = URL(imageUrl).openConnection() as HttpURLConnection
+            connection.doInput = true
+            connection.connect()
+            val inputStream = connection.inputStream
+            BitmapFactory.decodeStream(inputStream)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            null
+        }
     }
 
     init {
