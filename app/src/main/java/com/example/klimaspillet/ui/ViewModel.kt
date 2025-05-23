@@ -146,7 +146,8 @@ class ViewModel : ViewModel() {
             highscore = newHighscore,
             score = newScore,
             currentYellowOption = uiState.value.currentRedOption,
-            currentRedOption = pickRandomThingAndShuffle()
+            currentRedOption = uiState.value.nextRedOption,
+            nextRedOption = pickRandomThingAndShuffle()
         )
     }
 
@@ -157,27 +158,30 @@ class ViewModel : ViewModel() {
 
         val randomYellowOption = pickRandomThingAndShuffle()
         val randomRedOption = pickRandomThingAndShuffle()
+        val nextRedOption = pickRandomThingAndShuffle()
 
         _uiState.value = GameUiState(
             playerID = uiState.value.playerID,
             highscore = _uiState.value.highscore,
             score = 0,
             currentYellowOption = randomYellowOption,
-            currentRedOption = randomRedOption)
+            currentRedOption = randomRedOption,
+            nextRedOption = nextRedOption
+        )
     }
 
     // Hvis spillet er sluttet tidligere; reset. Ellers fortsæt.
-    fun startGame(navController: NavController) {
+    fun startGame() {
         if(gameEnded) {
             resetGame()
             gameEnded = !gameEnded
         }
-        navController.navigate(Routes.routeGameScreen)
     }
 
     init {
         viewModelScope.launch {
             CO2Itemrepository.getRandomCO2Items()
+            startGame()
             val studentList = studentRepository.getStudentsFromClass("36XD")
 
             println("Raw student list: ${studentList.map { it.name }}")
@@ -186,3 +190,8 @@ class ViewModel : ViewModel() {
         }
     }
 }
+
+
+
+
+
