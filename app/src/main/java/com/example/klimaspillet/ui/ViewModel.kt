@@ -170,6 +170,7 @@ class ViewModel : ViewModel() {
         preloadImage(uiState.value.nextRedOption.image)
     }
 
+    // Tyvstjålet fra ChatGPT
     fun preloadImage(url: String) {
         viewModelScope.launch(Dispatchers.IO) {
             val bitmap = downloadBitmap(url)
@@ -179,6 +180,7 @@ class ViewModel : ViewModel() {
         }
     }
 
+    // Tyvstjålet fra ChatGPT
     private fun downloadBitmap(imageUrl: String): Bitmap? {
         return try {
             val connection = URL(imageUrl).openConnection() as HttpURLConnection
