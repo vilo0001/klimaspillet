@@ -20,7 +20,6 @@ import com.example.klimaspillet.data.repository.StudentRepository
 //   Hovedsageligt ansvarlig: Victor Lotz
 //   ------------------------------------
 
-
 class ViewModel : ViewModel() {
     val CO2Itemrepository = CO2ItemsRepository()
     val studentRepository = StudentRepository()
