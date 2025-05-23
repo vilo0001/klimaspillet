@@ -2,6 +2,10 @@
 
 package com.example.klimaspillet.ui.screens
 
+import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.drawable.BitmapDrawable
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -47,16 +51,20 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shadow
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
-import coil.ImageLoader
 import coil.compose.rememberAsyncImagePainter
-import coil.request.ImageRequest
 import com.example.klimaspillet.navigation.Routes
 import com.example.klimaspillet.ui.ViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import org.intellij.lang.annotations.JdkConstants.HorizontalAlignment
+import java.io.InputStream
+import java.net.HttpURLConnection
+import java.net.URL
+import androidx.core.graphics.drawable.toDrawable
 
 //   ------------------------------------
 //   Hovedsageligt ansvarlig: Victor Lotz
@@ -67,6 +75,8 @@ fun GameScreen (
     viewModel: ViewModel,
     navController: NavController
 ) {
+    val imageMap by viewModel.imageMap.collectAsState()
+
     val gameUIState by viewModel.uiState.collectAsState()
     BackButton(navController)
     Box(
@@ -89,7 +99,7 @@ fun GameScreen (
                 .padding(bottom = 70.dp)
         ) {
             TitleGameScreen(navController)
-            CO2Choices(yellowOption = gameUIState.currentYellowOption, redOption = gameUIState.currentRedOption)
+            CO2Choices(yellowOption = gameUIState.currentYellowOption, redOption = gameUIState.currentRedOption, imageMap)
             RedAndYellowButtons(navController, viewModel)
         }
     }
@@ -235,7 +245,7 @@ fun Score(currentScore: Int, newHighscore: Boolean, crownMover: Int) {
 
 
 @Composable
-fun CO2Choices(yellowOption: CO2Ting, redOption: CO2Ting) {
+fun CO2Choices(yellowOption: CO2Ting, redOption: CO2Ting, imageMap: Map<String, Bitmap>) {
     val placement = 480.dp;
     Box(
         modifier = Modifier
@@ -243,6 +253,7 @@ fun CO2Choices(yellowOption: CO2Ting, redOption: CO2Ting) {
             .height(placement)
             .padding(top = placement-350.dp)
     ) {
+        // VS
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -258,36 +269,41 @@ fun CO2Choices(yellowOption: CO2Ting, redOption: CO2Ting) {
                     .align (Alignment.Center)
             )
         }
+        // CO2 options
         YellowOption(modifier = Modifier
-            .align(Alignment.TopEnd), yellowOption)
+            .align(Alignment.TopEnd), yellowOption, imageMap)
         RedOption(modifier = Modifier
-            .align(Alignment.BottomStart), redOption)
+            .align(Alignment.BottomStart), redOption, imageMap)
     }
 }
 
 @Composable
-fun YellowOption(modifier: Modifier, yellowOption: CO2Ting) {
+fun YellowOption(modifier: Modifier, yellowOption: CO2Ting, imageMap: Map<String, Bitmap>) {
     Box(
-        modifier
-            .clip(shape = RoundedCornerShape(100.dp, 0.dp, 0.dp, 100.dp))
-            .fillMaxWidth(0.96f)
+        modifier = modifier
+            .clip(RoundedCornerShape(100.dp, 0.dp, 0.dp, 100.dp))
+            .fillMaxWidth(0.9f)
             .fillMaxHeight(0.5f)
             .background(Color(0xFFFFCA58))
     ) {
-        Image(
-            painter = rememberAsyncImagePainter(
-                model = yellowOption.image.toString()
-            ),
-            contentDescription = null,
-            modifier = Modifier
-                .size(180.dp)
-                .clip(CircleShape)
-                .border(
-                    BorderStroke(8.dp, Color(0xFFFFCA58)),
-                    CircleShape
-                ),
-            contentScale = ContentScale.Crop
-        )
+        val bitmap = imageMap[yellowOption.image]
+        if (bitmap != null) {
+            Image(
+                bitmap = bitmap.asImageBitmap(),
+                contentDescription = null,
+                modifier = Modifier
+                    .size(180.dp)
+                    .clip(CircleShape)
+                    .border(
+                        BorderStroke(8.dp, Color(0xFFFFCA58)),
+                        CircleShape
+                    ),
+                contentScale = ContentScale.Crop
+            )
+        } else {
+            // Show a placeholder or loading animation
+            Text("Loading image…")
+        }
         Box(
             modifier = Modifier
                 .fillMaxSize()
@@ -315,11 +331,11 @@ fun YellowOption(modifier: Modifier, yellowOption: CO2Ting) {
 }
 
 @Composable
-fun RedOption(modifier: Modifier, redOption: CO2Ting) {
+fun RedOption(modifier: Modifier, redOption: CO2Ting, imageMap: Map<String, Bitmap>) {
     Box(
         modifier
             .clip(shape = RoundedCornerShape(0.dp, 100.dp, 100.dp, 0.dp))
-            .fillMaxWidth(0.96f)
+            .fillMaxWidth(0.9f)
             .fillMaxHeight(0.5f)
             .background(Color(0xFFFF5858))
     ) {
@@ -346,21 +362,26 @@ fun RedOption(modifier: Modifier, redOption: CO2Ting) {
                     .offset(y = -10.dp)
             )
         }
-        val painter = rememberAsyncImagePainter(
-            model = redOption.image
-        )
-
-        // ChatGPT
-        val context = LocalContext.current
-        // Build the preload request
-        val request = ImageRequest.Builder(context)
-            .data("https://firebasestorage.googleapis.com/v0/b/mit-klimaspil.firebasestorage.app/o/marcipan.jpg?alt=media&token=19ec7ce0-452c-4a74-a13f-30bf52f9def8")
-            // Optionally, you could specify size parameters if you know them in advance.
-            .build()
-
-        // Get the image loader instance from Coil (or create your own customized loader)
-        val imageLoader = ImageLoader(context)
-        imageLoader.enqueue(request)
+        // CO2 image
+        val bitmap = imageMap[redOption.image]
+        if (bitmap != null) {
+            Image(
+                bitmap = bitmap.asImageBitmap(),
+                contentDescription = null,
+                modifier = Modifier
+                    .size(180.dp)
+                    .clip(CircleShape)
+                    .border(
+                        BorderStroke(8.dp, Color(0xFFFF5858)),
+                        CircleShape
+                    )
+                    .align (Alignment.CenterEnd),
+                contentScale = ContentScale.Crop
+            )
+        } else {
+            // Show a placeholder or loading animation
+            Text("Loading image…")
+        }
     }
 }
 
