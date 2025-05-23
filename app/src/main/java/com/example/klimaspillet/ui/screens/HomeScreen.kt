@@ -374,7 +374,7 @@ fun InfoIconWithDialog() {
         tint = Color.White
     )
 
-    // Dialog
+    // Info Dialog
     if (showDialog) {
         AlertDialog(
             onDismissRequest = { showDialog = false },

@@ -1,6 +1,5 @@
 package com.example.klimaspillet.data.repository
 
-import android.view.View
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.klimaspillet.data.models.CO2Ting
@@ -8,7 +7,6 @@ import com.example.klimaspillet.data.models.Class
 import com.example.klimaspillet.data.models.Student
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.firestore
-import com.google.firebase.firestore.toObjects
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 
@@ -23,7 +21,7 @@ class StudentRepository {
             .add(student)
             .await()
     }
-    
+
     //Andreas B
     suspend fun getClassByClassCode(classCode: String):List<Class> {
         val getCode = db.collection("Classes")
