@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -17,6 +18,7 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
@@ -49,6 +51,7 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import com.example.klimaspillet.navigation.Routes
 import com.example.klimaspillet.ui.ViewModel
+import org.intellij.lang.annotations.JdkConstants.HorizontalAlignment
 
 //   ------------------------------------
 //   Hovedsageligt ansvarlig: Victor Lotz
@@ -245,7 +248,7 @@ fun CO2Choices(yellowOption: CO2Ting, redOption: CO2Ting) {
                 color = Color.White,
                 fontFamily = FontFamily(Font(R.font.bagel_fat_one)),
                 textAlign = TextAlign.Center,
-                fontSize = 60.sp,
+                fontSize = 64.sp,
                 modifier = Modifier
                     .align (Alignment.Center)
             )
@@ -262,7 +265,8 @@ fun YellowOption(modifier: Modifier, yellowOption: CO2Ting) {
     Box(
         modifier
             .clip(shape = RoundedCornerShape(100.dp, 0.dp, 0.dp, 100.dp))
-            .fillMaxWidth(0.8f)
+            .fillMaxWidth(0.96f)
+            .fillMaxHeight(0.5f)
             .background(Color(0xFFFFCA58))
     ) {
         Image(
@@ -276,8 +280,23 @@ fun YellowOption(modifier: Modifier, yellowOption: CO2Ting) {
                     CircleShape
                 )
         )
-        Text("udleder ${yellowOption.CO2e}kg CO2e",
-            fontSize = 12.sp,
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .offset(x = -30.dp),
+            contentAlignment = Alignment.CenterEnd
+        ) {
+            Image(
+                painter = painterResource(id = R.drawable.triangleicon),
+                contentDescription = null,
+                modifier = Modifier
+                    .size(150.dp)
+                    .offset(y = 10.dp)
+            )
+        }
+
+        Text("udleder ${yellowOption.CO2e}kg CO2e",//////////////////////
+            fontSize = 16.sp,
             color = Color.White,
             fontFamily = FontFamily(Font(R.font.bagel_fat_one)),
             modifier = Modifier
@@ -292,17 +311,32 @@ fun RedOption(modifier: Modifier, redOption: CO2Ting) {
     Box(
         modifier
             .clip(shape = RoundedCornerShape(0.dp, 100.dp, 100.dp, 0.dp))
-            .fillMaxWidth(0.8f)
+            .fillMaxWidth(0.96f)
+            .fillMaxHeight(0.5f)
             .background(Color(0xFFFF5858))
     ) {
-        Text("udleder ${redOption.CO2e}kg CO2e",
-            fontSize = 12.sp,
+        Text("udleder ${redOption.CO2e}kg CO2e",///////////////////////////
+            fontSize = 16.sp,
             color = Color.White,
             fontFamily = FontFamily(Font(R.font.bagel_fat_one)),
             modifier = Modifier
                 .align (Alignment.BottomStart)
                 .padding(start = 8.dp, bottom = 2.dp)
         )
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .offset(x = 30.dp),
+            contentAlignment = Alignment.CenterStart
+        ) {
+            Image(
+                painter = painterResource(id = R.drawable.staricon),
+                contentDescription = null,
+                modifier = Modifier
+                    .size(150.dp)
+                    .offset(y = -10.dp)
+            )
+        }
         Image(
             painter = painterResource(id = R.drawable.kyllingekoed),
             contentDescription = null,
@@ -325,7 +359,7 @@ fun RedAndYellowButtons(navController: NavController, viewModel: ViewModel) {
             .padding(10.dp)
     ) {
         Row(
-            horizontalArrangement = Arrangement.Center,
+            horizontalArrangement = Arrangement.SpaceEvenly,
             modifier = Modifier
                 .fillMaxWidth()
                 .height(60.dp)
@@ -333,41 +367,78 @@ fun RedAndYellowButtons(navController: NavController, viewModel: ViewModel) {
             // Gul knap
             Button(
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFFCA58)),
+                shape = RoundedCornerShape(25.dp),
                 modifier = Modifier
-                    .fillMaxSize().weight(1f)
+                    .height(62.dp)
+                    .width(170.dp)
                     .padding(end = 10.dp),
                 onClick = {
                     viewModel.chooseYellowOption(navController)
                 }
             ) {
-                Row() {
-                    Text("IKON")
-                    Text(
-                        "Gul",
-                        fontSize = 24.sp,
-                        color = Color.White,
-                        fontFamily = FontFamily(Font(R.font.bagel_fat_one))
-                    )
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Row(
+                        modifier = Modifier.wrapContentSize(),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Image(
+                            painter = painterResource(id = R.drawable.triangleicon),
+                            contentDescription = null,
+                            modifier = Modifier.size(48.dp)
+                        )
+                        Box(modifier = Modifier
+                            .padding(start = 20.dp)) {
+                            Text(
+                                "Rød",
+                                fontSize = 24.sp,
+                                color = Color.White,
+                                fontFamily = FontFamily(Font(R.font.bagel_fat_one))
+                            )
+                        }
+                    }
                 }
             }
             // Rød knap
             Button(
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFF5858)),
+                shape = RoundedCornerShape(25.dp),
                 modifier = Modifier
-                    .fillMaxSize().weight(1f)
+                    .height(62.dp)
+                    .width(170.dp)
                     .padding(start = 10.dp),
                 onClick = {
                     viewModel.chooseRedOption(navController)
                 }
-            ) {
-                Row() {
-                    Text("IKON")
-                    Text(
-                        "Rød",
-                        fontSize = 24.sp,
-                        color = Color.White,
-                        fontFamily = FontFamily(Font(R.font.bagel_fat_one))
-                    )
+            )
+            {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Row(
+                        modifier = Modifier.wrapContentSize(),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Image(
+                            painter = painterResource(id = R.drawable.staricon),
+                            contentDescription = null,
+                            modifier = Modifier.size(48.dp)
+                        )
+                        Box(modifier = Modifier
+                            .padding(start = 20.dp)) {
+                            Text(
+                                "Rød",
+                                fontSize = 24.sp,
+                                color = Color.White,
+                                fontFamily = FontFamily(Font(R.font.bagel_fat_one))
+                            )
+                        }
+                    }
                 }
             }
         }
