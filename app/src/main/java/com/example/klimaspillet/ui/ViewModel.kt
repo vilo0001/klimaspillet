@@ -44,19 +44,21 @@ class ViewModel : ViewModel() {
     // Ellers newHighscore default false.
     var newHighscoreBoolean = uiState.value.highscore != 0
 
-
+    //AndreasRG:
+    // Giver et tal som gør der bliver brugt en speciel form for layout på kronen ved ny highscore
     fun crownMoverFunction(currentScore: Int) {
         _uiState.value = _uiState.value.copy(
             crownMoverValue = when {
                 currentScore in 0..4 -> 0
                 currentScore in 5..9 -> 1
                 currentScore in 10..100 -> 2
-                else -> _uiState.value.crownMoverValue // Fallback
+                else -> _uiState.value.crownMoverValue
             }
         )
     }
 
-
+    //AndreasRG:
+    // Henter talet fra crownMoverFunction
     val numberCrownMover: Int
         get() = uiState.value.crownMoverValue
 

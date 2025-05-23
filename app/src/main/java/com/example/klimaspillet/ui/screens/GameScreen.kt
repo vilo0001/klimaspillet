@@ -202,7 +202,7 @@ fun Score(currentScore: Int, newHighscore: Boolean, crownMover: Int) {
                         .height(31.dp)
                         .width(25.dp)
                         .rotate(34F)
-                        .offset(x = 80.dp, y = 15.dp), //SKAL ÆNDRES NÅR DET ER MULIGT IGEN
+                        .offset(x = 205.dp, y = 90.dp),
                     contentDescription = null,
                 )
             }
