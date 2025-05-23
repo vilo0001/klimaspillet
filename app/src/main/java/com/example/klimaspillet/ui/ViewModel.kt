@@ -46,6 +46,7 @@ class ViewModel : ViewModel() {
     // Altid ny highscore, hvis highscore er 0 (eller er ny bruger og derfor har 0).
     // Ellers newHighscore default false.
     var newHighscoreBoolean = uiState.value.highscore != 0
+    var finalScore = 0;
 
     //AndreasRG:
     // Giver et tal som gør der bliver brugt en speciel form for layout på kronen ved ny highscore
@@ -94,6 +95,7 @@ class ViewModel : ViewModel() {
     }
 
     fun endGame(navController: NavController) {
+        finalScore = uiState.value.score;
         gameEnded = true;
         navController.navigate(Routes.routeResultsScreen)
     }
@@ -109,12 +111,14 @@ class ViewModel : ViewModel() {
             newHighscore = uiState.value.highscore
         }
 
+        // Gul option bliver rød, rød bliver til næste rød og næste rød kalder pickRandom.
         _uiState.value = GameUiState(
             playerID = uiState.value.playerID,
             highscore = newHighscore,
             score = newScore,
             currentYellowOption = uiState.value.currentRedOption,
-            currentRedOption = pickRandomThingAndShuffle()
+            currentRedOption = uiState.value.nextRedOption,
+            nextRedOption = pickRandomThingAndShuffle()
         )
     }
 

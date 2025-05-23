@@ -64,7 +64,7 @@ fun ResultsScreen (
     //PrivateBackground()
     if (!viewModel.newHighscoreBoolean) { HighscoreTopRight(gameUIState.highscore) }
     Column(modifier = Modifier) {
-        ScoreResult(gameUIState.score, viewModel.newHighscoreBoolean)
+        ScoreResult(viewModel.finalScore, viewModel.newHighscoreBoolean)
         GifResult()
         Column(horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Bottom,
