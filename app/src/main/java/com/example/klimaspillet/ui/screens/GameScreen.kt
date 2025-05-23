@@ -47,8 +47,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shadow
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
+import coil.ImageLoader
+import coil.compose.rememberAsyncImagePainter
+import coil.request.ImageRequest
 import com.example.klimaspillet.navigation.Routes
 import com.example.klimaspillet.ui.ViewModel
 import org.intellij.lang.annotations.JdkConstants.HorizontalAlignment
@@ -270,7 +275,9 @@ fun YellowOption(modifier: Modifier, yellowOption: CO2Ting) {
             .background(Color(0xFFFFCA58))
     ) {
         Image(
-            painter = painterResource(id = R.drawable.hakket_oksekoed),
+            painter = rememberAsyncImagePainter(
+                model = yellowOption.image.toString()
+            ),
             contentDescription = null,
             modifier = Modifier
                 .size(180.dp)
@@ -278,7 +285,8 @@ fun YellowOption(modifier: Modifier, yellowOption: CO2Ting) {
                 .border(
                     BorderStroke(8.dp, Color(0xFFFFCA58)),
                     CircleShape
-                )
+                ),
+            contentScale = ContentScale.Crop
         )
         Box(
             modifier = Modifier
@@ -329,6 +337,7 @@ fun RedOption(modifier: Modifier, redOption: CO2Ting) {
                 .offset(x = 30.dp),
             contentAlignment = Alignment.CenterStart
         ) {
+            // Icon
             Image(
                 painter = painterResource(id = R.drawable.staricon),
                 contentDescription = null,
@@ -337,18 +346,21 @@ fun RedOption(modifier: Modifier, redOption: CO2Ting) {
                     .offset(y = -10.dp)
             )
         }
-        Image(
-            painter = painterResource(id = R.drawable.kyllingekoed),
-            contentDescription = null,
-            modifier = Modifier
-                .size(180.dp)
-                .clip(CircleShape)
-                .border(
-                    BorderStroke(8.dp, Color(0xFFFF5858)),
-                    CircleShape
-                )
-                .align (Alignment.CenterEnd)
+        val painter = rememberAsyncImagePainter(
+            model = redOption.image
         )
+
+        // ChatGPT
+        val context = LocalContext.current
+        // Build the preload request
+        val request = ImageRequest.Builder(context)
+            .data("https://firebasestorage.googleapis.com/v0/b/mit-klimaspil.firebasestorage.app/o/marcipan.jpg?alt=media&token=19ec7ce0-452c-4a74-a13f-30bf52f9def8")
+            // Optionally, you could specify size parameters if you know them in advance.
+            .build()
+
+        // Get the image loader instance from Coil (or create your own customized loader)
+        val imageLoader = ImageLoader(context)
+        imageLoader.enqueue(request)
     }
 }
 

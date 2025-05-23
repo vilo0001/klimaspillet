@@ -69,5 +69,7 @@ dependencies {
         implementation("com.google.firebase:firebase-firestore")
         implementation("androidx.datastore:datastore-preferences:1.0.0")
         implementation("com.google.firebase:firebase-storage")
+        implementation ("com.firebaseui:firebase-ui-storage:9.0.0")
+        implementation ("com.github.bumptech.glide:glide:4.14.2")
     }
 }

@@ -2,9 +2,22 @@
 
 package com.example.klimaspillet.ui
 
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
+import coil.compose.rememberAsyncImagePainter
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -65,6 +78,7 @@ class ViewModel : ViewModel() {
     val numberCrownMover: Int
         get() = uiState.value.crownMoverValue
 
+    var index = -1
     private fun pickRandomThingAndShuffle(): CO2Ting {
         // Vælg en ny tilfældig CO2 ting indtil der findes én som ikke er brugt tidligere.
         val randomCO2Ting = CO2TingListe.random()
@@ -72,13 +86,14 @@ class ViewModel : ViewModel() {
             return pickRandomThingAndShuffle()
         } else {
             usedCO2Things.add(randomCO2Ting)
-            return randomCO2Ting
+            index++
+            return CO2TingListe[index]
         }
     }
 
     // Man kunne også lave "chooseOption(color: String)", men det ved jeg ikke om bliver forvirrende?
     fun chooseRedOption(navController: NavController) {
-        if(uiState.value.currentRedOption.CO2 > uiState.value.currentYellowOption.CO2) {
+        if(uiState.value.currentRedOption.CO2 >= uiState.value.currentYellowOption.CO2) {
             nextQuestion()
         } else {
             endGame(navController)
@@ -86,7 +101,7 @@ class ViewModel : ViewModel() {
     }
 
     fun chooseYellowOption(navController: NavController) {
-        if(uiState.value.currentRedOption.CO2 < uiState.value.currentYellowOption.CO2) {
+        if(uiState.value.currentRedOption.CO2 <= uiState.value.currentYellowOption.CO2) {
             nextQuestion()
         } else {
             endGame(navController)
@@ -138,18 +153,10 @@ class ViewModel : ViewModel() {
         )
     }
 
-    // Hvis spillet er sluttet tidligere; reset. Ellers fortsæt.
-    fun startGame() {
-        if(gameEnded) {
-            resetGame()
-            gameEnded = !gameEnded
-        }
-    }
-
     init {
         viewModelScope.launch {
             CO2Itemrepository.getRandomCO2Items()
-            startGame()
+            resetGame()
         }
     }
 }

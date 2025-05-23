@@ -1,7 +1,9 @@
 package com.example.klimaspillet.data.repository
 
+import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.bumptech.glide.Glide
 import com.example.klimaspillet.data.models.CO2Ting
 import com.example.klimaspillet.data.models.Class
 import com.example.klimaspillet.data.models.Student
