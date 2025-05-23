@@ -53,7 +53,6 @@ import androidx.compose.ui.window.Dialog
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.klimaspillet.R
-import com.example.klimaspillet.data.repository.TestViewmodel
 import com.example.klimaspillet.navigation.Routes
 import com.example.klimaspillet.ui.ViewModel
 
@@ -65,6 +64,9 @@ fun ConnectClassScreen(
 ) {
     val gameUIState by viewModel.uiState.collectAsState()
     var showEmojiPicker by remember { mutableStateOf(false) }
+    var name by remember { mutableStateOf("") }
+    var classCode by remember { mutableStateOf("") }
+    val isValidCode = classCode == "1234"
     var selectedEmoji by remember { mutableIntStateOf(R.drawable.emoji1) }
     BackButton(navController)
     Box(
@@ -81,7 +83,10 @@ fun ConnectClassScreen(
             Title()
             Spacer(modifier = Modifier.height(32.dp))
             // To tekst fields med Navn og Klassekode.
-            ClassInputFields()
+            ClassInputFields(name = name,
+                onNameChange = { name = it },
+                classCode = classCode,
+                onClassCodeChange = { classCode = it })
             Spacer(modifier = Modifier.height(32.dp))
             // Emoji knap, hvor man kan vælge sin emoji.
             Row(
@@ -102,7 +107,8 @@ fun ConnectClassScreen(
             contentAlignment = Alignment.BottomCenter
         ) {
             // Ok knap i bunden
-            OkButton(navController = navController)
+            OkButton(navController = navController, enabled = isValidCode)
+
         }
         // Dialog for emoji picker
         if (showEmojiPicker) {
@@ -215,10 +221,12 @@ fun EmojiInfo() {
 // Tekst knapper (Navn og klassekode)
 //Magnus Giemsa
 @Composable
-fun ClassInputFields(viewModel: TestViewmodel = viewModel()) {
-    val name = remember { mutableStateOf("") }
-    val classCode = remember { mutableStateOf("") }
-
+fun ClassInputFields(
+    name: String,
+    onNameChange: (String) -> Unit,
+    classCode: String,
+    onClassCodeChange: (String) -> Unit
+) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -226,13 +234,14 @@ fun ClassInputFields(viewModel: TestViewmodel = viewModel()) {
         verticalArrangement = Arrangement.spacedBy(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        // Navn
         Row(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
         ) {
             TextField(
-                value = name.value,
-                onValueChange = { name.value = it },
+                value = name,
+                onValueChange = onNameChange,
                 label = { Text("Navn", fontFamily = FontFamily(Font(R.font.bagel_fat_one))) },
                 textStyle = LocalTextStyle.current.copy(
                     fontFamily = FontFamily(Font(R.font.bagel_fat_one))
@@ -241,13 +250,11 @@ fun ClassInputFields(viewModel: TestViewmodel = viewModel()) {
                 shape = RoundedCornerShape(40.dp),
                 modifier = Modifier
                     .width(250.dp)
-                    .shadow(30.dp, RoundedCornerShape(40.dp)),
+                    .shadow(30.dp, RoundedCornerShape(40.dp))
             )
-
             Spacer(modifier = Modifier.width(8.dp))
-
+            // Info ikon for navn
             var showDialogName by remember { mutableStateOf(false) }
-
             Icon(
                 painter = painterResource(id = R.drawable.textinfo),
                 contentDescription = "Info",
@@ -256,7 +263,6 @@ fun ClassInputFields(viewModel: TestViewmodel = viewModel()) {
                     .clickable { showDialogName = true },
                 tint = Color.Black
             )
-
             if (showDialogName) {
                 AlertDialog(
                     onDismissRequest = { showDialogName = false },
@@ -265,7 +271,7 @@ fun ClassInputFields(viewModel: TestViewmodel = viewModel()) {
                             style = TextStyle(
                                 fontSize = 24.sp,
                                 fontFamily = FontFamily(Font(R.font.bagel_fat_one)),
-                                color = Color(0, 0, 0, 255)
+                                color = Color.Black
                             ))
                     },
                     confirmButton = {}
@@ -273,24 +279,17 @@ fun ClassInputFields(viewModel: TestViewmodel = viewModel()) {
             }
         }
 
-
-
+        // Klassekode
         Row(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            val isValidCode = classCode.value == "1234"
-
-
-
+            val isValidCode = classCode == "1234"
             TextField(
-                value = classCode.value,
-                onValueChange = { classCode.value = it },
+                value = classCode,
+                onValueChange = onClassCodeChange,
                 label = {
-                    Text(
-                        "Klassekode",
-                        fontFamily = FontFamily(Font(R.font.bagel_fat_one))
-                    )
+                    Text("Klassekode", fontFamily = FontFamily(Font(R.font.bagel_fat_one)))
                 },
                 textStyle = LocalTextStyle.current.copy(
                     fontFamily = FontFamily(Font(R.font.bagel_fat_one))
@@ -298,23 +297,15 @@ fun ClassInputFields(viewModel: TestViewmodel = viewModel()) {
                 singleLine = true,
                 shape = RoundedCornerShape(40.dp),
                 colors = TextFieldDefaults.colors(
-                    focusedContainerColor = if (isValidCode) Color(0xFF62F88C) else Color(
-                        253,
-                        113,
-                        113,
-                        255
-                    )
+                    focusedContainerColor = if (isValidCode) Color(0xFF62F88C) else Color(253, 113, 113, 255)
                 ),
                 modifier = Modifier
                     .width(250.dp)
                     .shadow(30.dp, RoundedCornerShape(40.dp))
             )
-
-
             Spacer(modifier = Modifier.width(8.dp))
-
+            // Info ikon for klassekode
             var showDialogClass by remember { mutableStateOf(false) }
-
             Icon(
                 painter = painterResource(id = R.drawable.textinfo),
                 contentDescription = "InfoClass",
@@ -323,16 +314,17 @@ fun ClassInputFields(viewModel: TestViewmodel = viewModel()) {
                     .clickable { showDialogClass = true },
                 tint = Color.Black
             )
-
             if (showDialogClass) {
                 AlertDialog(
                     onDismissRequest = { showDialogClass = false },
-                    text = { Text("Indtast din klassekode",
-                        style = TextStyle(
-                            fontSize = 24.sp,
-                            fontFamily = FontFamily(Font(R.font.bagel_fat_one)),
-                            color = Color(0, 0, 0, 255)
-                        )) },
+                    text = {
+                        Text("Indtast din klassekode",
+                            style = TextStyle(
+                                fontSize = 24.sp,
+                                fontFamily = FontFamily(Font(R.font.bagel_fat_one)),
+                                color = Color.Black
+                            ))
+                    },
                     confirmButton = {}
                 )
             }
@@ -347,18 +339,20 @@ fun ClassInputFields(viewModel: TestViewmodel = viewModel()) {
 
 // Magnus Giemsa
 @Composable
-fun OkButton(navController: NavController) {
+fun OkButton(navController: NavController, enabled: Boolean) {
     Button(
         onClick = {
-            // Victor Lotz
             navController.navigate(Routes.routeHomeScreen)
         },
+        enabled = enabled,
         modifier = Modifier
             .size(120.dp)
             .shadow(8.dp, shape = RoundedCornerShape(24.dp)),
         shape = RoundedCornerShape(24.dp),
         colors = ButtonDefaults.buttonColors(
-            containerColor = Color(0xFF6EFF64)
+            containerColor = Color(0xFF6EFF64),
+            disabledContainerColor = Color(0xFFBDBDBD),
+            disabledContentColor = Color.White
         ),
         contentPadding = PaddingValues(0.dp)
     ) {
@@ -366,11 +360,12 @@ fun OkButton(navController: NavController) {
             text = "OK",
             fontSize = 56.sp,
             fontFamily = FontFamily(Font(R.font.bagel_fat_one)),
-            color = Color.White,
             modifier = Modifier.shadow(20.dp, RoundedCornerShape(40.dp))
         )
     }
 }
+
+
 @Composable
 fun BackButton(navController: NavController) {
     Box(
