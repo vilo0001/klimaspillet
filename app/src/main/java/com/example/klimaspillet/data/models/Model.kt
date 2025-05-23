@@ -22,31 +22,19 @@ data class Class (
 )
 
 class CO2Ting(
-    val id: Int,
-    val name: String,
-    val CO2e: Float
+    val name: String = "",
+    val CO2: Double = 0.0,
+    @DocumentId var id: String? = null
 ) {
     override fun toString(): String {
-        return "CO2Ting(id=$id, name=$name, CO2e=$CO2e)"
+        return "CO2Ting(id=$id, name=$name, CO2e=$CO2)"
     }
 }
 
-val CO2TingListe = mutableListOf<CO2Ting>(
-    CO2Ting(0, "100g oksekød", 7.48f),
-    CO2Ting(1, "100g kyllingekød", 1.2f),
-    CO2Ting(2, "iPhone 16 Plus", 60f),
-    CO2Ting(3, "Fly til Paris", 267f),
-    CO2Ting(4, "Gucci Kashmir", 30f),
-    CO2Ting(5, "10 timer TikTok", 1.7f),
-    CO2Ting(6, "Vaske tøj", 1f),
-    CO2Ting(7, "10km i bil", 2f),
-    CO2Ting(8, "8 timer gaming", 1.4f),
-    CO2Ting(1, "100g kyllingekød", 1.8f),
-    CO2Ting(2, "iPhone 16 Plus", 65f),
-    CO2Ting(3, "Fly til Paris", 269f),
-    CO2Ting(4, "Gucci Kashmir", 32f),
-    CO2Ting(5, "10 timer TikTok", 1.9f),
-    CO2Ting(6, "Vaske tøj", 1.1f),
-    CO2Ting(7, "10km i bil", 2.1f),
-    CO2Ting(8, "8 timer gaming", 1.3f),
+data class GameUiState(
+    val playerID: String = "",
+    val highscore: Int = 0,
+    val score: Int = 0,
+    val currentYellowOption: CO2Ting = CO2Ting("", 0.0),
+    val currentRedOption: CO2Ting = CO2Ting("", 0.0),
 )
