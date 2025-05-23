@@ -2,6 +2,7 @@
 
 package com.example.klimaspillet.ui.screens
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -30,6 +31,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -53,8 +55,10 @@ import androidx.compose.ui.window.Dialog
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.klimaspillet.R
+import com.example.klimaspillet.data.repository.MyClassManager
 import com.example.klimaspillet.navigation.Routes
 import com.example.klimaspillet.ui.ViewModel
+import kotlin.math.log
 
 // MAGNUS GIEMSA
 @Composable
@@ -66,12 +70,17 @@ fun ConnectClassScreen(
     var showEmojiPicker by remember { mutableStateOf(false) }
     var name by remember { mutableStateOf("") }
     var classCode by remember { mutableStateOf("") }
-    val isValidCode = classCode == "1234"
     var selectedEmoji by remember { mutableIntStateOf(R.drawable.emoji1) }
+    val manager = remember { MyClassManager() }
+    val classCodes = remember { mutableStateOf<List<String>>(emptyList()) }
+    val isValidCode = classCodes.value.contains(classCode)
+    LaunchedEffect(Unit) {
+        manager.loadClassCodes()
+        classCodes.value = manager.classCodes
+        Log.d("Magnus", "Klassekoder: ${classCodes.value}")
+    }
     BackButton(navController)
-    Box(
-        modifier = Modifier.fillMaxSize()
-    ) {
+    Box(modifier = Modifier.fillMaxSize()) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -79,40 +88,39 @@ fun ConnectClassScreen(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            // Title
             Title()
             Spacer(modifier = Modifier.height(32.dp))
-            // To tekst fields med Navn og Klassekode.
-            ClassInputFields(name = name,
+            // Navn og Klassekode felter
+            ClassInputFields(
+                name = name,
                 onNameChange = { name = it },
                 classCode = classCode,
-                onClassCodeChange = { classCode = it })
+                onClassCodeChange = { classCode = it },
+                isValidCode = isValidCode
+            )
             Spacer(modifier = Modifier.height(32.dp))
-            // Emoji knap, hvor man kan vælge sin emoji.
-            Row(
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    EmojiButton(
-                        emojiId = selectedEmoji,
-                        onClick = { showEmojiPicker = true }
-                    )
-                    Spacer(modifier = Modifier.width(16.dp))
-                    EmojiInfo()
+
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                EmojiButton(
+                    emojiId = selectedEmoji,
+                    onClick = { showEmojiPicker = true }
+                )
+                Spacer(modifier = Modifier.width(16.dp))
+                EmojiInfo()
             }
         }
+
         Box(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(bottom = 40.dp),
             contentAlignment = Alignment.BottomCenter
         ) {
-            // Ok knap i bunden
             OkButton(navController = navController, enabled = isValidCode)
-
         }
-        // Dialog for emoji picker
+
         if (showEmojiPicker) {
-            Dialog(onDismissRequest = {showEmojiPicker = false}) {
+            Dialog(onDismissRequest = { showEmojiPicker = false }) {
                 Column(
                     modifier = Modifier
                         .wrapContentSize()
@@ -120,7 +128,6 @@ fun ConnectClassScreen(
                         .padding(16.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    // De emojies som skal være i dialogen.
                     val emojiOptions = listOf(
                         R.drawable.emoji1, R.drawable.emoji2,
                         R.drawable.emoji3, R.drawable.emoji4,
@@ -128,10 +135,6 @@ fun ConnectClassScreen(
                         R.drawable.emoji7, R.drawable.emoji8
                     )
 
-                    // Ikke brugt forloop, da det er for svært. Har fundet frem til noget der hedder chunked.
-                    // Som gør at det nemt at dele to rows op i to. Så chunked(4) betyder:
-                    // x x x x
-                    // y y y y
                     emojiOptions.chunked(4).forEach { row ->
                         Row {
                             row.forEach { emojiId ->
@@ -225,7 +228,8 @@ fun ClassInputFields(
     name: String,
     onNameChange: (String) -> Unit,
     classCode: String,
-    onClassCodeChange: (String) -> Unit
+    onClassCodeChange: (String) -> Unit,
+    isValidCode: Boolean
 ) {
     Column(
         modifier = Modifier
@@ -253,30 +257,6 @@ fun ClassInputFields(
                     .shadow(30.dp, RoundedCornerShape(40.dp))
             )
             Spacer(modifier = Modifier.width(8.dp))
-            // Info ikon for navn
-            var showDialogName by remember { mutableStateOf(false) }
-            Icon(
-                painter = painterResource(id = R.drawable.textinfo),
-                contentDescription = "Info",
-                modifier = Modifier
-                    .size(24.dp)
-                    .clickable { showDialogName = true },
-                tint = Color.Black
-            )
-            if (showDialogName) {
-                AlertDialog(
-                    onDismissRequest = { showDialogName = false },
-                    text = {
-                        Text("Indtast dit navn (3-15 karakterer)",
-                            style = TextStyle(
-                                fontSize = 24.sp,
-                                fontFamily = FontFamily(Font(R.font.bagel_fat_one)),
-                                color = Color.Black
-                            ))
-                    },
-                    confirmButton = {}
-                )
-            }
         }
 
         // Klassekode
@@ -284,7 +264,6 @@ fun ClassInputFields(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            val isValidCode = classCode == "1234"
             TextField(
                 value = classCode,
                 onValueChange = onClassCodeChange,
@@ -297,40 +276,18 @@ fun ClassInputFields(
                 singleLine = true,
                 shape = RoundedCornerShape(40.dp),
                 colors = TextFieldDefaults.colors(
-                    focusedContainerColor = if (isValidCode) Color(0xFF62F88C) else Color(253, 113, 113, 255)
+                    focusedContainerColor = if (isValidCode) Color(0xFF62F88C) else Color(253, 113, 113, 255),
+                    unfocusedContainerColor = if (isValidCode) Color(0xFF62F88C) else Color.White
                 ),
                 modifier = Modifier
                     .width(250.dp)
                     .shadow(30.dp, RoundedCornerShape(40.dp))
             )
             Spacer(modifier = Modifier.width(8.dp))
-            // Info ikon for klassekode
-            var showDialogClass by remember { mutableStateOf(false) }
-            Icon(
-                painter = painterResource(id = R.drawable.textinfo),
-                contentDescription = "InfoClass",
-                modifier = Modifier
-                    .size(24.dp)
-                    .clickable { showDialogClass = true },
-                tint = Color.Black
-            )
-            if (showDialogClass) {
-                AlertDialog(
-                    onDismissRequest = { showDialogClass = false },
-                    text = {
-                        Text("Indtast din klassekode",
-                            style = TextStyle(
-                                fontSize = 24.sp,
-                                fontFamily = FontFamily(Font(R.font.bagel_fat_one)),
-                                color = Color.Black
-                            ))
-                    },
-                    confirmButton = {}
-                )
-            }
         }
     }
 }
+
 
 
 
