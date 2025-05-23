@@ -9,6 +9,7 @@ import com.example.klimaspillet.data.models.Class
 import com.example.klimaspillet.data.models.Student
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.firestore
+import com.google.firebase.storage.storage
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 
@@ -93,3 +94,7 @@ class CO2ItemsRepository {
 }
 
 val CO2TingListe = mutableListOf<CO2Ting>()
+
+val httpsReference = "https://firebasestorage.googleapis.com/v0/b/mit-klimaspil.firebasestorage.app/o/fly_til_paris.png?alt=media&token=41932a88-8b5b-4608-bcdc-ec4ed746249a"
+
+
