@@ -9,7 +9,7 @@ data class Student(
     val name: String = "",
     val classCode: String = "",
     val emoji: String = "",
-    val highScore: Int = 0,
+    val highscore: Int = 0,
     @DocumentId var documentId: String? = null
 )
 
@@ -23,7 +23,7 @@ data class Class (
 
 class CO2Ting(
     val name: String = "",
-    val CO2: Float = 0.0f,
+    val CO2: Double = 0.0,
     @DocumentId var id: String? = null
 ) {
     override fun toString(): String {
@@ -35,8 +35,7 @@ data class GameUiState(
     val playerID: String = "",
     val highscore: Int = 0,
     val score: Int = 0,
-    val currentYellowOption: CO2Ting = CO2Ting("", 0.0f),
-    val currentRedOption: CO2Ting = CO2Ting("", 0.0f),
-    val nextRedOption: CO2Ting = CO2Ting("", 0.0f),
+    val currentYellowOption: CO2Ting = CO2Ting("", 0.0),
+    val currentRedOption: CO2Ting = CO2Ting("", 0.0),
     var crownMoverValue:Int = 0
 )

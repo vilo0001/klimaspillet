@@ -32,6 +32,29 @@ class StudentRepository {
         println(getCode)
         return getCode
     }
+
+    //AndreasRG:
+    suspend fun getClassNameByClassCode(classCode: String): String? {
+        val getCode = db.collection("Classes")
+            .whereEqualTo("classCode", classCode)
+            .get()
+            .await()
+            .toObjects(Class::class.java)
+
+        return getCode.firstOrNull()?.name
+    }
+
+
+    //AndreasRG:
+    suspend fun getStudentsFromClass(classCode: String):List<Student> {
+        val getStudents = db.collection("Students")
+            .whereEqualTo("classCode", classCode)
+            .get()
+            .await()
+            .toObjects(Student::class.java)
+        println(getStudents)
+        return getStudents
+    }
 }
 
 class CO2ItemsRepository {

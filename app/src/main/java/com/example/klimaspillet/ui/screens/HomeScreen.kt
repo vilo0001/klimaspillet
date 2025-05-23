@@ -23,8 +23,10 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -51,33 +53,33 @@ import androidx.compose.ui.graphics.Shadow
 
 //Andreas B
 @Composable
-fun HomeScreen (
+fun HomeScreen(
     viewModel: ViewModel = viewModel(),
     navController: NavController
 ) {
     val gameUIState by viewModel.uiState.collectAsState()
 
-    //If statement: AndreasRG:
-    if(currentHighscore > 0 || hasClass && currentHighscore > 0) { HighscoreTopRight(gameUIState.highscore) }
+    if (gameUIState.highscore > 0) {
+        HighscoreTopRight(gameUIState.highscore)
+    }
+
     InfoIconWithDialog()
+
     Column {
         KlimaSpillet()
-        ClassLeaderboard(navController)
+        ClassLeaderboard(navController, viewModel, classCode)
         PlayButton(viewModel, navController)
     }
 }
 
 
+
 //Nye værdier der skal bruges
-val classCode:String = "HA1000";
-var className:String = "7.A";
-var hasClass:Boolean = false;
-var thirdPlaceName:String = "Andreas B";
-var secondPlaceName:String = "Magnus G";
-var firstPlaceName:String = "Victor L";
-var scoreThirdPlace:Int = 9;
-var scoreSecondPlace:Int = 11;
-var scoreFirstPlace:Int = 15;
+val classCode:String = "36XD";//Tilføj eller slet klassekode her for at det virker :D
+var hasClass:Boolean = classCode.isNotEmpty();
+
+//hasClass -> if(classCode)
+//order by score, top 3 get()
 
 
 
@@ -109,7 +111,24 @@ fun KlimaSpillet () {
 
 //Andreas B
 @Composable
-fun ClassLeaderboard(navController: NavController) {
+fun ClassLeaderboard(navController: NavController, viewModel: ViewModel, classCodeLeaderboard: String) {
+    viewModel.retriveTop3Students(classCodeLeaderboard)
+    val className by viewModel.className.observeAsState("Loading...") // Observe class name
+
+    LaunchedEffect(Unit) {
+        viewModel.fetchClassName(classCode)
+    }
+    // Convert LiveData into Compose-friendly State
+    val topStudents by viewModel.topStudents.observeAsState(emptyList())
+
+    // Get the first-place student's name safely
+    val firstPlaceName = topStudents.getOrNull(0)?.name ?: "?"
+    val secondPlaceName = topStudents.getOrNull(1)?.name ?: "?"
+    val thirdPlaceName = topStudents.getOrNull(2)?.name ?: "?"
+    val firstPlaceHighscore = topStudents.getOrNull(0)?.highscore ?: "?"
+    val secondPlaceHighscore = topStudents.getOrNull(1)?.highscore ?: "?"
+    val thirdPlaceHighscore = topStudents.getOrNull(2)?.highscore ?: "?"
+
     if(!hasClass) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -194,7 +213,7 @@ fun ClassLeaderboard(navController: NavController) {
                 )
                 {
                     Text(
-                        text = scoreSecondPlace.toString(),
+                        text = secondPlaceHighscore.toString(),
                         fontFamily = FontFamily(Font(R.font.bagel_fat_one)),
                         color = Color(0xFFCECECE),
                         fontSize = 40.sp
@@ -213,7 +232,7 @@ fun ClassLeaderboard(navController: NavController) {
                     contentAlignment = Alignment.Center) {
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
                         Text(
-                            text = scoreFirstPlace.toString(),
+                            text = firstPlaceHighscore.toString(),
                             fontFamily = FontFamily(Font(R.font.bagel_fat_one)),
                             color = Color(0xFFF9DA5F),
                             fontSize = 40.sp
@@ -240,7 +259,7 @@ fun ClassLeaderboard(navController: NavController) {
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
-                        text = scoreThirdPlace.toString(),
+                        text = thirdPlaceHighscore.toString(),
                         fontFamily = FontFamily(Font(R.font.bagel_fat_one)),
                         color = Color(0xFFFF9E4A),
                         fontSize = 40.sp

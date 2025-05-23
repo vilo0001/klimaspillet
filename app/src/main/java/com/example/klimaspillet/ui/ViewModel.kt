@@ -2,6 +2,8 @@
 
 package com.example.klimaspillet.ui
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
@@ -14,6 +16,7 @@ import com.example.klimaspillet.data.repository.CO2ItemsRepository
 import com.example.klimaspillet.navigation.Routes
 import kotlinx.coroutines.launch
 import com.example.klimaspillet.data.models.GameUiState
+import com.example.klimaspillet.data.models.Student
 import com.example.klimaspillet.data.repository.StudentRepository
 
 //   ------------------------------------
@@ -34,7 +37,33 @@ class ViewModel : ViewModel() {
         }
     }
 
-    // Game UI state
+    private val topStudentsList = MutableLiveData<List<Student>>()
+    val topStudents: LiveData<List<Student>> get() = topStudentsList
+
+    fun retriveTop3Students(classCode: String) {
+        viewModelScope.launch {
+            val studentList = studentRepository.getStudentsFromClass(classCode)
+            val sortedStudents = studentList.sortedByDescending { it.highscore }.take(3)
+
+            println("Retrieved students: ${sortedStudents.map { it.name }}") // Debugging
+            topStudentsList.postValue(sortedStudents)
+        }
+    }
+
+
+
+        private val _className = MutableLiveData<String>()
+        val className: LiveData<String> get() = _className
+
+        fun fetchClassName(classCode: String) {
+            viewModelScope.launch {
+                val name = studentRepository.getClassNameByClassCode(classCode) // Call repository function
+                _className.postValue(name ?: "Unknown Class") // Safely update LiveData
+            }
+        }
+
+
+            // Game UI state
     private val _uiState = MutableStateFlow(GameUiState())
     val uiState: StateFlow<GameUiState> = _uiState.asStateFlow()
 
@@ -150,6 +179,10 @@ class ViewModel : ViewModel() {
     init {
         viewModelScope.launch {
             CO2Itemrepository.getRandomCO2Items()
+            val studentList = studentRepository.getStudentsFromClass("36XD")
+
+            println("Raw student list: ${studentList.map { it.name }}")
+            retriveTop3Students("36XD")
             resetGame()
         }
     }
