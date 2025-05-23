@@ -170,18 +170,10 @@ class ViewModel : ViewModel() {
         )
     }
 
-    // Hvis spillet er sluttet tidligere; reset. Ellers fortsæt.
-    fun startGame() {
-        if(gameEnded) {
-            resetGame()
-            gameEnded = !gameEnded
-        }
-    }
-
     init {
         viewModelScope.launch {
             CO2Itemrepository.getRandomCO2Items()
-            startGame()
+            resetGame()
             val studentList = studentRepository.getStudentsFromClass("36XD")
 
             println("Raw student list: ${studentList.map { it.name }}")

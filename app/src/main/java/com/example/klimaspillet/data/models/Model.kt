@@ -2,6 +2,9 @@
 
 package com.example.klimaspillet.data.models
 
+import androidx.compose.ui.graphics.painter.Painter
+import coil.compose.AsyncImagePainter
+import coil.compose.rememberAsyncImagePainter
 import com.google.firebase.firestore.DocumentId
 
 //Andreas B
@@ -28,7 +31,7 @@ class CO2Ting(
     @DocumentId var id: String? = null
 ) {
     override fun toString(): String {
-        return "CO2Ting(id=$id, name=$name, CO2e=$CO2)"
+        return "CO2Ting(id=$id, name=$name, CO2e=$CO2, image =$image)"
     }
 }
 
