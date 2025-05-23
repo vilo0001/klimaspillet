@@ -78,7 +78,7 @@ class ViewModel : ViewModel() {
 
     // Man kunne også lave "chooseOption(color: String)", men det ved jeg ikke om bliver forvirrende?
     fun chooseRedOption(navController: NavController) {
-        if(uiState.value.currentRedOption.CO2 > uiState.value.currentYellowOption.CO2) {
+        if(uiState.value.currentRedOption.CO2 >= uiState.value.currentYellowOption.CO2) {
             nextQuestion()
         } else {
             endGame(navController)
@@ -86,7 +86,7 @@ class ViewModel : ViewModel() {
     }
 
     fun chooseYellowOption(navController: NavController) {
-        if(uiState.value.currentRedOption.CO2 < uiState.value.currentYellowOption.CO2) {
+        if(uiState.value.currentRedOption.CO2 <= uiState.value.currentYellowOption.CO2) {
             nextQuestion()
         } else {
             endGame(navController)
