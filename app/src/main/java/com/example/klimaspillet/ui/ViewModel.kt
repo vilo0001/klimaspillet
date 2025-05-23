@@ -72,8 +72,8 @@ class ViewModel : ViewModel() {
     val uiState: StateFlow<GameUiState> = _uiState.asStateFlow()
 
     // Image state
-    private val _imageMap = MutableStateFlow<Map<String, Bitmap>>(emptyMap())
-    val imageMap: StateFlow<Map<String, Bitmap>> = _imageMap
+    private var _imageMap = MutableStateFlow<Map<String, Bitmap>>(emptyMap())
+    var imageMap: StateFlow<Map<String, Bitmap>> = _imageMap
 
     // Liste af allerede brugte CO2-ting i spillet.
     private var usedCO2Things: MutableSet<CO2Ting> = mutableSetOf()
@@ -142,6 +142,7 @@ class ViewModel : ViewModel() {
     }
 
     fun nextQuestion() {
+
         var newScore = uiState.value.score+1
         var newHighscore: Int
 
@@ -165,6 +166,10 @@ class ViewModel : ViewModel() {
     }
 
     fun resetGame() {
+        // Clear imageMap
+        _imageMap = MutableStateFlow<Map<String, Bitmap>>(emptyMap())
+        imageMap = _imageMap
+
         gameEnded = false
         newHighscoreBoolean = false
         usedCO2Things.clear()
