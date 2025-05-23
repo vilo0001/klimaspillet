@@ -9,7 +9,7 @@ data class Student(
     val name: String = "",
     val classCode: String = "",
     val emoji: String = "",
-    val highScore: Int = 0,
+    val highscore: Int = 0,
     @DocumentId var documentId: String? = null
 )
 
@@ -37,5 +37,18 @@ data class GameUiState(
     val score: Int = 0,
     val currentYellowOption: CO2Ting = CO2Ting("", 0.0),
     val currentRedOption: CO2Ting = CO2Ting("", 0.0),
-    var crownMoverValue:Int = 0
+    var crownMoverValue:Int = 0,
+    ////////////////////////
+    var thirdPlaceName:String = "",
+    var secondPlaceName:String = "",
+    var firstPlaceName:String = "",
+    var scoreThirdPlace:Int = 0,
+    var scoreSecondPlace:Int = 0,
+    var scoreFirstPlace:Int = 0,
+    val yourClassCode:String = "",
+    var hasClass:Boolean? = null,
 )
+
+//hasClass -> if(classCode)
+//order by score, top 3 get()
+
