@@ -214,7 +214,7 @@ fun YellowOption(modifier: Modifier, yellowOption: CO2Ting) {
                     CircleShape
                 )
         )
-        Text("udleder ${yellowOption.CO2e}kg CO2e",
+        Text("udleder ${yellowOption.CO2}kg CO2e",
             fontSize = 12.sp,
             color = Color.White,
             fontFamily = FontFamily(Font(R.font.bagel_fat_one)),
@@ -233,7 +233,7 @@ fun RedOption(modifier: Modifier, redOption: CO2Ting) {
             .fillMaxWidth(0.8f)
             .background(Color(0xFFFF5858))
     ) {
-        Text("udleder ${redOption.CO2e}kg CO2e",
+        Text("udleder ${redOption.CO2}kg CO2e",
             fontSize = 12.sp,
             color = Color.White,
             fontFamily = FontFamily(Font(R.font.bagel_fat_one)),

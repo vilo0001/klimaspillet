@@ -2,34 +2,39 @@
 
 package com.example.klimaspillet.ui
 
-import androidx.compose.runtime.remember
-import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import com.example.klimaspillet.data.models.CO2TingListe
+import com.example.klimaspillet.data.repository.CO2TingListe
 import com.example.klimaspillet.data.models.CO2Ting
-import com.example.klimaspillet.data.repository.UserInfo
+import com.example.klimaspillet.data.repository.CO2ItemsRepository
 import com.example.klimaspillet.navigation.Routes
-import kotlinx.coroutines.flow.Flow
-import javax.inject.Inject
+import kotlinx.coroutines.launch
+import com.example.klimaspillet.data.models.GameUiState
+import com.example.klimaspillet.data.repository.StudentRepository
 
 //   ------------------------------------
 //   Hovedsageligt ansvarlig: Victor Lotz
 //   ------------------------------------
 
-data class GameUiState(
-    val playerID: String = "",
-    val highscore: Int = 0,
-    val score: Int = 0,
-    val currentYellowOption: CO2Ting = CO2TingListe[0],
-    val currentRedOption: CO2Ting = CO2TingListe[1],
-)
 
 class ViewModel : ViewModel() {
+    val CO2Itemrepository = CO2ItemsRepository()
+    val studentRepository = StudentRepository()
+
+    fun addStudent(name: String, classCode: String, emoji: String) {
+        viewModelScope.launch {
+            if (!studentRepository.getClassByClassCode(classCode).isEmpty()) {
+                studentRepository.newStudent(name, classCode, emoji)
+            } else {
+                println("Klassekode eksisterer ikke")
+            }
+        }
+    }
+
     // Game UI state
     private val _uiState = MutableStateFlow(GameUiState())
     val uiState: StateFlow<GameUiState> = _uiState.asStateFlow()
@@ -56,7 +61,7 @@ class ViewModel : ViewModel() {
 
     // Man kunne også lave "chooseOption(color: String)", men det ved jeg ikke om bliver forvirrende?
     fun chooseRedOption(navController: NavController) {
-        if(uiState.value.currentRedOption.CO2e > uiState.value.currentYellowOption.CO2e) {
+        if(uiState.value.currentRedOption.CO2 > uiState.value.currentYellowOption.CO2) {
             nextQuestion()
         } else {
             endGame(navController)
@@ -64,7 +69,7 @@ class ViewModel : ViewModel() {
     }
 
     fun chooseYellowOption(navController: NavController) {
-        if(uiState.value.currentRedOption.CO2e < uiState.value.currentYellowOption.CO2e) {
+        if(uiState.value.currentRedOption.CO2 < uiState.value.currentYellowOption.CO2) {
             nextQuestion()
         } else {
             endGame(navController)
@@ -122,7 +127,10 @@ class ViewModel : ViewModel() {
     }
 
     init {
-        resetGame()
+        viewModelScope.launch {
+            CO2Itemrepository.getRandomCO2Items()
+            resetGame()
+        }
     }
 }
 

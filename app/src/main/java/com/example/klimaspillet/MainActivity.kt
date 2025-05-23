@@ -23,7 +23,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            setContent {
+          setContent {
                 //AndreasRG:
                 Box(
                     modifier = Modifier
@@ -46,7 +46,6 @@ class MainActivity : ComponentActivity() {
                             .height(2400.dp)
                     )
                 }
-
                 Navigation(viewModel())
             }
         }
