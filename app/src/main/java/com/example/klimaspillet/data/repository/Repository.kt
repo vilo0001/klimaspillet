@@ -32,7 +32,6 @@ class StudentRepository {
             .get()
             .await()
             .toObjects(Class::class.java)
-        println(getCode)
         return getCode
     }
 
@@ -47,7 +46,6 @@ class CO2ItemsRepository {
             .get()
             .await()
             .toObjects(CO2Ting::class.java)
-        println(co2Items)
         CO2TingListe.addAll(co2Items)
         return co2Items
     }

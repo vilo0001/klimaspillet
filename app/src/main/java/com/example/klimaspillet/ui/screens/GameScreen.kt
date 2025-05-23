@@ -120,42 +120,6 @@ fun TitleGameScreen(navController: NavController) {
             .padding(top = 24.dp)
             .padding(10.dp)
     ) {
-
-        /*
-        // Back button
-        Box(
-            modifier = Modifier
-                .matchParentSize()
-        ) {
-            IconButton(
-                modifier = Modifier
-                    .size(50.dp)
-                    .align (Alignment.CenterStart),
-                onClick = {
-                    // Bør Navigation tage sig at navigate()?
-                    navController.navigate(Routes.routeHomeScreen)
-                }
-            ) {
-                // For at opnå en drop-shadow effekt af et ikon, indsætter jeg det samme ikon to gange, men gør den første mere blurry.
-                Box {
-                    Icon(
-                        painter = painterResource(id = R.drawable.round_arrow_back_ios_24),
-                        contentDescription = null,
-                        Modifier
-                            .offset(x = (2).dp, y = (1).dp)
-                            .blur(3.dp),
-                        tint = Color.Gray
-                    )
-                    Icon(
-                        painter = painterResource(id = R.drawable.round_arrow_back_ios_24),
-                        contentDescription = null,
-                        tint = Color.White
-                    )
-                }
-            }
-        }
-        */
-
         // Title
         Text("Hvad udleder mest CO2?",
             modifier = Modifier
@@ -286,24 +250,54 @@ fun YellowOption(modifier: Modifier, yellowOption: CO2Ting, imageMap: Map<String
             .fillMaxHeight(0.5f)
             .background(Color(0xFFFFCA58))
     ) {
+        // CO2 Image
         val bitmap = imageMap[yellowOption.image]
         if (bitmap != null) {
-            Image(
-                bitmap = bitmap.asImageBitmap(),
-                contentDescription = null,
-                modifier = Modifier
-                    .size(180.dp)
-                    .clip(CircleShape)
-                    .border(
-                        BorderStroke(8.dp, Color(0xFFFFCA58)),
-                        CircleShape
-                    ),
-                contentScale = ContentScale.Crop
-            )
+            Box() {
+                Image(
+                    bitmap = bitmap.asImageBitmap(),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .size(180.dp)
+                        .clip(CircleShape)
+                        .border(
+                            BorderStroke(8.dp, Color(0xFFFFCA58)),
+                            CircleShape
+                        ),
+                    contentScale = ContentScale.Crop
+                )
+                // Image text
+                Text(
+                    yellowOption.name,
+                    modifier = Modifier
+                        .align (Alignment.BottomCenter)
+                        .padding(bottom = 40.dp)
+                        .width(150.dp),
+                    style = androidx.compose.ui.text.TextStyle(
+                        fontSize = 20.sp,
+                        color = Color.White,
+                        fontFamily = FontFamily(Font(R.font.bagel_fat_one)),
+                        textAlign = TextAlign.Center,
+                        shadow = Shadow(
+                            color = Color.Black.copy(alpha = 0.25f),
+                            offset = Offset(4f, 4f),
+                            blurRadius = 0f
+                        )
+                    )
+                )
+            }
         } else {
             // Show a placeholder or loading animation
-            Text("Loading image…")
+            Text("Loading image...",
+                fontSize = 16.sp,
+                color = Color.White,
+                fontFamily = FontFamily(Font(R.font.bagel_fat_one)),
+                modifier = Modifier
+                    .align (Alignment.CenterStart)
+                    .padding(start = 5.dp))
         }
+
+        // Icon
         Box(
             modifier = Modifier
                 .fillMaxSize()
@@ -319,7 +313,7 @@ fun YellowOption(modifier: Modifier, yellowOption: CO2Ting, imageMap: Map<String
             )
         }
 
-        Text("udleder ${yellowOption.CO2}kg CO2e",//////////////////////
+        Text("udleder ${yellowOption.CO2}kg CO2e",
             fontSize = 16.sp,
             color = Color.White,
             fontFamily = FontFamily(Font(R.font.bagel_fat_one)),
@@ -339,7 +333,7 @@ fun RedOption(modifier: Modifier, redOption: CO2Ting, imageMap: Map<String, Bitm
             .fillMaxHeight(0.5f)
             .background(Color(0xFFFF5858))
     ) {
-        Text("udleder ${redOption.CO2}kg CO2e",///////////////////////////
+        Text("udleder ???kg CO2e",
             fontSize = 16.sp,
             color = Color.White,
             fontFamily = FontFamily(Font(R.font.bagel_fat_one)),
@@ -347,6 +341,7 @@ fun RedOption(modifier: Modifier, redOption: CO2Ting, imageMap: Map<String, Bitm
                 .align (Alignment.BottomStart)
                 .padding(start = 8.dp, bottom = 2.dp)
         )
+        // Icon
         Box(
             modifier = Modifier
                 .fillMaxSize()
@@ -362,25 +357,57 @@ fun RedOption(modifier: Modifier, redOption: CO2Ting, imageMap: Map<String, Bitm
                     .offset(y = -10.dp)
             )
         }
+
         // CO2 image
         val bitmap = imageMap[redOption.image]
         if (bitmap != null) {
-            Image(
-                bitmap = bitmap.asImageBitmap(),
-                contentDescription = null,
+            Box(
                 modifier = Modifier
-                    .size(180.dp)
-                    .clip(CircleShape)
-                    .border(
-                        BorderStroke(8.dp, Color(0xFFFF5858)),
-                        CircleShape
+                    .align(Alignment.CenterEnd)
+            ) {
+                Image(
+                    bitmap = bitmap.asImageBitmap(),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .size(180.dp)
+                        .clip(CircleShape)
+                        .border(
+                            BorderStroke(8.dp, Color(0xFFFF5858)),
+                            CircleShape
+                        )
+                        .align(Alignment.CenterEnd),
+                    contentScale = ContentScale.Crop
+                )
+                // Image text
+                Text(
+                    redOption.name,
+                    modifier = Modifier
+                        .align (Alignment.BottomCenter)
+                        .padding(bottom = 40.dp)
+                        .width(150.dp),
+                    style = androidx.compose.ui.text.TextStyle(
+                        fontSize = 20.sp,
+                        color = Color.White,
+                        fontFamily = FontFamily(Font(R.font.bagel_fat_one)),
+                        textAlign = TextAlign.Center,
+                        shadow = Shadow(
+                            color = Color.Black.copy(alpha = 0.25f),
+                            offset = Offset(4f, 4f),
+                            blurRadius = 0f
+                        )
                     )
-                    .align (Alignment.CenterEnd),
-                contentScale = ContentScale.Crop
-            )
+                )
+            }
         } else {
             // Show a placeholder or loading animation
-            Text("Loading image…")
+            Text("Loading image...",
+                fontSize = 16.sp,
+                color = Color.White,
+                fontFamily = FontFamily(Font(R.font.bagel_fat_one)),
+                modifier = Modifier
+                    .align (Alignment.CenterEnd)
+                    .padding(end = 5.dp)
+            )
         }
     }
 }
