@@ -47,8 +47,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shadow
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
+import coil.compose.rememberAsyncImagePainter
+import com.example.klimaspillet.data.repository.httpsReference
 import com.example.klimaspillet.navigation.Routes
 import com.example.klimaspillet.ui.ViewModel
 import org.intellij.lang.annotations.JdkConstants.HorizontalAlignment
@@ -270,8 +273,11 @@ fun YellowOption(modifier: Modifier, yellowOption: CO2Ting) {
             .background(Color(0xFFFFCA58))
     ) {
         Image(
-            painter = painterResource(id = R.drawable.hakket_oksekoed),
+            painter = rememberAsyncImagePainter(
+                model = httpsReference
+            ),
             contentDescription = null,
+            contentScale = ContentScale.Crop,
             modifier = Modifier
                 .size(180.dp)
                 .clip(CircleShape)

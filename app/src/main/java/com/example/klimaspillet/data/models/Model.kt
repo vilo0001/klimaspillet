@@ -24,6 +24,7 @@ data class Class (
 class CO2Ting(
     val name: String = "",
     val CO2: Double = 0.0,
+    val image: String = "",
     @DocumentId var id: String? = null
 ) {
     override fun toString(): String {
