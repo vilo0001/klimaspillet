@@ -38,5 +38,6 @@ data class GameUiState(
     val score: Int = 0,
     val currentYellowOption: CO2Ting = CO2Ting("", 0.0),
     val currentRedOption: CO2Ting = CO2Ting("", 0.0),
+    val nextRedOption: CO2Ting = CO2Ting("", 0.0),
     var crownMoverValue:Int = 0
 )

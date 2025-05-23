@@ -309,7 +309,7 @@ fun PlayButton (viewModel: ViewModel, navController: NavController) {
             ),
             onClick = {
                 // Victor Lotz
-                viewModel.startGame(navController)
+                navController.navigate(Routes.routeGameScreen)
             }) {
             Icon(
                 painter = painterResource(id = R.drawable.playbutton),
