@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicText
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -269,7 +270,7 @@ fun ClassLeaderboard(navController: NavController, viewModel: ViewModel) {
                 Text(text = secondPlaceName,
                     fontFamily = FontFamily(Font(R.font.bagel_fat_one)),
                     color = Color.White,
-                    fontSize = 24.sp)
+                    fontSize = 16.sp)
             }
             Box (modifier = Modifier
                 .height(107.dp)
@@ -280,7 +281,7 @@ fun ClassLeaderboard(navController: NavController, viewModel: ViewModel) {
                 Text(text = firstPlaceName,
                     fontFamily = FontFamily(Font(R.font.bagel_fat_one)),
                     color = Color.White,
-                    fontSize = 24.sp)
+                    fontSize = 16.sp)
             }
             Box (modifier = Modifier
                 .height(53.dp)
@@ -291,7 +292,7 @@ fun ClassLeaderboard(navController: NavController, viewModel: ViewModel) {
                 Text(text = thirdPlaceName,
                     fontFamily = FontFamily(Font(R.font.bagel_fat_one)),
                     color = Color.White,
-                    fontSize = 24.sp)
+                    fontSize = 16.sp)
             }
         }
     }
