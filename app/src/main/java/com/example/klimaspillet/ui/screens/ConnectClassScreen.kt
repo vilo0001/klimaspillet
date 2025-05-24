@@ -250,6 +250,7 @@ fun ClassInputFields(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
         ) {
+            var showDialogName by remember { mutableStateOf(false) }
             TextField(
                 value = name,
                 onValueChange = onNameChange,
@@ -264,6 +265,31 @@ fun ClassInputFields(
                     .shadow(30.dp, RoundedCornerShape(40.dp))
             )
             Spacer(modifier = Modifier.width(8.dp))
+            Icon(
+                painter = painterResource(id = R.drawable.textinfo),
+                contentDescription = "InfoEmoji",
+                modifier = Modifier
+                    .size(24.dp)
+                    .clickable { showDialogName = true },
+                tint = Color.Black
+            )
+
+            if (showDialogName) {
+                AlertDialog(
+                    onDismissRequest = { showDialogName = false },
+                    text = {
+                        Text("Indtast dit navn (3-15 karakterer)",
+                            style = TextStyle(
+                                fontSize = 28.sp,
+                                fontFamily = FontFamily(Font(R.font.bagel_fat_one)),
+                                color = Color(0, 0, 0, 255)
+                            ))
+                    },
+                    confirmButton = {}
+                )
+            }
+
+            Spacer(modifier = Modifier.width(8.dp))
         }
 
         // Klassekode
@@ -271,6 +297,7 @@ fun ClassInputFields(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
         ) {
+            var showDialogClass by remember { mutableStateOf(false) }
             TextField(
                 value = classCode,
                 onValueChange = onClassCodeChange,
@@ -290,6 +317,30 @@ fun ClassInputFields(
                     .width(250.dp)
                     .shadow(30.dp, RoundedCornerShape(40.dp))
             )
+            Spacer(modifier = Modifier.width(8.dp))
+            Icon(
+                painter = painterResource(id = R.drawable.textinfo),
+                contentDescription = "InfoEmoji",
+                modifier = Modifier
+                    .size(24.dp)
+                    .clickable { showDialogClass = true },
+                tint = Color.Black
+            )
+
+            if (showDialogClass) {
+                AlertDialog(
+                    onDismissRequest = { showDialogClass = false },
+                    text = {
+                        Text("Indtast din klassekode",
+                            style = TextStyle(
+                                fontSize = 26.sp,
+                                fontFamily = FontFamily(Font(R.font.bagel_fat_one)),
+                                color = Color(0, 0, 0, 255)
+                            ))
+                    },
+                    confirmButton = {}
+                )
+            }
             Spacer(modifier = Modifier.width(8.dp))
         }
     }
