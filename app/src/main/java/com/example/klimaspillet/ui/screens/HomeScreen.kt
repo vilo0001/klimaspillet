@@ -83,7 +83,6 @@ var hasClass:Boolean = classCode.isNotEmpty();
 
 
 
-
 //Andreas B
 @Composable
 fun KlimaSpillet () {
