@@ -8,14 +8,16 @@ import android.widget.VideoView
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.compose.foundation.layout.fillMaxSize
-import com.example.klimaspillet.navigation.Navigation
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.bumptech.glide.Glide
+import com.example.klimaspillet.navigation.Navigation
+import com.firebase.ui.storage.images.FirebaseImageLoader
 
 
 class MainActivity : ComponentActivity() {
@@ -23,7 +25,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-          setContent {
+            setContent {
                 //AndreasRG:
                 Box(
                     modifier = Modifier
@@ -42,7 +44,8 @@ class MainActivity : ComponentActivity() {
                                 }
                             }
                         },
-                        modifier = Modifier.fillMaxSize()
+                        modifier = Modifier
+                            .fillMaxSize()
                             .height(2400.dp)
                     )
                 }
@@ -51,4 +54,3 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
-

@@ -2,6 +2,9 @@
 
 package com.example.klimaspillet.data.models
 
+import androidx.compose.ui.graphics.painter.Painter
+import coil.compose.AsyncImagePainter
+import coil.compose.rememberAsyncImagePainter
 import com.google.firebase.firestore.DocumentId
 
 //Andreas B
@@ -24,10 +27,11 @@ data class Class (
 class CO2Ting(
     val name: String = "",
     val CO2: Double = 0.0,
+    val image: String = "",
     @DocumentId var id: String? = null
 ) {
     override fun toString(): String {
-        return "CO2Ting(id=$id, name=$name, CO2e=$CO2)"
+        return "CO2Ting(id=$id, name=$name, CO2e=$CO2, image =$image)"
     }
 }
 
@@ -37,5 +41,6 @@ data class GameUiState(
     val score: Int = 0,
     val currentYellowOption: CO2Ting = CO2Ting("", 0.0),
     val currentRedOption: CO2Ting = CO2Ting("", 0.0),
+    val nextRedOption: CO2Ting = CO2Ting("", 0.0),
     var crownMoverValue:Int = 0
 )

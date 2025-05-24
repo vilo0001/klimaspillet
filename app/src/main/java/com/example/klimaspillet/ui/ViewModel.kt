@@ -4,6 +4,8 @@ package com.example.klimaspillet.ui
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
@@ -18,6 +20,9 @@ import kotlinx.coroutines.launch
 import com.example.klimaspillet.data.models.GameUiState
 import com.example.klimaspillet.data.models.Student
 import com.example.klimaspillet.data.repository.StudentRepository
+import kotlinx.coroutines.Dispatchers
+import java.net.HttpURLConnection
+import java.net.URL
 
 //   ------------------------------------
 //   Hovedsageligt ansvarlig: Victor Lotz
@@ -67,6 +72,10 @@ class ViewModel : ViewModel() {
     private val _uiState = MutableStateFlow(GameUiState())
     val uiState: StateFlow<GameUiState> = _uiState.asStateFlow()
 
+    // Image state
+    private var _imageMap = MutableStateFlow<Map<String, Bitmap>>(emptyMap())
+    var imageMap: StateFlow<Map<String, Bitmap>> = _imageMap
+
     // Liste af allerede brugte CO2-ting i spillet.
     private var usedCO2Things: MutableSet<CO2Ting> = mutableSetOf()
 
@@ -98,6 +107,10 @@ class ViewModel : ViewModel() {
     private fun pickRandomThingAndShuffle(): CO2Ting {
         // Vælg en ny tilfældig CO2 ting indtil der findes én som ikke er brugt tidligere.
         val randomCO2Ting = CO2TingListe.random()
+        // Hvis man ender med at bruge alle CO2 ting, bliver usedCO2Things cleared, så man kan spille videre.
+        if(usedCO2Things.size == CO2TingListe.size) {
+            usedCO2Things.clear()
+        }
         if (usedCO2Things.contains(randomCO2Ting)) {
             return pickRandomThingAndShuffle()
         } else {
@@ -146,38 +159,67 @@ class ViewModel : ViewModel() {
             highscore = newHighscore,
             score = newScore,
             currentYellowOption = uiState.value.currentRedOption,
-            currentRedOption = pickRandomThingAndShuffle()
+            currentRedOption = uiState.value.nextRedOption,
+            nextRedOption = pickRandomThingAndShuffle()
         )
+        preloadImage(uiState.value.nextRedOption.image)
     }
 
     fun resetGame() {
+        // Clear imageMap
+        _imageMap = MutableStateFlow<Map<String, Bitmap>>(emptyMap())
+        imageMap = _imageMap
+
         gameEnded = false
         newHighscoreBoolean = false
         usedCO2Things.clear()
 
         val randomYellowOption = pickRandomThingAndShuffle()
         val randomRedOption = pickRandomThingAndShuffle()
+        val nextRedOption = pickRandomThingAndShuffle()
 
         _uiState.value = GameUiState(
             playerID = uiState.value.playerID,
             highscore = _uiState.value.highscore,
             score = 0,
             currentYellowOption = randomYellowOption,
-            currentRedOption = randomRedOption)
+            currentRedOption = randomRedOption,
+            nextRedOption = nextRedOption
+        )
+
+        preloadImage(uiState.value.currentYellowOption.image)
+        preloadImage(uiState.value.currentRedOption.image)
+        preloadImage(uiState.value.nextRedOption.image)
     }
 
-    // Hvis spillet er sluttet tidligere; reset. Ellers fortsæt.
-    fun startGame(navController: NavController) {
-        if(gameEnded) {
-            resetGame()
-            gameEnded = !gameEnded
+    // Tyvstjålet fra ChatGPT
+    fun preloadImage(url: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val bitmap = downloadBitmap(url)
+            if (bitmap != null) {
+                _imageMap.value = _imageMap.value + (url to bitmap)
+            }
         }
-        navController.navigate(Routes.routeGameScreen)
+    }
+
+    // Tyvstjålet fra ChatGPT
+    private fun downloadBitmap(imageUrl: String): Bitmap? {
+        return try {
+            val connection = URL(imageUrl).openConnection() as HttpURLConnection
+            connection.doInput = true
+            connection.connect()
+            val inputStream = connection.inputStream
+            BitmapFactory.decodeStream(inputStream)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            null
+        }
     }
 
     init {
         viewModelScope.launch {
             CO2Itemrepository.getRandomCO2Items()
+            resetGame()
             val studentList = studentRepository.getStudentsFromClass("36XD")
 
             println("Raw student list: ${studentList.map { it.name }}")
@@ -186,3 +228,8 @@ class ViewModel : ViewModel() {
         }
     }
 }
+
+
+
+
+
