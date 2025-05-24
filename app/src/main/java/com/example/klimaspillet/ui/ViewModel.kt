@@ -146,8 +146,7 @@ class ViewModel : ViewModel() {
             highscore = newHighscore,
             score = newScore,
             currentYellowOption = uiState.value.currentRedOption,
-            currentRedOption = uiState.value.nextRedOption,
-            nextRedOption = pickRandomThingAndShuffle()
+            currentRedOption = pickRandomThingAndShuffle()
         )
     }
 
