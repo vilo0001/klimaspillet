@@ -140,7 +140,7 @@ class ViewModel : ViewModel() {
     }
 
     fun endGame(navController: NavController) {
-        if(newHighscoreBoolean) {
+        if(newHighscoreBoolean && connectedStudent != "") {
             studentRepository.updateHighscore(connectedStudent, uiState.value.highscore)
         }
         finalScore = uiState.value.score;
