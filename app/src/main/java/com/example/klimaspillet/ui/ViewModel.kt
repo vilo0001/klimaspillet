@@ -50,6 +50,9 @@ class ViewModel : ViewModel() {
     var newHighscoreBoolean = uiState.value.highscore != 0
     var finalScore = 0;
 
+    var connectedStudent = ""
+    var connectedClassCode = ""
+
     private val topStudentsList = MutableLiveData<List<Student>>()
 
     val topStudents: LiveData<List<Student>> get() = topStudentsList
@@ -66,7 +69,8 @@ class ViewModel : ViewModel() {
     fun addStudent(name: String, classCode: String, emoji: String) {
         viewModelScope.launch {
             if (!studentRepository.getClassByClassCode(classCode).isEmpty()) {
-                studentRepository.newStudent(name, classCode, emoji)
+                // Tilføjer ny student med allerede eksisterende highscore og connecter til klasse.
+                connectedStudent = studentRepository.newStudent(name, classCode, emoji, uiState.value.highscore)
             } else {
                 println("Klassekode eksisterer ikke")
             }
@@ -136,6 +140,9 @@ class ViewModel : ViewModel() {
     }
 
     fun endGame(navController: NavController) {
+        if(newHighscoreBoolean) {
+            studentRepository.updateHighscore(connectedStudent, uiState.value.highscore)
+        }
         finalScore = uiState.value.score;
         gameEnded = true;
         navController.navigate(Routes.routeResultsScreen)

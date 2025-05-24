@@ -67,19 +67,10 @@ fun HomeScreen(
 
     Column {
         KlimaSpillet()
-        ClassLeaderboard(navController, viewModel, classCode)
+        ClassLeaderboard(navController, viewModel)
         PlayButton(viewModel, navController)
     }
 }
-
-
-
-//Nye værdier der skal bruges
-val classCode:String = "36XD";//Tilføj eller slet klassekode her for at det virker :D
-var hasClass:Boolean = classCode.isNotEmpty();
-
-//hasClass -> if(classCode)
-//order by score, top 3 get()
 
 
 
@@ -110,12 +101,12 @@ fun KlimaSpillet () {
 
 //Andreas B
 @Composable
-fun ClassLeaderboard(navController: NavController, viewModel: ViewModel, classCodeLeaderboard: String) {
-    viewModel.retriveTop3Students(classCodeLeaderboard)
+fun ClassLeaderboard(navController: NavController, viewModel: ViewModel) {
+    viewModel.retriveTop3Students(viewModel.connectedClassCode)
     val className by viewModel.className.observeAsState("Loading...") // Observe class name
 
     LaunchedEffect(Unit) {
-        viewModel.fetchClassName(classCode)
+        viewModel.fetchClassName(viewModel.connectedClassCode)
     }
     // Convert LiveData into Compose-friendly State
     val topStudents by viewModel.topStudents.observeAsState(emptyList())
@@ -128,7 +119,7 @@ fun ClassLeaderboard(navController: NavController, viewModel: ViewModel, classCo
     val secondPlaceHighscore = topStudents.getOrNull(1)?.highscore ?: "?"
     val thirdPlaceHighscore = topStudents.getOrNull(2)?.highscore ?: "?"
 
-    if(!hasClass) {
+    if(viewModel.connectedClassCode == "") {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier

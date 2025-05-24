@@ -59,6 +59,12 @@ import com.example.klimaspillet.data.repository.MyClassManager
 import com.example.klimaspillet.navigation.Routes
 import com.example.klimaspillet.ui.ViewModel
 
+// Victor - det skal bare virke nu...
+// Emoji String til database.
+val emojiIdToStringMap = mapOf<Int, String>(
+    1 to "😎", 2 to "🤪", 3 to "🤑", 4 to "😈", 5 to "👽", 6 to "👹", 7 to "🤖", 8 to "🤠"
+)
+
 // MAGNUS GIEMSA
 @Composable
 fun ConnectClassScreen(
@@ -66,13 +72,17 @@ fun ConnectClassScreen(
     navController: NavController
 ) {
     val gameUIState by viewModel.uiState.collectAsState()
+
+    // Burde nok være i et UI-state i ViewModel
     var showEmojiPicker by remember { mutableStateOf(false) }
     var name by remember { mutableStateOf("") }
     var classCode by remember { mutableStateOf("") }
     var selectedEmoji by remember { mutableIntStateOf(R.drawable.emoji1) }
+
     val manager = remember { MyClassManager() }
     val classCodes = remember { mutableStateOf<List<String>>(emptyList()) }
     val isValidCode = classCodes.value.contains(classCode)
+
     LaunchedEffect(Unit) {
         manager.loadClassCodes()
         classCodes.value = manager.classCodes
@@ -115,7 +125,7 @@ fun ConnectClassScreen(
                 .padding(bottom = 40.dp),
             contentAlignment = Alignment.BottomCenter
         ) {
-            OkButton(navController = navController, enabled = isValidCode)
+            OkButton(navController = navController, viewModel, name, classCode, selectedEmoji, enabled = isValidCode)
         }
 
         if (showEmojiPicker) {
@@ -167,7 +177,6 @@ fun Title () {
         modifier = Modifier.shadow(40.dp, RoundedCornerShape(40.dp))
     )
 }
-
 
 // Magnus Giemsa
 // Emoji knap, med emojiId som er den emoji man har valgt.
@@ -287,10 +296,14 @@ fun ClassInputFields(
 }
 
 // Magnus Giemsa
+// Victor Lotz
 @Composable
-fun OkButton(navController: NavController, enabled: Boolean) {
+fun OkButton(navController: NavController, viewModel: ViewModel, name: String, classCode: String, emojiId: Int,  enabled: Boolean) {
     Button(
         onClick = {
+            // Tilføj elev med navn, klassekode og default emoji (placeholder indtil bedre løsning).
+            viewModel.addStudent(name, classCode, "😎")
+            viewModel.connectedClassCode = classCode
             navController.navigate(Routes.routeHomeScreen)
         },
         enabled = enabled,
