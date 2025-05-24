@@ -1,5 +1,7 @@
 package com.example.klimaspillet.data.repository
 
+import android.util.Log
+import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.klimaspillet.data.models.CO2Ting
@@ -54,6 +56,24 @@ class StudentRepository {
             .toObjects(Student::class.java)
         println(getStudents)
         return getStudents
+    }
+    // Magnus Giemsa
+    suspend fun getAllClassCodes(): List<String> {
+        val classesSnapshot = db.collection("Classes")
+            .get()
+            .await()
+
+        return classesSnapshot.documents.mapNotNull { it.getString("classCode") }
+    }
+}
+// Magnus Giemsa
+class MyClassManager {
+    private val repository = StudentRepository()
+    var classCodes: MutableList<String> = mutableListOf()
+
+    suspend fun loadClassCodes() {
+        classCodes = repository.getAllClassCodes().toMutableList()
+        Log.d("Magnus", "Hentet koder fra Repository: $classCodes")
     }
 }
 
