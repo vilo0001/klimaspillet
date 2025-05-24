@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -49,6 +50,7 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    implementation(libs.androidx.runtime.livedata)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -60,5 +62,15 @@ dependencies {
         val nav_version = "2.9.0"
 
         implementation("androidx.navigation:navigation-compose:$nav_version")
+        implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.1")
+        implementation ("io.coil-kt:coil-compose:2.6.0")
+        implementation ("io.coil-kt:coil-gif:2.6.0")
+        implementation(platform("com.google.firebase:firebase-bom:33.13.0"))
+        implementation("com.google.firebase:firebase-analytics")
+        implementation("com.google.firebase:firebase-firestore")
+        implementation("androidx.datastore:datastore-preferences:1.0.0")
+        implementation("com.google.firebase:firebase-storage")
+        implementation ("com.firebaseui:firebase-ui-storage:9.0.0")
+        implementation ("com.github.bumptech.glide:glide:4.14.2")
     }
 }
