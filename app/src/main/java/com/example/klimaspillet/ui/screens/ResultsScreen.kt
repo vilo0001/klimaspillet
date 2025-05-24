@@ -3,55 +3,47 @@
 package com.example.klimaspillet.ui.screens
 
 import android.os.Build.VERSION.SDK_INT
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
-import androidx.navigation.NavController
-import coil.compose.AsyncImage
-import coil.decode.GifDecoder
-import coil.decode.ImageDecoderDecoder
-import com.example.klimaspillet.R
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.unit.dp
-import coil.ImageLoader
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import coil.ImageLoader
+import coil.compose.AsyncImage
+import coil.decode.GifDecoder
+import coil.decode.ImageDecoderDecoder
+import com.example.klimaspillet.R
 import com.example.klimaspillet.navigation.Routes
 import com.example.klimaspillet.ui.ViewModel
-import java.time.format.TextStyle
-import kotlin.Function as Function
-
-
-
 
 
 //AndreasRG:
@@ -70,57 +62,11 @@ fun ResultsScreen (
             verticalArrangement = Arrangement.Bottom,
             modifier = Modifier
                 .fillMaxSize()
-            .padding(bottom = 45.dp)) {
+                .padding(bottom = 45.dp)) {
             HomeRestartButtons(viewModel, navController)
         }
     }
 }
-
-
-
-
-
-
-
-
-// AndreasRG:
-/* VERSION 1 AF HighscoreTopRight
-@Composable
-fun
-HighscoreTopRight() {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth(),
-            horizontalArrangement = Arrangement.End
-        ) {
-            Column(
-                modifier = Modifier
-                    .padding(end = 10.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.highscorecrown),
-                    modifier = Modifier
-                        .height(33.dp)
-                        .width(25.dp)
-                        .offset(y = 17.dp),
-                    contentDescription = null,
-                )
-                Text(
-                    "$currentHighscore", fontFamily = FontFamily(Font(R.font.bagel_fat_one)),
-                    fontSize = 32.sp,
-                    color = Color(0xFFFFCC6D),
-                    style = androidx.compose.ui.text.TextStyle(
-                        shadow = Shadow(
-                            color = Color.Black.copy(alpha = 0.25f),
-                            offset = Offset(4f, 4f)
-                        )
-                    )
-                )
-            }
-        }
-    }
- */
 
 //AndreasRG:
 // Victor Lotz, score fra viewmodel
@@ -207,17 +153,16 @@ fun GifResult() {
     Row(horizontalArrangement = Arrangement.Center,
         modifier = Modifier
             .fillMaxWidth()) {
-    Box(modifier = Modifier
+        Box(modifier = Modifier
             .padding(top = 80.dp)
             .width(345.dp)
             .height(196.dp)
             .clip(RoundedCornerShape(25.dp)),
-    ) {
-        GifImage()
+        ) {
+            GifImage()
+        }
     }
 }
-}
-
 
 //AndreasRG:
 @Composable
@@ -247,10 +192,6 @@ fun HomeRestartButtons(viewModel: ViewModel, navController: NavController) {
     }
 }
 
-
-
-
-
 //Functions udenfor indsatte Composables med logik
 // AndreasRG:
 @Composable
@@ -263,7 +204,7 @@ fun GifImage() {
         }
     } .build()
     AsyncImage( model = R.drawable.angrybrodestroypc, // Tilføj random gif efter score her
-    imageLoader = imageLoader, modifier = Modifier.fillMaxWidth(),
+        imageLoader = imageLoader, modifier = Modifier.fillMaxWidth(),
         contentDescription = null,
         contentScale = ContentScale.Crop)
 }
@@ -290,7 +231,6 @@ fun ResultsScreenButton(
     }
 }
 
-
 //AndreasRG:
 @Composable
 fun HomeIcon() {
@@ -311,27 +251,3 @@ fun RestartIcon() {
         contentDescription = null,
     )
 }
-/*
--
--
--
--
--
--
--
--
--
-*/
-//Temporary testing values, skal forbindes med Game logik
-var currentScore:Int = 0;
-var newHighScore:Boolean = true;
-var currentHighscore:Int = 10
-
-/*
-fun playVideo(context: Context) {
-    val mediaPlayer = MediaPlayer.create(context, R.raw.baggrundanimation)
-    mediaPlayer.start()
-}
- */
-
-//Der skal oprettes en random gif generator efter score }

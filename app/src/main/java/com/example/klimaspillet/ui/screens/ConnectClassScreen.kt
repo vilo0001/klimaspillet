@@ -58,7 +58,6 @@ import com.example.klimaspillet.R
 import com.example.klimaspillet.data.repository.MyClassManager
 import com.example.klimaspillet.navigation.Routes
 import com.example.klimaspillet.ui.ViewModel
-import kotlin.math.log
 
 // MAGNUS GIEMSA
 @Composable
@@ -209,17 +208,16 @@ fun EmojiInfo() {
             onDismissRequest = { showDialogEmoji = false },
             text = {
                 Text("Vælg din avatar",
-                style = TextStyle(
-                    fontSize = 28.sp,
-                    fontFamily = FontFamily(Font(R.font.bagel_fat_one)),
-                    color = Color(0, 0, 0, 255)
-                ))
+                    style = TextStyle(
+                        fontSize = 28.sp,
+                        fontFamily = FontFamily(Font(R.font.bagel_fat_one)),
+                        color = Color(0, 0, 0, 255)
+                    ))
             },
             confirmButton = {}
         )
     }
 }
-
 
 // Tekst knapper (Navn og klassekode)
 //Magnus Giemsa
@@ -288,12 +286,6 @@ fun ClassInputFields(
     }
 }
 
-
-
-
-
-
-
 // Magnus Giemsa
 @Composable
 fun OkButton(navController: NavController, enabled: Boolean) {
@@ -322,7 +314,6 @@ fun OkButton(navController: NavController, enabled: Boolean) {
     }
 }
 
-
 @Composable
 fun BackButton(navController: NavController) {
     Box(
@@ -347,5 +338,3 @@ fun BackButton(navController: NavController) {
         )
     }
 }
-
-

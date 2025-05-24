@@ -1,16 +1,11 @@
 package com.example.klimaspillet.data.repository
 
 import android.util.Log
-import androidx.compose.runtime.mutableStateListOf
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.example.klimaspillet.data.models.CO2Ting
 import com.example.klimaspillet.data.models.Class
 import com.example.klimaspillet.data.models.Student
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.firestore
-import com.google.firebase.storage.storage
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 
 //Andreas B
@@ -46,7 +41,6 @@ class StudentRepository {
         return getCode.firstOrNull()?.name
     }
 
-
     //AndreasRG:
     suspend fun getStudentsFromClass(classCode: String):List<Student> {
         val getStudents = db.collection("Students")
@@ -57,6 +51,7 @@ class StudentRepository {
         println(getStudents)
         return getStudents
     }
+
     // Magnus Giemsa
     suspend fun getAllClassCodes(): List<String> {
         val classesSnapshot = db.collection("Classes")
@@ -66,6 +61,7 @@ class StudentRepository {
         return classesSnapshot.documents.mapNotNull { it.getString("classCode") }
     }
 }
+
 // Magnus Giemsa
 class MyClassManager {
     private val repository = StudentRepository()

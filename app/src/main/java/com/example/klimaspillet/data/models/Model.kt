@@ -2,9 +2,6 @@
 
 package com.example.klimaspillet.data.models
 
-import androidx.compose.ui.graphics.painter.Painter
-import coil.compose.AsyncImagePainter
-import coil.compose.rememberAsyncImagePainter
 import com.google.firebase.firestore.DocumentId
 
 //Andreas B

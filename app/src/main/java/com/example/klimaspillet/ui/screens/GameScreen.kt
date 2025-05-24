@@ -2,10 +2,7 @@
 
 package com.example.klimaspillet.ui.screens
 
-import android.content.Context
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.graphics.drawable.BitmapDrawable
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -24,47 +21,35 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
-import androidx.compose.material3.Icon
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
-import androidx.compose.material3.IconButton
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.draw.blur
-import androidx.compose.ui.draw.rotate
-import androidx.compose.ui.zIndex
-import com.example.klimaspillet.data.models.CO2Ting
-import com.example.klimaspillet.R
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
-import coil.compose.rememberAsyncImagePainter
-import com.example.klimaspillet.navigation.Routes
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.compose.ui.zIndex
+import androidx.navigation.NavController
+import com.example.klimaspillet.R
+import com.example.klimaspillet.data.models.CO2Ting
 import com.example.klimaspillet.ui.ViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
-import org.intellij.lang.annotations.JdkConstants.HorizontalAlignment
-import java.io.InputStream
-import java.net.HttpURLConnection
-import java.net.URL
-import androidx.core.graphics.drawable.toDrawable
 
 //   ------------------------------------
 //   Hovedsageligt ansvarlig: Victor Lotz
@@ -110,7 +95,6 @@ fun GameScreen (
 fun Preview() {
     //CO2Choices()
 }
-
 
 @Composable
 fun TitleGameScreen(navController: NavController) {
@@ -206,7 +190,6 @@ fun Score(currentScore: Int, newHighscore: Boolean, crownMover: Int) {
         }
     }
 }
-
 
 @Composable
 fun CO2Choices(yellowOption: CO2Ting, redOption: CO2Ting, imageMap: Map<String, Bitmap>) {

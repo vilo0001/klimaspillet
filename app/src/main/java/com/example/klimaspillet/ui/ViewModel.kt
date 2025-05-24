@@ -32,43 +32,7 @@ class ViewModel : ViewModel() {
     val CO2Itemrepository = CO2ItemsRepository()
     val studentRepository = StudentRepository()
 
-    fun addStudent(name: String, classCode: String, emoji: String) {
-        viewModelScope.launch {
-            if (!studentRepository.getClassByClassCode(classCode).isEmpty()) {
-                studentRepository.newStudent(name, classCode, emoji)
-            } else {
-                println("Klassekode eksisterer ikke")
-            }
-        }
-    }
-
-    private val topStudentsList = MutableLiveData<List<Student>>()
-    val topStudents: LiveData<List<Student>> get() = topStudentsList
-
-    fun retriveTop3Students(classCode: String) {
-        viewModelScope.launch {
-            val studentList = studentRepository.getStudentsFromClass(classCode)
-            val sortedStudents = studentList.sortedByDescending { it.highscore }.take(3)
-
-            println("Retrieved students: ${sortedStudents.map { it.name }}") // Debugging
-            topStudentsList.postValue(sortedStudents)
-        }
-    }
-
-
-
-        private val _className = MutableLiveData<String>()
-        val className: LiveData<String> get() = _className
-
-        fun fetchClassName(classCode: String) {
-            viewModelScope.launch {
-                val name = studentRepository.getClassNameByClassCode(classCode) // Call repository function
-                _className.postValue(name ?: "Unknown Class") // Safely update LiveData
-            }
-        }
-
-
-            // Game UI state
+    // Game UI state
     private val _uiState = MutableStateFlow(GameUiState())
     val uiState: StateFlow<GameUiState> = _uiState.asStateFlow()
 
@@ -86,6 +50,46 @@ class ViewModel : ViewModel() {
     var newHighscoreBoolean = uiState.value.highscore != 0
     var finalScore = 0;
 
+    private val topStudentsList = MutableLiveData<List<Student>>()
+
+    val topStudents: LiveData<List<Student>> get() = topStudentsList
+
+    private val _className = MutableLiveData<String>()
+
+    val className: LiveData<String> get() = _className
+
+    //AndreasRG:
+    // Henter talet fra crownMoverFunction
+    val numberCrownMover: Int
+        get() = uiState.value.crownMoverValue
+
+    fun addStudent(name: String, classCode: String, emoji: String) {
+        viewModelScope.launch {
+            if (!studentRepository.getClassByClassCode(classCode).isEmpty()) {
+                studentRepository.newStudent(name, classCode, emoji)
+            } else {
+                println("Klassekode eksisterer ikke")
+            }
+        }
+    }
+
+    fun retriveTop3Students(classCode: String) {
+        viewModelScope.launch {
+            val studentList = studentRepository.getStudentsFromClass(classCode)
+            val sortedStudents = studentList.sortedByDescending { it.highscore }.take(3)
+
+            println("Retrieved students: ${sortedStudents.map { it.name }}") // Debugging
+            topStudentsList.postValue(sortedStudents)
+        }
+    }
+
+    fun fetchClassName(classCode: String) {
+        viewModelScope.launch {
+            val name = studentRepository.getClassNameByClassCode(classCode) // Call repository function
+            _className.postValue(name ?: "Unknown Class") // Safely update LiveData
+        }
+    }
+
     //AndreasRG:
     // Giver et tal som gør der bliver brugt en speciel form for layout på kronen ved ny highscore
     fun crownMoverFunction(currentScore: Int) {
@@ -98,11 +102,6 @@ class ViewModel : ViewModel() {
             }
         )
     }
-
-    //AndreasRG:
-    // Henter talet fra crownMoverFunction
-    val numberCrownMover: Int
-        get() = uiState.value.crownMoverValue
 
     private fun pickRandomThingAndShuffle(): CO2Ting {
         // Vælg en ny tilfældig CO2 ting indtil der findes én som ikke er brugt tidligere.
@@ -148,7 +147,7 @@ class ViewModel : ViewModel() {
 
         if(newScore > uiState.value.highscore) {
             newHighscore = newScore
-             newHighscoreBoolean = true
+            newHighscoreBoolean = true
         } else {
             newHighscore = uiState.value.highscore
         }
