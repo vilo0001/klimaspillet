@@ -5,13 +5,6 @@
 udleder mest CO2. Ideen er, at eleven bliver overrasket over høje CO2-udledninger, og at de bliver nødt til at lære forskellige klimaaftryk, hvis de vil have en god score. </p>
 <p>Fokus i løsningen har ligget meget på at finde en god balance mellem lærerig eller sjov, hvilket vi mener at vi har opnået.</p>
 
-## Indholdsfortegnelse
-- [Installation](#installation)
-- [Brug](#brug)
-- [Bidragelse](#bidragelse)
-- [Motivation](#motivation)
-- [Kontakt](#kontakt)
-
 ## Installation
 **1)** Tryk på "Code" og kopiér URL'et.
 
@@ -37,9 +30,33 @@ Du kan nu frit klikke rundt i vores app lige så tosset, som du vil!
 
 
 ## Bidragelse
+### Kodestandarder
+<p>Vores kode følger MVVM-designmønsteret. Det vil sige, at vores arkitektur er bygget op i Model, ViewModel og View.</p>
+<p>Vi bruger kun én ViewModel så længe scopet for projektet passer til det. Det er vigtigt, at din koder følger MVVM-designmønsteret.</p>
 
+### Kodekonventioner
+<p>Først og fremmest skal din kode været skrevet af dig. Hvis din kode virker, men er skrevet af ChatGPT, vil vi som udgangspunkt ikke have den. I særlige tilfælde, hvor vi vægter en feature højt som er ude for vores
+evner, kan vi godkende kode fra ChatGPT - det skal dog stadig skrives tydeligt i en kommentar over koden, at det er ikke er skrevet af en selv.</p>
+
+<p>Navngivning i koden foregår efter konventionel kodeskik. Det vil sige, at værdier og funktioner skrives i lower camel case: "værdiNavn", og klasser og composables skrives upper camel case: "KlasseNavn".
+Herudover skal man, så vidt muligt, navngive klasser, værdier og funktioner på en måde, som gør dem nemme at forstå. Vi forsøger at lade kode tale for sig selv og kun bruge kommentarer til at forklare kode, når det er højst nødvendigt.</p>
+
+### Branches
+<p>Al udvikling foregår på branches ud fra "dev". Startes der på en ny feature, oprettes en branch med passende navn og al fortsat udvikling af denne feature vil foregå på denne branch. Når featuren er færdig opretter man en pull reqeust.</p>
+
+### Pull requests
+<p>Pull requests bliver som udgangspunkt gjort i fællesskab, så alle kan give input og forbedre forståelsen af konflikter. Hvis featuren ikke er særlig omfattende, kan pull requesten blive tildelt til en af teammedlemmerne, som derfter laver et review
+og merger hvis godkendt.</p>
 
 ## Motivation
-
+<p>Motivationen for dette projekt lå i, at tunge og vigtige koncepter, som klimaaftryk, bør være sjovt - særligt når det formidles til børn. Vi havde en forventning om, at børn havde en begrænset viden om hvordan deres egne valg påvirker
+klimaet, hvilket senere blev bevist i vores brugertest. </p>
+<p>Denne manglende viden kunne de sagtens opnå ved at læse artikler og bøger, men et ekspertinterview med en lærer belyste, at eleverne ikke trives i traditionel 'kedelig' undervisning.
+Ud fra dette kom vi frem til at lave et spil, som inkorporerede konkurrence-elementer og tankevækkende oplevelser, som engagerede eleverne.</p>
 
 ## Kontakt
+<p>Hvis du har spørgsmål eller er interesseret i at skabe et sjovt og lærerigt undervisningsforløb om klimaaftryk, kan du kontakte os på følgende emails:</p>
+- anbr0003@stud.kea.dk (Andreas Brandenborg)
+- angu0001@stud.kea.dk (Andreas Gudmann)
+- magi0002@stud.kea.dk (Magnus Giemsa)
+- vilo0001@stud.kea.dk (Victor Lotz)
