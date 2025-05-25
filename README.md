@@ -56,7 +56,9 @@ Ud fra dette kom vi frem til at lave et spil, som inkorporerede konkurrence-elem
 
 ## Kontakt
 <p>Hvis du har spørgsmål eller er interesseret i at skabe et sjovt og lærerigt undervisningsforløb om klimaaftryk, kan du kontakte os på følgende emails:</p>
-- anbr0003@stud.kea.dk (Andreas Brandenborg)
-- angu0001@stud.kea.dk (Andreas Gudmann)
-- magi0002@stud.kea.dk (Magnus Giemsa)
-- vilo0001@stud.kea.dk (Victor Lotz)
+<ul>
+  <li>anbr0003@stud.kea.dk (Andreas Brandenborg)</li>
+  <li>angu0001@stud.kea.dk (Andreas Gudmann)</li>
+  <li>magi0002@stud.kea.dk (Magnus Giemsa)</li>
+  <li>vilo0001@stud.kea.dk (Victor Lotz)</li>
+</ul>
