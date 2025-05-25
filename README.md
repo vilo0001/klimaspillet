@@ -1,5 +1,9 @@
-# Klimaspillet
-Dette er vores meget seje app :)
+# Klimaspillet, Team Safers
+<p>Dette projekt, udført af Team Safers, er udviklet på baggrund af det tværfaglige eksamensprojekt på ITA 2. semester på KEA.</p>
+<p>Opgaven gik ud på at udvikle en app, der kan bruges i undervisningen som en del af et projekt om klima i folkeskolen eller gymnasiet.</p>
+<p>Vi valgte heraf at udvikle en sjov og lærerig app, hvor eleverne skal gætte hvilke af to tilfældige CO2-udledende ting/aktiviteter
+udleder mest CO2. Ideen er, at eleven bliver overrasket over høje CO2-udledninger, og at de bliver nødt til at lære forskellige klimaaftryk, hvis de vil have en god score. </p>
+<p>Fokus i løsningen har ligget meget på at finde en god balance mellem lærerig eller sjov, hvilket vi mener at vi har opnået.</p>
 
 ## Indholdsfortegnelse
 - [Installation](#installation)
@@ -27,7 +31,6 @@ Dette er vores meget seje app :)
 
 Du kan nu frit klikke rundt i vores app lige så tosset, som du vil!
 <br><br>
-
 
 
 ## Brug
