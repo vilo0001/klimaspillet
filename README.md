@@ -45,7 +45,7 @@ Herudover skal man, så vidt muligt, navngive klasser, værdier og funktioner p�
 og merger hvis godkendt.</p>
 
 ## Motivation
-<p>Motivationen for dette projekt lå i, at tunge og vigtige koncepter, som klimaaftryk, bør være sjovt - særligt når det formidles til børn. Vi havde en forventning om, at børn havde en begrænset viden om hvordan deres egne valg påvirker
+<p>Motivationen for dette projekt lå i, at vigtige og tunge koncepter, som klimaaftryk, bør være sjovt - særligt når det formidles til børn. Vi havde en forventning om, at børn havde en begrænset viden om hvordan deres egne valg påvirker
 klimaet, hvilket senere blev bevist i vores brugertest. </p>
 <p>Denne manglende viden kunne de sagtens opnå ved at læse artikler og bøger, men et ekspertinterview med en lærer belyste, at eleverne ikke trives i traditionel 'kedelig' undervisning.
 Ud fra dette kom vi frem til at lave et spil, som inkorporerede konkurrence-elementer og tankevækkende oplevelser, som engagerede eleverne.</p>
