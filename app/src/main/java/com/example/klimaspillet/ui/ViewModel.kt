@@ -226,11 +226,6 @@ class ViewModel : ViewModel() {
         viewModelScope.launch {
             CO2Itemrepository.getRandomCO2Items()
             resetGame()
-            val studentList = studentRepository.getStudentsFromClass("36XD")
-
-            println("Raw student list: ${studentList.map { it.name }}")
-            retriveTop3Students("36XD")
-            resetGame()
         }
     }
 }
