@@ -41,7 +41,7 @@ Herudover skal man, så vidt muligt, navngive klasser, værdier og funktioner p�
 <p>Al udvikling foregår på branches ud fra "dev". Startes der på en ny feature, oprettes en branch med passende navn og al fortsat udvikling af denne feature vil foregå på denne branch. Når featuren er færdig opretter man en pull reqeust.</p>
 
 ### Pull requests
-<p>Pull requests bliver som udgangspunkt gjort i fællesskab, så alle kan give input og forbedre forståelsen af konflikter. Hvis featuren ikke er særlig omfattende, kan pull requesten blive tildelt til en af teammedlemmerne, som derfter laver et review
+<p>Pull requests bliver som udgangspunkt gjort i fællesskab, så alle kan give input og forbedre forståelsen af konflikter. Hvis featuren ikke er særlig omfattende, kan pull requesten blive tildelt til en af teammedlemmerne, som derefter laver et review
 og merger hvis godkendt.</p>
 
 ## Motivation
