@@ -25,10 +25,6 @@ udleder mest CO2. Ideen er, at eleven bliver overrasket over høje CO2-udledning
 Du kan nu frit klikke rundt i vores app lige så tosset, som du vil!
 <br><br>
 
-
-## Brug
-
-
 ## Bidragelse
 ### Kodestandarder
 <p>Vores kode følger MVVM-designmønsteret. Det vil sige, at vores arkitektur er bygget op i Model, ViewModel og View.</p>
