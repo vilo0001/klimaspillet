@@ -43,11 +43,9 @@ class ViewModel : ViewModel() {
     // Liste af allerede brugte CO2-ting i spillet.
     private var usedCO2Things: MutableSet<CO2Ting> = mutableSetOf()
 
-    // gameEnded boolean så man kan fortsætte fra spil (f.eks. efter at havde gået tilbage til home screen)
-    private var gameEnded = false;
     // Altid ny highscore, hvis highscore er 0 (eller er ny bruger og derfor har 0).
     // Ellers newHighscore default false.
-    var newHighscoreBoolean = uiState.value.highscore != 0
+    var newHighscoreBoolean = false
     var finalScore = 0;
 
     var connectedStudent = ""
@@ -144,7 +142,6 @@ class ViewModel : ViewModel() {
             studentRepository.updateHighscore(connectedStudent, uiState.value.highscore)
         }
         finalScore = uiState.value.score;
-        gameEnded = true;
         navController.navigate(Routes.routeResultsScreen)
     }
 
@@ -176,7 +173,6 @@ class ViewModel : ViewModel() {
         _imageMap = MutableStateFlow<Map<String, Bitmap>>(emptyMap())
         imageMap = _imageMap
 
-        gameEnded = false
         newHighscoreBoolean = false
         usedCO2Things.clear()
 

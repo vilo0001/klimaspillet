@@ -4,7 +4,7 @@
     <selectionStates>
       <SelectionState runConfigName="app">
         <option name="selectionMode" value="DROPDOWN" />
-        <DropdownSelection timestamp="2025-05-25T18:55:53.652603800Z">
+        <DropdownSelection timestamp="2025-05-29T17:29:52.914621800Z">
           <Target type="DEFAULT_BOOT">
             <handle>
               <DeviceId pluginId="LocalEmulator" identifier="path=C:\Users\victo\.android\avd\Medium_Phone_2.avd" />

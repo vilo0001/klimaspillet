@@ -62,7 +62,7 @@ import com.example.klimaspillet.ui.ViewModel
 // Victor - det skal bare virke nu...
 // Emoji String til database.
 val emojiIdToStringMap = mapOf<Int, String>(
-    1 to "😎", 2 to "🤪", 3 to "🤑", 4 to "😈", 5 to "👽", 6 to "👹", 7 to "🤖", 8 to "🤠"
+    2131099671 to "😎", 2131099672 to "🤪", 2131099673 to "🤑", 2131099674 to "😈", 2131099675 to "👽", 2131099676 to "👹", 2131099677 to "🤖", 2131099678 to "🤠"
 )
 
 // MAGNUS GIEMSA
@@ -353,7 +353,7 @@ fun OkButton(navController: NavController, viewModel: ViewModel, name: String, c
     Button(
         onClick = {
             // Tilføj elev med navn, klassekode og default emoji (placeholder indtil bedre løsning).
-            viewModel.addStudent(name, classCode, "😎")
+            viewModel.addStudent(name, classCode, emojiIdToStringMap.get(emojiId).toString())
             viewModel.connectedClassCode = classCode
             navController.navigate(Routes.routeHomeScreen)
         },
