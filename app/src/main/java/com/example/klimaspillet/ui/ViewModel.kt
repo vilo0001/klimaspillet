@@ -105,6 +105,7 @@ class ViewModel : ViewModel() {
         )
     }
 
+    /*
     private fun pickRandomThingAndShuffle(): CO2Ting {
         // Vælg en ny tilfældig CO2 ting indtil der findes én som ikke er brugt tidligere.
         val randomCO2Ting = CO2TingListe.random()
@@ -118,6 +119,17 @@ class ViewModel : ViewModel() {
             usedCO2Things.add(randomCO2Ting)
             return randomCO2Ting
         }
+    }*/
+
+    var CO2ItemIndex = 0
+    private fun pickNextRandomCO2Ting(): CO2Ting {
+        if(CO2ItemIndex == CO2TingListe.size) {
+            CO2TingListe.shuffle()
+            CO2ItemIndex = 0
+        }
+        val nextRandomCO2Ting = CO2TingListe[CO2ItemIndex];
+        CO2ItemIndex++;
+        return nextRandomCO2Ting;
     }
 
     // Man kunne også lave "chooseOption(color: String)", men det ved jeg ikke om bliver forvirrende?
@@ -163,7 +175,7 @@ class ViewModel : ViewModel() {
             score = newScore,
             currentYellowOption = uiState.value.currentRedOption,
             currentRedOption = uiState.value.nextRedOption,
-            nextRedOption = pickRandomThingAndShuffle()
+            nextRedOption = pickNextRandomCO2Ting()
         )
         preloadImage(uiState.value.nextRedOption.image)
     }
@@ -176,9 +188,9 @@ class ViewModel : ViewModel() {
         newHighscoreBoolean = false
         usedCO2Things.clear()
 
-        val randomYellowOption = pickRandomThingAndShuffle()
-        val randomRedOption = pickRandomThingAndShuffle()
-        val nextRedOption = pickRandomThingAndShuffle()
+        val randomYellowOption = pickNextRandomCO2Ting()
+        val randomRedOption = pickNextRandomCO2Ting()
+        val nextRedOption = pickNextRandomCO2Ting()
 
         _uiState.value = GameUiState(
             playerID = uiState.value.playerID,
@@ -222,6 +234,7 @@ class ViewModel : ViewModel() {
         viewModelScope.launch {
             CO2Itemrepository.getRandomCO2Items()
             resetGame()
+            println(CO2TingListe.size)
         }
     }
 }

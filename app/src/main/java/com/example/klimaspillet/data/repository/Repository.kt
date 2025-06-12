@@ -90,11 +90,11 @@ class CO2ItemsRepository {
 
     suspend fun getRandomCO2Items():List<CO2Ting> {
         val co2Items = db.collection("CO2_Items")
-            .limit(100)
             .get()
             .await()
             .toObjects(CO2Ting::class.java)
         CO2TingListe.addAll(co2Items)
+        CO2TingListe.shuffle();
         return co2Items
     }
 }
